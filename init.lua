@@ -290,9 +290,6 @@ return require("packer").startup(function(use)
 				}, {
 					{ name = "cmdline" },
 				}),
-				view = {
-					entries = { name = "wildmenu", seperator = "|" },
-				},
 			})
 		end,
 	})
