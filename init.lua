@@ -534,15 +534,15 @@ return require("packer").startup(function(use)
 			})
 		end,
 	})
-	use({
-		"akinsho/toggleterm.nvim",
-		tag = "v1.*",
-		config = function()
-			require("toggleterm").setup({
-				open_mapping = [[<c-t>]],
-			})
-		end,
-	})
+	-- use({
+	-- 	"akinsho/toggleterm.nvim",
+	-- 	tag = "v1.*",
+	-- 	config = function()
+	-- 		require("toggleterm").setup({
+	-- 			open_mapping = [[<c-t>]],
+	-- 		})
+	-- 	end,
+	-- })
 	use({
 		"numToStr/Comment.nvim",
 		config = function()
