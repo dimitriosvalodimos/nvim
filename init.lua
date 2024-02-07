@@ -67,7 +67,7 @@ opt.undolevels = 10000
 opt.updatetime = 300
 opt.viewoptions:remove("curdir")
 opt.virtualedit = "block"
-opt.whichwrap:append("<>[]hl")
+-- opt.whichwrap:append("<>[]hl")
 opt.wildmode = "longest:full,full"
 opt.wrap = false
 opt.writebackup = false
