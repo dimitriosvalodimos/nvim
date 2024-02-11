@@ -17,7 +17,7 @@ return {
 				changedelete = { text = "~" },
 			},
 			current_line_blame = true,
-			current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
+			current_line_blame_formatter = "<author>, <author_time:%d.%m.%Y> - <summary>",
 			current_line_blame_opts = { virt_text = true, virt_text_pos = "right_align" },
 			on_attach = function(bufnr)
 				local gs = package.loaded.gitsigns
