@@ -6,10 +6,43 @@ return {
 		"nvim-treesitter/nvim-treesitter-context",
 		"windwp/nvim-ts-autotag",
 		"andymass/vim-matchup",
+		"Wansmer/treesj",
 		{ "m-demare/hlargs.nvim", opts = {} },
 		{ "mizlan/iswap.nvim", opts = {} },
 		{ "numToStr/Comment.nvim", opts = {} },
-		"Wansmer/treesj",
+		{
+			"drybalka/tree-climber.nvim",
+			config = function()
+				local opts = { noremap = true, silent = true }
+				local config = { skip_comments = true, highlight = true, on_macro = true }
+
+				local tc = require("tree-climber")
+				vim.keymap.set({ "n", "v", "o" }, "H", function()
+					tc.goto_parent(config)
+				end, opts)
+				vim.keymap.set({ "n", "v", "o" }, "L", function()
+					tc.goto_child(config)
+				end, opts)
+				vim.keymap.set({ "n", "v", "o" }, "J", function()
+					tc.goto_next(config)
+				end, opts)
+				vim.keymap.set({ "n", "v", "o" }, "K", function()
+					tc.goto_prev(config)
+				end, opts)
+				vim.keymap.set({ "v", "o" }, "in", function()
+					tc.select_node(config)
+				end, opts)
+				vim.keymap.set("n", "<c-k>", function()
+					tc.swap_prev(config)
+				end, opts)
+				vim.keymap.set("n", "<c-j>", function()
+					tc.swap_next(config)
+				end, opts)
+				vim.keymap.set("n", "<c-h>", function()
+					tc.highlight_node(config)
+				end, opts)
+			end,
+		},
 	},
 	config = function()
 		vim.g.matchup_matchparen_offscreen = { method = "popup" }
