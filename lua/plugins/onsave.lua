@@ -11,6 +11,7 @@ return {
 			css = { "prettier" },
 			svelte = { "prettier" },
 			json = { "prettier" },
+			python = { "isort", "black" },
 		},
 		format_on_save = {
 			timeout_ms = 500,

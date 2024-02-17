@@ -32,6 +32,7 @@ opt.foldexpr = "nvim_treesitter#foldexpr()"
 opt.foldlevel = 99
 opt.foldlevelstart = 99
 opt.foldmethod = "expr"
+opt.guifont = "0xProto Nerd Font"
 opt.hidden = true
 opt.history = 1000
 opt.hlsearch = true
@@ -71,6 +72,10 @@ opt.virtualedit = "block"
 opt.wildmode = "longest:full,full"
 opt.wrap = false
 opt.writebackup = false
+
+-- if g.neovide then
+-- 	g.neovide_cursor_animation_length = 0
+-- end
 
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
