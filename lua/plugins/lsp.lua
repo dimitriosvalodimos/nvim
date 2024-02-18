@@ -158,13 +158,11 @@ return {
 			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 			callback = function(ev)
 				vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-				local opts = { buffer = ev.buf }
-
 				vim.keymap.set(
 					"n",
 					"gd",
 					require("telescope.builtin").lsp_definitions,
-					{ desc = "goto definition", buffer = ev.buf }
+					{ desc = "definition", buffer = ev.buf }
 				)
 				vim.keymap.set(
 					"n",
@@ -196,7 +194,7 @@ return {
 					require("telescope.builtin").lsp_dynamic_workspace_symbols,
 					{ desc = "workspace symbols", buffer = ev.buf }
 				)
-				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "goto declaration", buffer = ev.buf })
+				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "declaration", buffer = ev.buf })
 				-- vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "hover info", buffer = ev.buf })
 				-- vim.keymap.set("n", "<C-K>", vim.lsp.buf.signature_help, { desc = "signature help", buffer = ev.buf })
 				vim.keymap.set("n", "<C-K>", vim.lsp.buf.hover, { desc = "hover info", buffer = ev.buf })
