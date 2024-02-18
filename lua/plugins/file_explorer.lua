@@ -3,7 +3,7 @@ return {
 		"stevearc/oil.nvim",
 		config = function()
 			require("oil").setup({})
-			vim.keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "Open directory" })
+			vim.keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "open directory" })
 		end,
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},

@@ -9,7 +9,6 @@ return {
 		"onsails/lspkind-nvim",
 		"hrsh7th/cmp-nvim-lua",
 		"hrsh7th/cmp-nvim-lsp-signature-help",
-		"chrisgrieser/cmp_yanky",
 		"rafamadriz/friendly-snippets",
 		{
 			"windwp/nvim-autopairs",
@@ -83,7 +82,6 @@ return {
 				{ name = "nvim_lua" },
 			}, {
 				{ name = "buffer" },
-				{ name = "cmp_yanky" },
 				{ name = "nvim_lsp_signature_help" },
 			}),
 		})

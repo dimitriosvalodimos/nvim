@@ -13,34 +13,33 @@ return {
 		{
 			"drybalka/tree-climber.nvim",
 			config = function()
-				local opts = { noremap = true, silent = true }
 				local config = { skip_comments = true, highlight = true, on_macro = true }
 
 				local tc = require("tree-climber")
 				vim.keymap.set({ "n", "v", "o" }, "H", function()
 					tc.goto_parent(config)
-				end, opts)
+				end, { noremap = true, silent = true, desc = "goto parent" })
 				vim.keymap.set({ "n", "v", "o" }, "L", function()
 					tc.goto_child(config)
-				end, opts)
+				end, { noremap = true, silent = true, desc = "goto child" })
 				vim.keymap.set({ "n", "v", "o" }, "J", function()
 					tc.goto_next(config)
-				end, opts)
+				end, { noremap = true, silent = true, desc = "goto next node" })
 				vim.keymap.set({ "n", "v", "o" }, "K", function()
 					tc.goto_prev(config)
-				end, opts)
+				end, { noremap = true, silent = true, desc = "goto prev node" })
 				vim.keymap.set({ "v", "o" }, "in", function()
 					tc.select_node(config)
-				end, opts)
+				end, { noremap = true, silent = true, desc = "select node" })
 				vim.keymap.set("n", "<c-k>", function()
 					tc.swap_prev(config)
-				end, opts)
+				end, { noremap = true, silent = true, desc = "swap with prev" })
 				vim.keymap.set("n", "<c-j>", function()
 					tc.swap_next(config)
-				end, opts)
+				end, { noremap = true, silent = true, desc = "swap with next" })
 				vim.keymap.set("n", "<c-h>", function()
 					tc.highlight_node(config)
-				end, opts)
+				end, { noremap = true, silent = true, desc = "highlight node" })
 			end,
 		},
 	},
@@ -149,11 +148,12 @@ return {
 			},
 		})
 
-		require("treesj").setup({})
-		vim.keymap.set("n", "<leader>m", require("treesj").toggle)
+		local treesj = require("treesj")
+		treesj.setup({})
+		vim.keymap.set("n", "<leader>m", treesj.toggle, { desc = "Expand/Collapse" })
 		vim.keymap.set("n", "<leader>M", function()
-			require("treesj").toggle({ split = { recursive = true } })
-		end)
+			treesj.toggle({ split = { recursive = true } })
+		end, { desc = "Expand/Collapse recursive" })
 
 		require("treesitter-context").setup({
 			enable = true,

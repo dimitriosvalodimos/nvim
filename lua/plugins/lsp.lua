@@ -9,7 +9,6 @@ return {
 		"pmizio/typescript-tools.nvim",
 		"nvim-lua/plenary.nvim",
 		"marilari88/twoslash-queries.nvim",
-		{ "DNLHC/glance.nvim", opts = {} },
 		{ "folke/trouble.nvim", opts = {} },
 		{ "folke/neodev.nvim", opts = {} },
 		{ "j-hui/fidget.nvim", opts = { progress = { ignore_done_already = true, ignore_empty_message = true } } },
@@ -161,44 +160,30 @@ return {
 				vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 				local opts = { buffer = ev.buf }
 
-				vim.keymap.set("n", "gD", "<cmd>Glance definitions<cr>", { desc = "goto definition", buffer = ev.buf })
 				vim.keymap.set(
 					"n",
 					"gd",
 					require("telescope.builtin").lsp_definitions,
 					{ desc = "goto definition", buffer = ev.buf }
 				)
-				vim.keymap.set("n", "gR", "<cmd>Glance references<cr>", { desc = "goto references", buffer = ev.buf })
 				vim.keymap.set(
 					"n",
 					"gr",
 					require("telescope.builtin").lsp_references,
-					{ desc = "goto references", buffer = ev.buf }
+					{ desc = "references", buffer = ev.buf }
 				)
 				vim.keymap.set(
 					"n",
 					"gI",
-					"<cmd>Glance implementations<cr>",
-					{ desc = "goto implementations<cr>", buffer = ev.buf }
+					require("telescope.builtin").lsp_implementations,
+					{ desc = "implementation", buffer = ev.buf }
 				)
-				-- vim.keymap.set(
-				-- 	"n",
-				-- 	"gI",
-				-- 	require("telescope.builtin").lsp_implementations,
-				-- 	{ desc = "goto implementation", buffer = ev.buf }
-				-- )
 				vim.keymap.set(
 					"n",
 					"gY",
-					"<cmd>Glance type_definitions<cr>",
-					{ desc = "type definitions", buffer = ev.buf }
+					require("telescope.builtin").lsp_type_definitions,
+					{ desc = "type definition", buffer = ev.buf }
 				)
-				-- vim.keymap.set(
-				-- 	"n",
-				-- 	"gY",
-				-- 	require("telescope.builtin").lsp_type_definitions,
-				-- 	{ desc = "type definition", buffer = ev.buf }
-				-- )
 				vim.keymap.set(
 					"n",
 					"<leader>ds",
@@ -211,24 +196,33 @@ return {
 					require("telescope.builtin").lsp_dynamic_workspace_symbols,
 					{ desc = "workspace symbols", buffer = ev.buf }
 				)
-				-- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-				-- vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-				-- vim.keymap.set("n", "<C-K>", vim.lsp.buf.signature_help, opts)
-				vim.keymap.set("n", "<C-K>", vim.lsp.buf.hover, opts)
-				vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
-				vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
+				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "goto declaration", buffer = ev.buf })
+				-- vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "hover info", buffer = ev.buf })
+				-- vim.keymap.set("n", "<C-K>", vim.lsp.buf.signature_help, { desc = "signature help", buffer = ev.buf })
+				vim.keymap.set("n", "<C-K>", vim.lsp.buf.hover, { desc = "hover info", buffer = ev.buf })
+				vim.keymap.set(
+					"n",
+					"<leader>wa",
+					vim.lsp.buf.add_workspace_folder,
+					{ desc = "add workspace folder", buffer = ev.buf }
+				)
+				vim.keymap.set(
+					"n",
+					"<leader>wr",
+					vim.lsp.buf.remove_workspace_folder,
+					{ desc = "remove workspace folder", buffer = ev.buf }
+				)
 				vim.keymap.set("n", "<leader>wl", function()
 					print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-				end, opts)
+				end, { desc = "list workspace folders", buffer = ev.buf })
 				vim.keymap.set("n", "<leader>rn", function()
 					return ":IncRename " .. vim.fn.expand("<cword>")
-				end, { buffer = ev.buf, expr = true })
+				end, { desc = "inremental rename", buffer = ev.buf, expr = true })
 				vim.keymap.set("n", "<leader>ca", function()
 					vim.lsp.buf.code_action({ context = { only = { "quickfix", "refactor", "source" } } })
 				end, { desc = "code action", buffer = ev.buf })
 			end,
 		})
-
 		vim.keymap.set("n", "gR", function()
 			require("trouble").toggle("lsp_references")
 		end, { desc = "LSP references" })
