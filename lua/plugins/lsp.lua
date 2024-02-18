@@ -8,6 +8,8 @@ return {
 		"nvim-telescope/telescope.nvim",
 		"pmizio/typescript-tools.nvim",
 		"nvim-lua/plenary.nvim",
+		"marilari88/twoslash-queries.nvim",
+		{ "DNLHC/glance.nvim", opts = {} },
 		{ "folke/trouble.nvim", opts = {} },
 		{ "folke/neodev.nvim", opts = {} },
 		{ "j-hui/fidget.nvim", opts = { progress = { ignore_done_already = true, ignore_empty_message = true } } },
@@ -100,7 +102,10 @@ return {
 		})
 
 		require("typescript-tools").setup({
-			on_attach = on_attach,
+			on_attach = function(client, bufnr)
+				on_attach(client, bufnr)
+				require("twoslash-queries").attach(client, bufnr)
+			end,
 			capabilities = capabilities,
 			filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
 			settings = {
@@ -156,12 +161,14 @@ return {
 				vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 				local opts = { buffer = ev.buf }
 
+				vim.keymap.set("n", "gD", "<cmd>Glance definitions<cr>", { desc = "goto definition", buffer = ev.buf })
 				vim.keymap.set(
 					"n",
 					"gd",
 					require("telescope.builtin").lsp_definitions,
 					{ desc = "goto definition", buffer = ev.buf }
 				)
+				vim.keymap.set("n", "gR", "<cmd>Glance references<cr>", { desc = "goto references", buffer = ev.buf })
 				vim.keymap.set(
 					"n",
 					"gr",
@@ -171,15 +178,27 @@ return {
 				vim.keymap.set(
 					"n",
 					"gI",
-					require("telescope.builtin").lsp_implementations,
-					{ desc = "goto implementation", buffer = ev.buf }
+					"<cmd>Glance implementations<cr>",
+					{ desc = "goto implementations<cr>", buffer = ev.buf }
 				)
+				-- vim.keymap.set(
+				-- 	"n",
+				-- 	"gI",
+				-- 	require("telescope.builtin").lsp_implementations,
+				-- 	{ desc = "goto implementation", buffer = ev.buf }
+				-- )
 				vim.keymap.set(
 					"n",
-					"<leader>D",
-					require("telescope.builtin").lsp_type_definitions,
-					{ desc = "type definition", buffer = ev.buf }
+					"gY",
+					"<cmd>Glance type_definitions<cr>",
+					{ desc = "type definitions", buffer = ev.buf }
 				)
+				-- vim.keymap.set(
+				-- 	"n",
+				-- 	"gY",
+				-- 	require("telescope.builtin").lsp_type_definitions,
+				-- 	{ desc = "type definition", buffer = ev.buf }
+				-- )
 				vim.keymap.set(
 					"n",
 					"<leader>ds",
@@ -192,7 +211,7 @@ return {
 					require("telescope.builtin").lsp_dynamic_workspace_symbols,
 					{ desc = "workspace symbols", buffer = ev.buf }
 				)
-				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+				-- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
 				-- vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 				-- vim.keymap.set("n", "<C-K>", vim.lsp.buf.signature_help, opts)
 				vim.keymap.set("n", "<C-K>", vim.lsp.buf.hover, opts)
