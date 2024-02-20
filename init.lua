@@ -68,14 +68,9 @@ opt.undolevels = 10000
 opt.updatetime = 300
 opt.viewoptions:remove("curdir")
 opt.virtualedit = "block"
--- opt.whichwrap:append("<>[]hl")
 opt.wildmode = "longest:full,full"
 opt.wrap = false
 opt.writebackup = false
-
--- if g.neovide then
--- 	g.neovide_cursor_animation_length = 0
--- end
 
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -102,9 +97,6 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("plugins")
 
 -- calvera
--- catppuccin-frappe
--- catppuccin-macchiato
--- catppuccin-mocha
 -- citruszest
 -- github_dark
 -- github_dark_colorblind
@@ -125,4 +117,4 @@ require("lazy").setup("plugins")
 -- tokyonight-moon
 -- tokyonight-night
 -- tokyonight-storm
-vim.cmd("colorscheme poimandres")
+vim.cmd("colorscheme github_dark_default")
