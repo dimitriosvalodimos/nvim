@@ -48,6 +48,7 @@ opt.pumheight = 10
 opt.relativenumber = true
 opt.ruler = false
 opt.scrolloff = 8
+opt.sessionoptions = { 'curdir', 'folds', 'globals', 'help', 'tabpages', 'terminal', 'winsize' }
 opt.shiftwidth = 2
 opt.shortmess:append({ s = true, I = true })
 opt.showmode = false
