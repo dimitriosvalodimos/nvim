@@ -327,7 +327,6 @@ require("lazy").setup({
 			"andymass/vim-matchup",
 			"Wansmer/treesj",
 			{ "m-demare/hlargs.nvim", opts = {} },
-			{ "mizlan/iswap.nvim", opts = {} },
 			{ "numToStr/Comment.nvim", opts = {} },
 			{
 				"drybalka/tree-climber.nvim",
@@ -341,27 +340,15 @@ require("lazy").setup({
 
 					local tc = require("tree-climber")
 					local wk = require("which-key")
-					wk.register({
-						J = {
-							name = "+jump",
-							P = { keymap_func(tc.goto_parent), "parent" },
-							c = { keymap_func(tc.goto_child), "child" },
-							n = { keymap_func(tc.goto_next), "next" },
-							p = { keymap_func(tc.goto_prev), "previous" },
-						},
-					}, { mode = { "n", "v", "o" } })
+					wk.register({ J = { name = "+jump" } }, { mode = { "n", "v", "o" } })
+
+					vim.keymap.set({ "n", "v", "o" }, "JP", keymap_func(tc.goto_parent), { desc = "parent" })
+					vim.keymap.set({ "n", "v", "o" }, "Jc", keymap_func(tc.goto_child), { desc = "child" })
+					vim.keymap.set({ "n", "v", "o" }, "Jn", keymap_func(tc.goto_next), { desc = "next" })
+					vim.keymap.set({ "n", "v", "o" }, "Jp", keymap_func(tc.goto_prev), { desc = "previous" })
 					vim.keymap.set({ "v", "o" }, "in", function()
 						tc.select_node(config)
 					end, { noremap = true, silent = true, desc = "select node" })
-					-- vim.keymap.set("n", "<c-k>", function()
-					-- 	tc.swap_prev(config)
-					-- end, { noremap = true, silent = true, desc = "swap with prev" })
-					-- vim.keymap.set("n", "<c-j>", function()
-					-- 	tc.swap_next(config)
-					-- end, { noremap = true, silent = true, desc = "swap with next" })
-					-- vim.keymap.set("n", "<c-h>", function()
-					-- 	tc.highlight_node(config)
-					-- end, { noremap = true, silent = true, desc = "highlight node" })
 				end,
 			},
 		},
@@ -526,26 +513,20 @@ require("lazy").setup({
 			})
 			telescope.load_extension("fzf")
 
-			local builtin = require("telescope.builtin")
 			local wk = require("which-key")
-			wk.register({
-				f = {
-					name = "+find",
-					f = { builtin.find_files, "file" },
-					g = { builtin.live_grep, "string" },
-					b = { builtin.buffers, "buffer" },
-					h = { builtin.help_tags, "help tag" },
-					G = { builtin.git_files, "git file" },
-					r = { builtin.resume, "last search" },
-					F = { builtin.current_buffer_fuzzy_find, "in current buffer" },
-					o = {
-						function()
-							builtin.live_grep({ grep_open_files = true, prompt_title = "grep open files" })
-						end,
-						"in open buffers",
-					},
-				},
-			}, { prefix = "<leader>" })
+			wk.register({ s = { name = "+search" } }, { prefix = "<leader>" })
+
+			local builtin = require("telescope.builtin")
+			vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "file" })
+			vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "string" })
+			vim.keymap.set("n", "<leader>sb", builtin.buffers, { desc = "buffer" })
+			vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "help tag" })
+			vim.keymap.set("n", "<leader>sG", builtin.git_files, { desc = "git file" })
+			vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "resume" })
+			vim.keymap.set("n", "<leader>sF", builtin.current_buffer_fuzzy_find, { desc = "in current buffer" })
+			vim.keymap.set("n", "<leader>so", function()
+				builtin.live_grep({ grep_open_files = true, prompt_title = "open files" })
+			end, { desc = "open buffers" })
 		end,
 	},
 	{
@@ -897,6 +878,13 @@ require("lazy").setup({
 					vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
 					local wk = require("which-key")
+					wk.register({
+						l = {
+							name = "+LSP",
+							g = { name = "+goto" },
+						},
+					}, { prefix = "<leader>" })
+
 					local tls_builtin = require("telescope.builtin")
 					local function buf_keymap(command)
 						return function()
@@ -904,47 +892,27 @@ require("lazy").setup({
 						end
 					end
 
-					wk.register({
-						g = {
-							name = "+goto",
-							d = { buf_keymap(tls_builtin.lsp_definitions), "definition" },
-							D = { buf_keymap(vim.lsp.buf.declaration), "declaration" },
-							r = { buf_keymap(tls_builtin.lsp_references), "reference" },
-							I = { buf_keymap(tls_builtin.lsp_implementations), "implementation" },
-							t = { buf_keymap(tls_builtin.lsp_type_definitions), "type definition" },
-							-- D = { buf_keymap(tls_builtin.lsp_document_symbols), "doc symbol" },
-						},
-					})
+					vim.keymap.set("n", "<leader>lgd", buf_keymap(tls_builtin.lsp_definitions), { desc = "definition" })
+					vim.keymap.set("n", "<leader>lgD", buf_keymap(vim.lsp.buf.declaration), { desc = "declaration" })
+					vim.keymap.set("n", "<leader>lgr", buf_keymap(tls_builtin.lsp_references), { desc = "reference" })
 					vim.keymap.set(
 						"n",
-						"<leader>ws",
-						require("telescope.builtin").lsp_dynamic_workspace_symbols,
-						{ desc = "workspace symbols", buffer = ev.buf }
+						"<leader>lgI",
+						buf_keymap(tls_builtin.lsp_implementations),
+						{ desc = "implementation" }
+					)
+					vim.keymap.set(
+						"n",
+						"<leader>lgt",
+						buf_keymap(tls_builtin.lsp_type_definitions),
+						{ desc = "type definition" }
 					)
 					-- vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "hover info", buffer = ev.buf })
 					-- vim.keymap.set("n", "<C-K>", vim.lsp.buf.signature_help, { desc = "signature help", buffer = ev.buf })
 					vim.keymap.set("n", "<C-K>", vim.lsp.buf.hover, { desc = "hover info", buffer = ev.buf })
-					vim.keymap.set(
-						"n",
-						"<leader>wa",
-						vim.lsp.buf.add_workspace_folder,
-						{ desc = "add workspace folder", buffer = ev.buf }
-					)
-					vim.keymap.set(
-						"n",
-						"<leader>wr",
-						vim.lsp.buf.remove_workspace_folder,
-						{ desc = "remove workspace folder", buffer = ev.buf }
-					)
-					vim.keymap.set("n", "<leader>wl", function()
-						print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-					end, { desc = "list workspace folders", buffer = ev.buf })
 					vim.keymap.set("n", "<leader>rn", function()
 						return ":IncRename " .. vim.fn.expand("<cword>")
 					end, { desc = "inremental rename", buffer = ev.buf, expr = true })
-					vim.keymap.set("n", "<leader>ca", function()
-						vim.lsp.buf.code_action({ context = { only = { "quickfix", "refactor", "source" } } })
-					end, { desc = "code action", buffer = ev.buf })
 				end,
 			})
 			vim.keymap.set("n", "gR", function()
@@ -1042,25 +1010,5 @@ require("lazy").setup({
 	},
 })
 
--- calvera
--- citruszest
--- github_dark
--- github_dark_colorblind
--- github_dark_default
--- github_dark_dimmed
--- github_dark_high_contrast
--- github_dark_tritanopia
--- gruvbox
--- horizon
--- moonfly
--- nightfly
--- night-owl
--- oxocarbon
--- poimandres
--- rose-pine-main
--- rose-pine-moon
--- tokyodark
--- tokyonight-moon
--- tokyonight-night
--- tokyonight-storm
-vim.cmd("colorscheme github_dark_default")
+-- calvera,citruszest,github_dark,github_dark_colorblind,github_dark_default,github_dark_dimmed,github_dark_high_contrast,github_dark_tritanopia,gruvbox,horizon,moonfly,nightfly,night-owl,oxocarbon,poimandres,rose-pine-main,rose-pine-moon,tokyodark,tokyonight-moon,tokyonight-night,tokyonight-storm
+vim.cmd("colorscheme nightfly")
