@@ -514,17 +514,17 @@ require("lazy").setup({
 			telescope.load_extension("fzf")
 
 			local wk = require("which-key")
-			wk.register({ s = { name = "+search" } }, { prefix = "<leader>" })
+			wk.register({ s = { name = "+find" } }, { prefix = "<leader>" })
 
 			local builtin = require("telescope.builtin")
-			vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "file" })
-			vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "string" })
-			vim.keymap.set("n", "<leader>sb", builtin.buffers, { desc = "buffer" })
-			vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "help tag" })
-			vim.keymap.set("n", "<leader>sG", builtin.git_files, { desc = "git file" })
-			vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "resume" })
-			vim.keymap.set("n", "<leader>sF", builtin.current_buffer_fuzzy_find, { desc = "in current buffer" })
-			vim.keymap.set("n", "<leader>so", function()
+			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "file" })
+			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "string" })
+			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "buffer" })
+			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "help tag" })
+			vim.keymap.set("n", "<leader>fG", builtin.git_files, { desc = "git file" })
+			vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "resume" })
+			vim.keymap.set("n", "<leader>fF", builtin.current_buffer_fuzzy_find, { desc = "in current buffer" })
+			vim.keymap.set("n", "<leader>fo", function()
 				builtin.live_grep({ grep_open_files = true, prompt_title = "open files" })
 			end, { desc = "open buffers" })
 		end,
@@ -878,12 +878,7 @@ require("lazy").setup({
 					vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
 					local wk = require("which-key")
-					wk.register({
-						l = {
-							name = "+LSP",
-							g = { name = "+goto" },
-						},
-					}, { prefix = "<leader>" })
+					wk.register({ g = { name = "+goto" } }, {})
 
 					local tls_builtin = require("telescope.builtin")
 					local function buf_keymap(command)
@@ -892,18 +887,13 @@ require("lazy").setup({
 						end
 					end
 
-					vim.keymap.set("n", "<leader>lgd", buf_keymap(tls_builtin.lsp_definitions), { desc = "definition" })
-					vim.keymap.set("n", "<leader>lgD", buf_keymap(vim.lsp.buf.declaration), { desc = "declaration" })
-					vim.keymap.set("n", "<leader>lgr", buf_keymap(tls_builtin.lsp_references), { desc = "reference" })
+					vim.keymap.set("n", "gd", buf_keymap(tls_builtin.lsp_definitions), { desc = "definition" })
+					vim.keymap.set("n", "gD", buf_keymap(vim.lsp.buf.declaration), { desc = "declaration" })
+					vim.keymap.set("n", "gr", buf_keymap(tls_builtin.lsp_references), { desc = "reference" })
+					vim.keymap.set("n", "gI", buf_keymap(tls_builtin.lsp_implementations), { desc = "implementation" })
 					vim.keymap.set(
 						"n",
-						"<leader>lgI",
-						buf_keymap(tls_builtin.lsp_implementations),
-						{ desc = "implementation" }
-					)
-					vim.keymap.set(
-						"n",
-						"<leader>lgt",
+						"gt",
 						buf_keymap(tls_builtin.lsp_type_definitions),
 						{ desc = "type definition" }
 					)
