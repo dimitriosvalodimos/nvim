@@ -650,31 +650,32 @@ require("lazy").setup({
 					format = lspkind.cmp_format(),
 				},
 				mapping = cmp.mapping.preset.insert({
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<C-Space>"] = cmp.mapping.complete(),
-					["<C-e>"] = cmp.mapping.abort(),
-					["<CR>"] = cmp.mapping.confirm({ select = true }),
-					["<Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_next_item()
-						elseif luasnip.expand_or_locally_jumpable() then
-							luasnip.expand_or_jump()
-						elseif has_words_before() then
-							cmp.complete()
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-					["<S-Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_prev_item()
-						elseif luasnip.jumpable(-1) then
-							luasnip.jump(-1)
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
+					["<c-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+					["<c-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+					["<c-u>"] = cmp.mapping.scroll_docs(-4),
+					["<c-d>"] = cmp.mapping.scroll_docs(4),
+					["<c-e>"] = cmp.mapping.abort(),
+					["<c-y>"] = cmp.mapping(
+						cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
+						{ "i", "c" }
+					),
+					["<M-y>"] = cmp.mapping(
+						cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
+						{ "i", "c" }
+					),
+					["<C-Space>"] = cmp.mapping({
+						i = cmp.mapping.complete(),
+						c = function()
+							if cmp.visible() then
+								if not cmp.confirm({ select = true }) then
+									return
+								end
+							else
+								cmp.complete()
+							end
+						end,
+					}),
+					["<tab>"] = cmp.config.disable,
 				}),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
@@ -1001,4 +1002,4 @@ require("lazy").setup({
 })
 
 -- calvera,citruszest,github_dark,github_dark_colorblind,github_dark_default,github_dark_dimmed,github_dark_high_contrast,github_dark_tritanopia,gruvbox,horizon,moonfly,nightfly,night-owl,oxocarbon,poimandres,rose-pine-main,rose-pine-moon,tokyodark,tokyonight-moon,tokyonight-night,tokyonight-storm
-vim.cmd("colorscheme nightfly")
+vim.cmd("colorscheme github_dark_default")
