@@ -32,7 +32,6 @@ opt.foldexpr = "nvim_treesitter#foldexpr()"
 opt.foldlevel = 99
 opt.foldlevelstart = 99
 opt.foldmethod = "expr"
-opt.guifont = "0xProto Nerd Font"
 opt.hidden = true
 opt.history = 1000
 opt.hlsearch = true
@@ -629,13 +628,6 @@ require("lazy").setup({
 				winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel",
 			}
 
-			local has_words_before = function()
-				unpack = unpack or table.unpack
-				local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-				return col ~= 0
-					and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-			end
-
 			cmp.setup({
 				snippet = {
 					expand = function(args)
@@ -724,19 +716,11 @@ require("lazy").setup({
 			"williamboman/mason-lspconfig.nvim",
 			"neovim/nvim-lspconfig",
 			"hrsh7th/cmp-nvim-lsp",
-			"nvim-telescope/telescope.nvim",
 			"pmizio/typescript-tools.nvim",
 			"nvim-lua/plenary.nvim",
-			"marilari88/twoslash-queries.nvim",
 			{ "folke/trouble.nvim", opts = {} },
 			{ "folke/neodev.nvim", opts = {} },
 			{ "j-hui/fidget.nvim", opts = { progress = { ignore_done_already = true, ignore_empty_message = true } } },
-			{
-				"smjonas/inc-rename.nvim",
-				config = function()
-					require("inc_rename").setup()
-				end,
-			},
 		},
 		config = function()
 			local servers = {
@@ -873,6 +857,11 @@ require("lazy").setup({
 				},
 			})
 
+			vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
+			vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
+			vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
+			vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
+
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 				callback = function(ev)
@@ -901,9 +890,7 @@ require("lazy").setup({
 					-- vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "hover info", buffer = ev.buf })
 					-- vim.keymap.set("n", "<C-K>", vim.lsp.buf.signature_help, { desc = "signature help", buffer = ev.buf })
 					vim.keymap.set("n", "<C-K>", vim.lsp.buf.hover, { desc = "hover info", buffer = ev.buf })
-					vim.keymap.set("n", "<leader>rn", function()
-						return ":IncRename " .. vim.fn.expand("<cword>")
-					end, { desc = "inremental rename", buffer = ev.buf, expr = true })
+					vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "rename", buffer = ev.buf })
 				end,
 			})
 			vim.keymap.set("n", "gR", function()
@@ -923,7 +910,6 @@ require("lazy").setup({
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
 	{
-
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v3.x",
 		dependencies = {
@@ -977,6 +963,7 @@ require("lazy").setup({
 	{
 		"stevearc/conform.nvim",
 		opts = {
+			notify_on_error = false,
 			formatters_by_ft = {
 				lua = { "stylua" },
 				javascript = { "prettier" },
