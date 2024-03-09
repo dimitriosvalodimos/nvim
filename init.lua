@@ -806,7 +806,6 @@ require("lazy").setup({
 			require("typescript-tools").setup({
 				on_attach = function(client, bufnr)
 					on_attach(client, bufnr)
-					require("twoslash-queries").attach(client, bufnr)
 				end,
 				capabilities = capabilities,
 				filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
