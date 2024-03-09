@@ -988,6 +988,7 @@ require("lazy").setup({
 				svelte = { "prettier" },
 				json = { "prettier" },
 				python = { "isort", "black" },
+				go = { "golines", "goimports", "gofumpt" },
 			},
 			format_on_save = {
 				timeout_ms = 500,
@@ -1002,4 +1003,4 @@ require("lazy").setup({
 })
 
 -- calvera,citruszest,github_dark,github_dark_colorblind,github_dark_default,github_dark_dimmed,github_dark_high_contrast,github_dark_tritanopia,gruvbox,horizon,moonfly,nightfly,night-owl,oxocarbon,poimandres,rose-pine-main,rose-pine-moon,tokyodark,tokyonight-moon,tokyonight-night,tokyonight-storm
-vim.cmd("colorscheme github_dark_default")
+vim.cmd("colorscheme citruszest")
