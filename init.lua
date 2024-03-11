@@ -359,6 +359,7 @@ require("lazy").setup({
 					"css",
 					"diff",
 					"gitignore",
+					"gleam",
 					"go",
 					"gomod",
 					"gosum",
@@ -731,6 +732,7 @@ require("lazy").setup({
 					filetypes = { "css", "javascript", "typescript", "javascriptreact", "typescriptreact" },
 				},
 				emmet_ls = { settings = {}, filetypes = { "html", "javascriptreact", "typescriptreact" } },
+				gleam = { settings = {}, filetypes = { "gleam" } },
 				gopls = { settings = {}, filetypes = { "go", "gomod", "gosum" } },
 				html = { settings = {}, filetypes = { "html" } },
 				-- tsserver = {
