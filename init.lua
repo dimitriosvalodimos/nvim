@@ -741,6 +741,7 @@ require("lazy").setup({
 			local servers = {
 				cssls = { settings = {}, filetypes = { "css" } },
 				cssmodules_ls = { settings = {}, filetypes = { "css" } },
+				elp = { settings = {}, filetypes = { "erlang" } },
 				eslint = {
 					settings = {},
 					filetypes = { "css", "javascript", "typescript", "javascriptreact", "typescriptreact" },
