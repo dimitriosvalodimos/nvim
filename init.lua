@@ -72,6 +72,20 @@ opt.wildmode = "longest:full,full"
 opt.wrap = false
 opt.writebackup = false
 
+-- insert uuid
+vim.keymap.set(
+	"i",
+	"<c-u>",
+	"<c-r>=trim(system('uuidgen'))<cr>",
+	{ desc = "insert uuid", noremap = true, silent = true }
+)
+vim.keymap.set(
+	"n",
+	"<c-u>",
+	"i<c-r>=trim(system('uuidgen'))<cr><esc>",
+	{ desc = "insert uuid", noremap = true, silent = true }
+)
+
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
