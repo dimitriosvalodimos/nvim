@@ -372,6 +372,7 @@ require("lazy").setup({
 				ensure_installed = {
 					"css",
 					"diff",
+					"erlang",
 					"gitignore",
 					"gleam",
 					"go",
