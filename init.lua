@@ -828,12 +828,12 @@ require("lazy").setup({
 				capabilities = capabilities,
 				filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
 				settings = {
-					separate_diagnostic_server = true,
+					separate_diagnostic_server = false,
 					publish_diagnostic_on = "change",
 					expose_as_code_action = { "all" },
 					tsserver_path = nil,
 					tsserver_plugins = { "@styled/typescript-styled-plugin" },
-					tsserver_max_memory = "auto",
+					tsserver_max_memory = 4096,
 					tsserver_format_options = {},
 					tsserver_file_preferences = {
 						quotePreference = "auto",
