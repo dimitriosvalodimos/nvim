@@ -55,7 +55,7 @@ opt.showtabline = 2
 opt.sidescrolloff = 8
 opt.signcolumn = "yes"
 opt.smartcase = true
-opt.smoothscroll = true
+-- opt.smoothscroll = true
 opt.splitbelow = true
 opt.splitkeep = "screen"
 opt.splitright = true
@@ -502,10 +502,9 @@ require("lazy").setup({
 			},
 		},
 	},
-	{ "Bekaboo/dropbar.nvim", opts = {} },
+	-- { "Bekaboo/dropbar.nvim", opts = {} },
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.5",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			{
