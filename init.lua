@@ -629,6 +629,13 @@ require("lazy").setup({
 			},
 		},
 		config = function()
+			local has_words_before = function()
+				unpack = unpack or table.unpack
+				local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+				return col ~= 0
+					and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+			end
+
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
 			require("luasnip.loaders.from_vscode").lazy_load()
@@ -661,15 +668,15 @@ require("lazy").setup({
 					["<c-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
 					["<c-u>"] = cmp.mapping.scroll_docs(-4),
 					["<c-d>"] = cmp.mapping.scroll_docs(4),
-					["<c-e>"] = cmp.mapping.abort(),
-					["<c-y>"] = cmp.mapping(
-						cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
-						{ "i", "c" }
-					),
-					["<M-y>"] = cmp.mapping(
-						cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
-						{ "i", "c" }
-					),
+					-- ["<c-e>"] = cmp.mapping.abort(),
+					-- ["<c-y>"] = cmp.mapping(
+					-- 	cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
+					-- 	{ "i", "c" }
+					-- ),
+					-- ["<M-y>"] = cmp.mapping(
+					-- 	cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
+					-- 	{ "i", "c" }
+					-- ),
 					["<C-Space>"] = cmp.mapping({
 						i = cmp.mapping.complete(),
 						c = function()
@@ -682,7 +689,38 @@ require("lazy").setup({
 							end
 						end,
 					}),
-					["<tab>"] = cmp.config.disable,
+					-- ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+					["<CR>"] = cmp.mapping({
+						i = function(fallback)
+							if cmp.visible() and cmp.get_active_entry() then
+								cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+							else
+								fallback()
+							end
+						end,
+						s = cmp.mapping.confirm({ select = true }),
+						c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+					}),
+					["<Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_next_item()
+						elseif luasnip.expand_or_locally_jumpable() then
+							luasnip.expand_or_jump()
+						elseif has_words_before() then
+							cmp.complete()
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
+					["<S-Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_prev_item()
+						elseif luasnip.jumpable(-1) then
+							luasnip.jump(-1)
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
 				}),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
@@ -747,7 +785,7 @@ require("lazy").setup({
 					filetypes = { "css", "javascript", "typescript", "javascriptreact", "typescriptreact" },
 				},
 				emmet_ls = { settings = {}, filetypes = { "html", "javascriptreact", "typescriptreact" } },
-				gleam = { settings = {}, filetypes = { "gleam" } },
+				-- gleam = { settings = {}, filetypes = { "gleam" } },
 				gopls = { settings = {}, filetypes = { "go", "gomod", "gosum" } },
 				html = { settings = {}, filetypes = { "html" } },
 				-- tsserver = {
@@ -939,7 +977,6 @@ require("lazy").setup({
 				popup_border_style = "rounded",
 				enable_git_status = true,
 				enable_diagnostics = true,
-				enable_normal_mode_for_inputs = false,
 				open_files_do_not_replace_types = { "terminal", "trouble", "qf" },
 				sort_case_insensitive = true,
 
@@ -1006,4 +1043,4 @@ require("lazy").setup({
 })
 
 -- calvera,citruszest,github_dark,github_dark_colorblind,github_dark_default,github_dark_dimmed,github_dark_high_contrast,github_dark_tritanopia,gruvbox,horizon,moonfly,nightfly,night-owl,oxocarbon,poimandres,rose-pine-main,rose-pine-moon,tokyodark,tokyonight-moon,tokyonight-night,tokyonight-tokyonight-storm
-vim.cmd("colorscheme tokyonight-storm")
+vim.cmd("colorscheme oxocarbon")
