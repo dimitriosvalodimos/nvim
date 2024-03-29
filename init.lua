@@ -338,6 +338,7 @@ require("lazy").setup({
 			"nvim-treesitter/nvim-treesitter-context",
 			"windwp/nvim-ts-autotag",
 			"andymass/vim-matchup",
+			"lukas-reineke/headlines.nvim",
 			"Wansmer/treesj",
 			{ "m-demare/hlargs.nvim", opts = {} },
 			{ "numToStr/Comment.nvim", opts = {} },
@@ -490,6 +491,8 @@ require("lazy").setup({
 				separator = nil,
 				zindex = 20,
 			})
+
+			require("headlines").setup({})
 		end,
 	},
 	{ "akinsho/bufferline.nvim", version = "*", dependencies = { "nvim-tree/nvim-web-devicons" }, opts = {} },
@@ -760,21 +763,21 @@ require("lazy").setup({
 			"hrsh7th/cmp-nvim-lsp",
 			"pmizio/typescript-tools.nvim",
 			"nvim-lua/plenary.nvim",
+			"mizlan/delimited.nvim",
 			{ "folke/trouble.nvim", opts = {} },
 			{ "folke/neodev.nvim", opts = {} },
 			{ "j-hui/fidget.nvim", opts = { progress = { ignore_done_already = true, ignore_empty_message = true } } },
 		},
 		config = function()
 			local servers = {
+				basedpyright = { settings = {}, filetypes = { "python" } },
 				cssls = { settings = {}, filetypes = { "css" } },
 				cssmodules_ls = { settings = {}, filetypes = { "css" } },
-				elp = { settings = {}, filetypes = { "erlang" } },
 				eslint = {
 					settings = {},
 					filetypes = { "css", "javascript", "typescript", "javascriptreact", "typescriptreact" },
 				},
 				emmet_ls = { settings = {}, filetypes = { "html", "javascriptreact", "typescriptreact" } },
-				-- gleam = { settings = {}, filetypes = { "gleam" } },
 				gopls = { settings = {}, filetypes = { "go", "gomod", "gosum" } },
 				html = { settings = {}, filetypes = { "html" } },
 				-- tsserver = {
@@ -900,9 +903,17 @@ require("lazy").setup({
 				},
 			})
 
+			local delimited = require("delimited")
+
 			vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
-			vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-			vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
+			vim.keymap.set("n", "[d", delimited.goto_prev)
+			vim.keymap.set("n", "]d", delimited.goto_prev)
+			vim.keymap.set("n", "[D", function()
+				delimited.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+			end)
+			vim.keymap.set("n", "]D", function()
+				delimited.goto_next({ severity = vim.diagnostic.severity.ERROR })
+			end)
 			vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -1028,6 +1039,24 @@ require("lazy").setup({
 	{
 		"kevinhwang91/nvim-hlslens",
 		opts = { calm_down = true, nearest_only = true, nearest_float_when = "always" },
+	},
+	{
+		"nvim-pack/nvim-spectre",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			vim.keymap.set("n", "<leader>S", '<cmd>lua require("spectre").toggle()<CR>', {
+				desc = "Toggle Spectre",
+			})
+			vim.keymap.set("n", "<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
+				desc = "Search current word",
+			})
+			vim.keymap.set("v", "<leader>sw", '<esc><cmd>lua require("spectre").open_visual()<CR>', {
+				desc = "Search current word",
+			})
+			vim.keymap.set("n", "<leader>sp", '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
+				desc = "Search on current file",
+			})
+		end,
 	},
 })
 
