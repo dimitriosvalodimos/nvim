@@ -110,6 +110,74 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	{
+		"olimorris/onedarkpro.nvim",
+		priority = 1000,
+		lazy = true,
+		opts = {
+			styles = {
+				types = "italic,bold",
+				methods = "bold",
+				numbers = "NONE",
+				strings = "NONE",
+				comments = "NONE",
+				keywords = "bold",
+				constants = "bold",
+				functions = "bold",
+				operators = "NONE",
+				variables = "NONE",
+				parameters = "NONE",
+				conditionals = "NONE",
+				virtual_text = "NONE",
+			},
+			plugins = { -- Override which plugin highlight groups are loaded
+				aerial = true,
+				barbar = true,
+				copilot = true,
+				dashboard = true,
+				flash_nvim = true,
+				gitsigns = true,
+				hop = true,
+				indentline = true,
+				leap = true,
+				lsp_saga = true,
+				lsp_semantic_tokens = true,
+				marks = true,
+				mini_indentscope = true,
+				neotest = true,
+				neo_tree = true,
+				nvim_cmp = true,
+				nvim_bqf = true,
+				nvim_dap = true,
+				nvim_dap_ui = true,
+				nvim_hlslens = true,
+				nvim_lsp = true,
+				nvim_navic = true,
+				nvim_notify = true,
+				nvim_tree = true,
+				nvim_ts_rainbow = true,
+				op_nvim = true,
+				packer = true,
+				polygot = true,
+				rainbow_delimiters = true,
+				startify = true,
+				telescope = true,
+				toggleterm = true,
+				treesitter = true,
+				trouble = true,
+				vim_ultest = true,
+				which_key = true,
+			},
+
+			options = {
+				cursorline = true,
+				transparency = false,
+				terminal_colors = true,
+				lualine_transparency = false,
+				highlight_inactive_windows = false,
+			},
+		},
+	},
+	{
 		"folke/tokyonight.nvim",
 		lazy = true,
 		priority = 1000,
@@ -184,48 +252,6 @@ require("lazy").setup({
 			vim.g.moonflyUnderlineMatchParen = true
 			vim.g.moonflyVirtualTextColor = true
 			vim.g.moonflyWinSeparator = 2
-		end,
-	},
-	{
-		"projekt0n/github-nvim-theme",
-		lazy = true,
-		priority = 1000,
-		config = function()
-			require("github-theme").setup({
-				options = {
-					compile_path = vim.fn.stdpath("cache") .. "/github-theme",
-					compile_file_suffix = "_compiled",
-					hide_end_of_buffer = true,
-					hide_nc_statusline = true,
-					transparent = false,
-					terminal_colors = true,
-					dim_inactive = true,
-					module_default = true,
-					styles = {
-						comments = "italic",
-						functions = "bold",
-						keywords = "bold",
-						variables = "NONE",
-						conditionals = "NONE",
-						constants = "bold",
-						numbers = "NONE",
-						operators = "NONE",
-						strings = "NONE",
-						types = "bold,italic",
-					},
-					inverse = {
-						match_paren = true,
-						visual = true,
-						search = true,
-					},
-					darken = {
-						floats = true,
-						sidebars = {
-							enabled = true,
-						},
-					},
-				},
-			})
 		end,
 	},
 	{
@@ -1058,7 +1084,58 @@ require("lazy").setup({
 			})
 		end,
 	},
+	{
+		"malbertzard/inline-fold.nvim",
+		config = function()
+			require("inline-fold").setup({
+				defaultPlaceholder = "…",
+				queries = {
+					html = {
+						{ pattern = 'class="([^"]*)"', placeholder = "@" },
+						{ pattern = 'href="(.-)"' },
+						{ pattern = 'src="(.-)"' },
+					},
+					typescriptreact = {
+						{ pattern = 'class="([^"]*)"', placeholder = "@" },
+						{ pattern = "class='([^\"]*)'", placeholder = "@" },
+						{ pattern = 'className="([^"]*)"', placeholder = "@" },
+						{ pattern = "className='([^\"]*)'", placeholder = "@" },
+						{ pattern = 'style="([^"]*)"', placeholder = "@" },
+						{ pattern = 'href="(.-)"' },
+						{ pattern = 'src="(.-)"' },
+					},
+				},
+			})
+
+			vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+				pattern = { "*.html", "*.tsx" },
+				callback = function(_)
+					if not require("inline-fold.module").isHidden then
+						vim.cmd("InlineFoldToggle")
+					end
+				end,
+			})
+		end,
+	},
 })
 
--- calvera,citruszest,github_dark,github_dark_colorblind,github_dark_default,github_dark_dimmed,github_dark_high_contrast,github_dark_tritanopia,gruvbox,horizon,moonfly,nightfly,night-owl,oxocarbon,poimandres,rose-pine-main,rose-pine-moon,tokyodark,tokyonight-moon,tokyonight-night,tokyonight-tokyonight-storm
-vim.cmd("colorscheme oxocarbon")
+-- calvera
+-- citruszest
+-- gruvbox
+-- horizon
+-- moonfly
+-- nightfly
+-- night-owl
+-- oxocarbon
+-- poimandres
+-- rose-pine-main
+-- rose-pine-moon
+-- tokyodark
+-- tokyonight-moon
+-- tokyonight-night
+-- tokyonight
+-- tokyonight-storm
+-- onedark
+-- onedark_vivid
+-- onedark_dark
+vim.cmd("colorscheme onedark_dark")
