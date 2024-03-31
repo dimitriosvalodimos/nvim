@@ -1196,6 +1196,7 @@ require("lazy").setup({
 			})
 		end,
 	},
+	{ "ellisonleao/glow.nvim", opts = {}, cmd = "Glow" },
 })
 
 -- calvera
