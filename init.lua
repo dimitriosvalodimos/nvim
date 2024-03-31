@@ -121,6 +121,56 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	{
+		"judaew/ronny.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {
+			display = {
+				monokai_original = false,
+				only_CursorLineNr = true,
+				hi_relativenumber = true,
+				hi_unfocus_window = true,
+				hi_formatted_text = false, -- true, italic, bold
+				hi_comment_italic = false,
+			},
+		},
+	},
+	{ "nyngwang/nvimgelion", lazy = true, priority = 1000 },
+	{
+		"sontungexpt/witch",
+		priority = 1000,
+		lazy = true,
+		opts = {
+			style = "dark",
+			extras = {
+				bracket = true,
+				dashboard = true,
+				diffview = true,
+				explorer = true,
+				indentline = true,
+			},
+		},
+	},
+	{
+		"luisiacc/gruvbox-baby",
+		lazy = true,
+		priority = 1000,
+		config = function()
+			vim.g.gruvbox_baby_background_color = "medium"
+			vim.g.gruvbox_baby_comment_style = "NONE"
+			vim.g.gruvbox_baby_keyword_style = "NONE"
+			vim.g.gruvbox_baby_telescope_theme = 1
+		end,
+	},
+	{ "sekke276/dark_flat.nvim", lazy = true, priority = 1000, opts = { transparent = false, italics = false } },
+	{
+		"scottmckendry/cyberdream.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = { terminal_colors = true, borderless_telescope = true },
+	},
+	{ "nvimdev/zephyr-nvim", dependencies = { "nvim-treesitter/nvim-treesitter" }, lazy = true, priority = 1000 },
+	{
 		"olimorris/onedarkpro.nvim",
 		priority = 1000,
 		lazy = true,
@@ -532,7 +582,19 @@ require("lazy").setup({
 			require("headlines").setup({})
 		end,
 	},
-	{ "akinsho/bufferline.nvim", version = "*", dependencies = { "nvim-tree/nvim-web-devicons" }, opts = {} },
+	{
+		"luckasRanarison/tailwind-tools.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		opts = { document_color = {
+			kind = "background",
+		} },
+	},
+	{
+		"akinsho/bufferline.nvim",
+		version = "*",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {},
+	},
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -542,7 +604,7 @@ require("lazy").setup({
 			},
 		},
 	},
-	-- { "Bekaboo/dropbar.nvim", opts = {} },
+	{ "Bekaboo/dropbar.nvim", opts = {} },
 	{
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
@@ -663,6 +725,7 @@ require("lazy").setup({
 			"hrsh7th/cmp-nvim-lua",
 			"hrsh7th/cmp-nvim-lsp-signature-help",
 			"rafamadriz/friendly-snippets",
+			"luckasRanarison/tailwind-tools.nvim",
 			{
 				"windwp/nvim-autopairs",
 				opts = { disable_filetype = { "TelescopePrompt", "vim" }, enable_check_bracket_line = false },
@@ -701,22 +764,13 @@ require("lazy").setup({
 					documentation = cmp.config.window.bordered(winhighlight),
 				},
 				formatting = {
-					format = lspkind.cmp_format(),
+					format = lspkind.cmp_format({ before = require("tailwind-tools.cmp").lspkind_format }),
 				},
 				mapping = cmp.mapping.preset.insert({
 					["<c-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
 					["<c-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
 					["<c-u>"] = cmp.mapping.scroll_docs(-4),
 					["<c-d>"] = cmp.mapping.scroll_docs(4),
-					-- ["<c-e>"] = cmp.mapping.abort(),
-					-- ["<c-y>"] = cmp.mapping(
-					-- 	cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
-					-- 	{ "i", "c" }
-					-- ),
-					-- ["<M-y>"] = cmp.mapping(
-					-- 	cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
-					-- 	{ "i", "c" }
-					-- ),
 					["<C-Space>"] = cmp.mapping({
 						i = cmp.mapping.complete(),
 						c = function()
@@ -799,6 +853,7 @@ require("lazy").setup({
 			"neovim/nvim-lspconfig",
 			"hrsh7th/cmp-nvim-lsp",
 			"pmizio/typescript-tools.nvim",
+			"dmmulroy/ts-error-translator.nvim",
 			"nvim-lua/plenary.nvim",
 			"mizlan/delimited.nvim",
 			{ "folke/trouble.nvim", opts = {} },
@@ -890,6 +945,7 @@ require("lazy").setup({
 			require("typescript-tools").setup({
 				on_attach = function(client, bufnr)
 					on_attach(client, bufnr)
+					require("ts-error-translator").setup()
 				end,
 				capabilities = capabilities,
 				filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
@@ -1102,16 +1158,28 @@ require("lazy").setup({
 				defaultPlaceholder = "…",
 				queries = {
 					html = {
-						{ pattern = 'class="([^"]*)"', placeholder = "@" },
+						{ pattern = 'class="([^"]*)"' },
 						{ pattern = 'href="(.-)"' },
 						{ pattern = 'src="(.-)"' },
 					},
 					typescriptreact = {
-						{ pattern = 'class="([^"]*)"', placeholder = "@" },
-						{ pattern = "class='([^\"]*)'", placeholder = "@" },
-						{ pattern = 'className="([^"]*)"', placeholder = "@" },
-						{ pattern = "className='([^\"]*)'", placeholder = "@" },
-						{ pattern = 'style="([^"]*)"', placeholder = "@" },
+						{ pattern = 'class="([^"]*)"' },
+						{ pattern = "class='([^\"]*)'" },
+						{ pattern = 'className="([^"]*)"' },
+						{ pattern = "className='([^\"]*)'" },
+						{ pattern = 'style="([^"]*)"' },
+						{ pattern = "style='([^\"]*)'" },
+						{ pattern = 'href="(.-)"' },
+						{ pattern = "href='(.-)'" },
+						{ pattern = 'src="(.-)"' },
+						{ pattern = "src='(.-)'" },
+					},
+					javascriptreact = {
+						{ pattern = 'class="([^"]*)"' },
+						{ pattern = "class='([^\"]*)'" },
+						{ pattern = 'className="([^"]*)"' },
+						{ pattern = "className='([^\"]*)'" },
+						{ pattern = 'style="([^"]*)"' },
 						{ pattern = 'href="(.-)"' },
 						{ pattern = 'src="(.-)"' },
 					},
@@ -1120,7 +1188,7 @@ require("lazy").setup({
 
 			vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
 				pattern = { "*.html", "*.tsx" },
-				callback = function(_)
+				callback = function()
 					if not require("inline-fold.module").isHidden then
 						vim.cmd("InlineFoldToggle")
 					end
@@ -1149,4 +1217,11 @@ require("lazy").setup({
 -- onedark
 -- onedark_vivid
 -- onedark_dark
-vim.cmd("colorscheme onedark_dark")
+-- witch
+-- zephyr
+-- dark_flat
+-- cyberdream
+-- gruvbox-baby
+-- nvimgelion
+-- ronny
+vim.cmd("colorscheme cyberdream")
