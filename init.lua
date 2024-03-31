@@ -72,6 +72,17 @@ opt.wildmode = "longest:full,full"
 opt.wrap = false
 opt.writebackup = false
 
+if g.neovide then
+	opt.guifont = "JetBrainsMono Nerd Font:h15"
+	g.neovide_padding_top = 0
+	g.neovide_padding_bottom = 0
+	g.neovide_padding_right = 0
+	g.neovide_padding_left = 0
+	g.neovide_cursor_animation_length = 0
+	g.neovide_cursor_trail_size = 0
+	g.neovide_cursor_vfx_mode = ""
+end
+
 -- insert uuid
 vim.keymap.set(
 	"i",
