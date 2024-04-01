@@ -726,6 +726,7 @@ require("lazy").setup({
 			"hrsh7th/cmp-nvim-lsp-signature-help",
 			"rafamadriz/friendly-snippets",
 			"luckasRanarison/tailwind-tools.nvim",
+			"nvim-orgmode/orgmode",
 			{
 				"windwp/nvim-autopairs",
 				opts = { disable_filetype = { "TelescopePrompt", "vim" }, enable_check_bracket_line = false },
@@ -809,6 +810,7 @@ require("lazy").setup({
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
 					{ name = "nvim_lua" },
+					{ name = "orgmode" },
 				}, {
 					{ name = "buffer" },
 					{ name = "nvim_lsp_signature_help" },
@@ -1197,6 +1199,7 @@ require("lazy").setup({
 		end,
 	},
 	{ "ellisonleao/glow.nvim", opts = {}, cmd = "Glow" },
+	{ "nvim-orgmode/orgmode", opts = {} },
 })
 
 -- calvera
