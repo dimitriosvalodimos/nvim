@@ -1200,6 +1200,7 @@ require("lazy").setup({
 	},
 	{ "ellisonleao/glow.nvim", opts = {}, cmd = "Glow" },
 	{ "nvim-orgmode/orgmode", opts = {} },
+	{ "michaelb/sniprun", build = "sh ./install.sh", opts = {} },
 })
 
 -- calvera
