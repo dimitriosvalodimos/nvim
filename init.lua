@@ -893,6 +893,7 @@ require("lazy").setup({
 				},
 				svelte = { settings = {}, filetypes = { "svelte" } },
 				tailwindcss = { settings = {}, filetypes = { "javascriptreact", "typescriptreact", "svelte" } },
+				rust_analyzer = { settings = {}, filetypes = { "rust" } },
 			}
 
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
