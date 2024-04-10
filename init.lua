@@ -120,21 +120,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	{
-		"judaew/ronny.nvim",
-		lazy = true,
-		priority = 1000,
-		opts = {
-			display = {
-				monokai_original = false,
-				only_CursorLineNr = true,
-				hi_relativenumber = true,
-				hi_unfocus_window = true,
-				hi_formatted_text = false, -- true, italic, bold
-				hi_comment_italic = false,
-			},
-		},
-	},
 	{ "nyngwang/nvimgelion", lazy = true, priority = 1000 },
 	{
 		"sontungexpt/witch",
@@ -1229,5 +1214,4 @@ require("lazy").setup({
 -- cyberdream
 -- gruvbox-baby
 -- nvimgelion
--- ronny
-vim.cmd("colorscheme cyberdream")
+vim.cmd("colorscheme gruvbox-baby")
