@@ -149,13 +149,6 @@ require("lazy").setup({
 	},
 	{ "sekke276/dark_flat.nvim", lazy = true, priority = 1000, opts = { transparent = false, italics = false } },
 	{
-		"scottmckendry/cyberdream.nvim",
-		lazy = true,
-		priority = 1000,
-		opts = { terminal_colors = true, borderless_telescope = true },
-	},
-	{ "nvimdev/zephyr-nvim", dependencies = { "nvim-treesitter/nvim-treesitter" }, lazy = true, priority = 1000 },
-	{
 		"olimorris/onedarkpro.nvim",
 		priority = 1000,
 		lazy = true,
@@ -311,9 +304,9 @@ require("lazy").setup({
 				underline = true,
 				bold = true,
 				italic = {
-					strings = true,
+					strings = false,
 					emphasis = true,
-					comments = true,
+					comments = false,
 					operators = false,
 					folds = true,
 				},
@@ -362,7 +355,6 @@ require("lazy").setup({
 			})
 		end,
 	},
-	{ "LunarVim/horizon.nvim", lazy = true, priority = 1000 },
 	{
 		"hoprr/calvera-dark.nvim",
 		lazy = true,
@@ -1206,11 +1198,9 @@ require("lazy").setup({
 
 -- calvera
 -- citruszest
--- cyberdream
 -- dark_flat
 -- gruvbox
 -- gruvbox-baby
--- horizon
 -- moonfly
 -- night-owl
 -- nightfly
@@ -1228,5 +1218,4 @@ require("lazy").setup({
 -- tokyonight-night
 -- tokyonight-storm
 -- witch
--- zephyr
-vim.cmd("colorscheme cyberdream")
+vim.cmd("colorscheme dark_flat")
