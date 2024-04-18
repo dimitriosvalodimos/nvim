@@ -562,9 +562,11 @@ require("lazy").setup({
 	{
 		"luckasRanarison/tailwind-tools.nvim",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		opts = { document_color = {
-			kind = "background",
-		} },
+		opts = {
+			document_color = {
+				kind = "background",
+			},
+		},
 	},
 	{
 		"akinsho/bufferline.nvim",
@@ -1194,6 +1196,7 @@ require("lazy").setup({
 	{ "ellisonleao/glow.nvim", opts = {}, cmd = "Glow" },
 	{ "nvim-orgmode/orgmode", opts = {} },
 	{ "michaelb/sniprun", build = "sh ./install.sh", opts = {} },
+	{ "folke/zen-mode.nvim", opts = {} },
 })
 
 -- calvera
