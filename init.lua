@@ -71,6 +71,7 @@ opt.virtualedit = "block"
 opt.wildmode = "longest:full,full"
 opt.wrap = false
 opt.writebackup = false
+vim.cmd([[set rtp^="/Users/dimi/.opam/default/share/ocp-indent/vim"]])
 
 if g.neovide then
 	opt.guifont = "JetBrainsMono Nerd Font:h15"
@@ -452,6 +453,7 @@ require("lazy").setup({
 					"luadoc",
 					"markdown",
 					"markdown_inline",
+					"ocaml",
 					"query",
 					"regex",
 					"sql",
@@ -568,12 +570,12 @@ require("lazy").setup({
 			},
 		},
 	},
-	{
-		"akinsho/bufferline.nvim",
-		version = "*",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		opts = {},
-	},
+	-- {
+	-- 	"akinsho/bufferline.nvim",
+	-- 	version = "*",
+	-- 	dependencies = { "nvim-tree/nvim-web-devicons" },
+	-- 	opts = {},
+	-- },
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -844,6 +846,10 @@ require("lazy").setup({
 		config = function()
 			local servers = {
 				basedpyright = { settings = {}, filetypes = { "python" } },
+				ocamllsp = {
+					settings = {},
+					filetypes = { "ocaml", "menhir", "ocamlinterface", "ocamllex", "reason", "dune" },
+				},
 				cssls = { settings = {}, filetypes = { "css" } },
 				cssmodules_ls = { settings = {}, filetypes = { "css" } },
 				eslint = {
@@ -1119,6 +1125,7 @@ require("lazy").setup({
 				json = { "biome", "biome-check", "prettier" },
 				python = { "isort", "black" },
 				go = { "golines", "goimports", "gofumpt" },
+				ocaml = { "ocamlformat" },
 			},
 			format_on_save = {
 				timeout_ms = 500,
