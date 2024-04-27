@@ -3,12 +3,57 @@ local opt = vim.opt
 
 g.mapleader = " "
 
-opt.foldmethod = "expr"
-opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- opt.mouse = "a"
+opt.clipboard = "unnamedplus"
+opt.cmdheight = 0 -- hide commandline unless needed
+opt.completeopt = { "menu", "menuone", "noselect" } -- Options for insert mode completion
+opt.confirm = true
+opt.copyindent = true
+opt.cursorline = true
+opt.diffopt = vim.list_extend(vim.opt.diffopt:get(), { "algorithm:histogram", "linematch:60" })
+opt.expandtab = true
+opt.foldcolumn = "1"
 opt.foldenable = false
-opt.timeout = true
-opt.timeoutlen = 300
+opt.foldexpr = "nvim_treesitter#foldexpr()"
+opt.foldlevel = 99
+opt.foldlevelstart = 99
+opt.foldmethod = "expr"
+opt.history = 1000
+opt.ignorecase = true
+opt.inccommand = "nosplit"
+opt.infercase = true
+opt.laststatus = 3
+opt.number = true
+opt.preserveindent = true
+opt.pumheight = 10
+opt.relativenumber = true
+opt.shiftwidth = 2
+opt.scrolloff = 8
+opt.sidescrolloff = 8
+opt.shortmess = vim.tbl_deep_extend("force", vim.opt.shortmess:get(), { s = true, I = true })
+opt.showmode = false
+opt.showtabline = 2
+opt.signcolumn = "yes"
+opt.smartcase = true
+opt.smoothscroll = true
+opt.splitbelow = true
+opt.splitkeep = "screen"
+opt.splitright = true
+opt.tabstop = 2
 opt.termguicolors = true
+opt.timeout = true
+opt.timeoutlen = 500
+opt.title = true
+opt.undolevels = 10000
+opt.undofile = true
+opt.updatetime = 300
+opt.virtualedit = "block"
+opt.wildmode = "longest:full,full"
+opt.wrap = false
+opt.writebackup = false
+opt.viewoptions = vim.tbl_filter(function(val)
+	return val ~= "curdir"
+end, vim.opt.viewoptions:get())
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -24,6 +69,48 @@ end
 opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+	{
+		"EdenEast/nightfox.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {
+			options = {
+				compile_path = vim.fn.stdpath("cache") .. "/nightfox",
+				compile_file_suffix = "_compiled",
+				transparent = false,
+				terminal_colors = true,
+				dim_inactive = true,
+				module_default = true,
+				colorblind = {
+					enable = false,
+					simulate_only = false,
+					severity = {
+						protan = 0,
+						deutan = 0,
+						tritan = 0,
+					},
+				},
+				styles = {
+					comments = "italic",
+					conditionals = "NONE",
+					constants = "bold",
+					functions = "bold",
+					keywords = "bold",
+					numbers = "NONE",
+					operators = "NONE",
+					strings = "NONE",
+					types = "bold",
+					variables = "NONE",
+				},
+				inverse = {
+					match_paren = true,
+					visual = true,
+					search = true,
+				},
+				modules = {},
+			},
+		},
+	},
 	{ "nvim-tree/nvim-web-devicons", opts = {} },
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -117,7 +204,7 @@ require("lazy").setup({
 							end
 						end,
 						s = cmp.mapping.confirm({ select = true }),
-						c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+						c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
 					}),
 					-- ["<CR>"] = cmp.mapping(function(fallback)
 					-- 	if cmp.visible() then
@@ -187,13 +274,60 @@ require("lazy").setup({
 			require("mason").setup()
 
 			local servers = {
-				biome = { settings = {}, filetypes = {} },
-				cssls = { settings = {}, filetypes = {} },
-				cssmodules_ls = { settings = {}, filetypes = {} },
-				emmet_language_server = { settings = {}, filetypes = {} },
-				eslint = { settings = {}, filetypes = {} },
-				gopls = { settings = {}, filetypes = {} },
-				html = { settings = {}, filetypes = {} },
+				biome = {
+					settings = {},
+					filetypes = {
+						"javascript",
+						"javascriptreact",
+						"json",
+						"jsonc",
+						"typescript",
+						"typescript.tsx",
+						"typescriptreact",
+						"astro",
+						"svelte",
+						"vue",
+					},
+				},
+				cssls = { settings = {}, filetypes = { "css", "scss", "less" } },
+				cssmodules_ls = {
+					settings = {},
+					filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+				},
+				emmet_ls = {
+					settings = {},
+					filetypes = {
+						"astro",
+						"css",
+						"eruby",
+						"html",
+						"htmldjango",
+						"javascriptreact",
+						"less",
+						"pug",
+						"sass",
+						"scss",
+						"svelte",
+						"typescriptreact",
+						"vue",
+					},
+				},
+				eslint = {
+					settings = {},
+					filetypes = {
+						"javascript",
+						"javascriptreact",
+						"javascript.jsx",
+						"typescript",
+						"typescriptreact",
+						"typescript.tsx",
+						"vue",
+						"svelte",
+						"astro",
+					},
+				},
+				gopls = { settings = {}, filetypes = { "go", "gomod", "gowork", "gotmpl" } },
+				html = { settings = {}, filetypes = { "html", "templ" } },
 				lua_ls = {
 					settings = {
 						Lua = {
@@ -204,26 +338,99 @@ require("lazy").setup({
 							telemetry = { enable = false },
 						},
 					},
-					filetypes = {},
+					filetypes = { "lua" },
 				},
-				tsserver = { settings = {}, filetypes = {} },
+				tsserver = {
+					settings = {},
+					filetypes = {
+						"javascript",
+						"javascriptreact",
+						"javascript.jsx",
+						"typescript",
+						"typescriptreact",
+						"typescript.tsx",
+					},
+				},
 			}
+
 			local mason_lspconfig = require("mason-lspconfig")
 			mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(servers) })
 
 			local lspconfig = require("lspconfig")
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local on_attach = function(client, bufnr) end
+			capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+			local on_attach = function(client, bufnr)
+				vim.api.nvim_create_autocmd("CursorHold", {
+					buffer = bufnr,
+					callback = function()
+						local opts = {
+							focusable = false,
+							close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+							border = "rounded",
+							source = "always",
+							prefix = " ",
+							scope = "cursor",
+						}
+						vim.diagnostic.open_float(nil, opts)
+					end,
+				})
+			end
 
 			mason_lspconfig.setup_handlers({
 				function(server_name)
-					local server = servers[server_name]
+					local server = servers[server_name] or {}
 					lspconfig[server_name].setup({
 						capabilities = capabilities,
 						on_attach = on_attach,
 						settings = server.settings or {},
 						filetypes = server.filetypes or {},
 					})
+				end,
+			})
+
+			vim.diagnostic.config({
+				virtual_text = true,
+				signs = true,
+				underline = true,
+				update_in_insert = true,
+				severity_sort = true,
+				float = { source = "if_many" },
+			})
+
+			local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
+			for type, icon in pairs(signs) do
+				local hl = "DiagnosticSign" .. type
+				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+			end
+
+			vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
+			vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
+			vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
+			vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
+
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+				callback = function(ev)
+					vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+					local opts = { buffer = ev.buf }
+					vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+					vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+					vim.keymap.set("n", "gI", vim.lsp.buf.implementation, opts)
+					vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+					vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
+					vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
+					vim.keymap.set("n", "<leader>wl", function()
+						print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+					end, opts)
+					vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
+					vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+					vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+					vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+					vim.keymap.set("n", "<leader>f", function()
+						vim.lsp.buf.format({ async = true })
+					end, opts)
 				end,
 			})
 		end,
@@ -254,98 +461,105 @@ require("lazy").setup({
 		opts = { layout = { align = "center" } },
 	},
 	{
-		"lewis6991/gitsigns.nvim",
-		config = function()
-			require("gitsigns").setup({
-				signs = {
-					add = { text = "┃" },
-					change = { text = "┃" },
-					delete = { text = "_" },
-					topdelete = { text = "‾" },
-					changedelete = { text = "~" },
-					untracked = { text = "┆" },
-				},
-				signcolumn = true,
-				numhl = false,
-				linehl = false,
-				word_diff = false,
-				watch_gitdir = {
-					follow_files = true,
-				},
-				auto_attach = true,
-				attach_to_untracked = false,
-				current_line_blame = true,
-				current_line_blame_opts = {
-					virt_text = true,
-					virt_text_pos = "eol",
-					delay = 1000,
-					ignore_whitespace = false,
-					virt_text_priority = 100,
-				},
-				current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
-				current_line_blame_formatter_opts = {
-					relative_time = true,
-				},
-				sign_priority = 6,
-				update_debounce = 100,
-				status_formatter = nil,
-				max_file_length = 40000,
-				preview_config = {
-					border = "single",
-					style = "minimal",
-					relative = "cursor",
-					row = 0,
-					col = 1,
-				},
-				on_attach = function(bufnr)
+		"NeogitOrg/neogit",
+		dependencies = {
+			"sindrets/diffview.nvim",
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+			{
+				"lewis6991/gitsigns.nvim",
+				config = function()
 					local gitsigns = require("gitsigns")
-
-					local function map(mode, l, r, opts)
-						opts = opts or {}
-						opts.buffer = bufnr
-						vim.keymap.set(mode, l, r, opts)
-					end
-					map("n", "]c", function()
-						if vim.wo.diff then
-							vim.cmd.normal({ "]c", bang = true })
-						else
-							gitsigns.nav_hunk("next")
-						end
-					end)
-					map("n", "[c", function()
-						if vim.wo.diff then
-							vim.cmd.normal({ "[c", bang = true })
-						else
-							gitsigns.nav_hunk("prev")
-						end
-					end)
-					map("n", "<leader>hs", gitsigns.stage_hunk)
-					map("n", "<leader>hr", gitsigns.reset_hunk)
-					map("v", "<leader>hs", function()
-						gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					end)
-					map("v", "<leader>hr", function()
-						gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					end)
-					map("n", "<leader>hS", gitsigns.stage_buffer)
-					map("n", "<leader>hu", gitsigns.undo_stage_hunk)
-					map("n", "<leader>hR", gitsigns.reset_buffer)
-					map("n", "<leader>hp", gitsigns.preview_hunk)
-					map("n", "<leader>hb", function()
-						gitsigns.blame_line({ full = true })
-					end)
-					map("n", "<leader>tb", gitsigns.toggle_current_line_blame)
-					map("n", "<leader>hd", gitsigns.diffthis)
-					map("n", "<leader>hD", function()
-						gitsigns.diffthis("~")
-					end)
-					map("n", "<leader>td", gitsigns.toggle_deleted)
-					map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+					gitsigns.setup({
+						signs = {
+							add = { text = "┃" },
+							change = { text = "┃" },
+							delete = { text = "_" },
+							topdelete = { text = "‾" },
+							changedelete = { text = "~" },
+							untracked = { text = "┆" },
+						},
+						signcolumn = true,
+						numhl = false,
+						linehl = false,
+						word_diff = false,
+						watch_gitdir = {
+							follow_files = true,
+						},
+						auto_attach = true,
+						attach_to_untracked = false,
+						current_line_blame = true,
+						current_line_blame_opts = {
+							virt_text = true,
+							virt_text_pos = "eol",
+							delay = 1000,
+							ignore_whitespace = false,
+							virt_text_priority = 100,
+						},
+						current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
+						current_line_blame_formatter_opts = {
+							relative_time = true,
+						},
+						sign_priority = 6,
+						update_debounce = 100,
+						status_formatter = nil,
+						max_file_length = 40000,
+						preview_config = {
+							border = "single",
+							style = "minimal",
+							relative = "cursor",
+							row = 0,
+							col = 1,
+						},
+						on_attach = function(bufnr)
+							local function map(mode, l, r, opts)
+								opts = opts or {}
+								opts.buffer = bufnr
+								vim.keymap.set(mode, l, r, opts)
+							end
+							map("n", "]c", function()
+								if vim.wo.diff then
+									vim.cmd.normal({ "]c", bang = true })
+								else
+									gitsigns.nav_hunk("next")
+								end
+							end)
+							map("n", "[c", function()
+								if vim.wo.diff then
+									vim.cmd.normal({ "[c", bang = true })
+								else
+									gitsigns.nav_hunk("prev")
+								end
+							end)
+							map("n", "<leader>hs", gitsigns.stage_hunk)
+							map("n", "<leader>hr", gitsigns.reset_hunk)
+							map("v", "<leader>hs", function()
+								gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+							end)
+							map("v", "<leader>hr", function()
+								gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+							end)
+							map("n", "<leader>hS", gitsigns.stage_buffer)
+							map("n", "<leader>hu", gitsigns.undo_stage_hunk)
+							map("n", "<leader>hR", gitsigns.reset_buffer)
+							map("n", "<leader>hp", gitsigns.preview_hunk)
+							map("n", "<leader>hb", function()
+								gitsigns.blame_line({ full = true })
+							end)
+							map("n", "<leader>tb", gitsigns.toggle_current_line_blame)
+							map("n", "<leader>hd", gitsigns.diffthis)
+							map("n", "<leader>hD", function()
+								gitsigns.diffthis("~")
+							end)
+							map("n", "<leader>td", gitsigns.toggle_deleted)
+							map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+						end,
+					})
 				end,
-			})
-		end,
+			},
+		},
+		opts = {},
 	},
-	{ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = { scope = { enabled = true } } },
 	{ "akinsho/toggleterm.nvim", opts = { open_mapping = [[<c-t>]] } },
 	{
 		"nvim-telescope/telescope.nvim",
@@ -394,3 +608,5 @@ require("lazy").setup({
 		end,
 	},
 }, {})
+
+vim.cmd("colorscheme carbonfox")
