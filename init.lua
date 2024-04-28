@@ -559,6 +559,7 @@ require("lazy").setup({
 						"typescript.tsx",
 					},
 				},
+				fennel_ls = { settings = {}, filetypes = { "fennel" } },
 			}
 
 			local mason_lspconfig = require("mason-lspconfig")
@@ -656,6 +657,7 @@ require("lazy").setup({
 				html = { { "biome", "biome-check", "prettierd", "prettier" } },
 				css = { { "biome", "biome-check", "prettierd", "prettier" } },
 				json = { { "biome", "biome-check", "prettierd", "prettier" } },
+				fennel = { "fnlfmt" },
 			},
 			format_on_save = {
 				timeout_ms = 500,
