@@ -7,6 +7,7 @@ g.mapleader = " "
 opt.clipboard = "unnamedplus"
 opt.cmdheight = 0 -- hide commandline unless needed
 opt.completeopt = { "menu", "menuone", "noselect" } -- Options for insert mode completion
+opt.conceallevel = 2
 opt.confirm = true
 opt.copyindent = true
 opt.cursorline = true
@@ -55,6 +56,15 @@ opt.viewoptions = vim.tbl_filter(function(val)
 	return val ~= "curdir"
 end, vim.opt.viewoptions:get())
 
+vim.api.nvim_create_autocmd("TextYankPost", {
+	group = vim.api.nvim_create_augroup("highlight_yank", {}),
+	desc = "Hightlight selection on yank",
+	pattern = "*",
+	callback = function()
+		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 300 })
+	end,
+})
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	vim.fn.system({
@@ -69,48 +79,6 @@ end
 opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	{
-		"EdenEast/nightfox.nvim",
-		lazy = true,
-		priority = 1000,
-		opts = {
-			options = {
-				compile_path = vim.fn.stdpath("cache") .. "/nightfox",
-				compile_file_suffix = "_compiled",
-				transparent = false,
-				terminal_colors = true,
-				dim_inactive = true,
-				module_default = true,
-				colorblind = {
-					enable = false,
-					simulate_only = false,
-					severity = {
-						protan = 0,
-						deutan = 0,
-						tritan = 0,
-					},
-				},
-				styles = {
-					comments = "italic",
-					conditionals = "NONE",
-					constants = "bold",
-					functions = "bold",
-					keywords = "bold",
-					numbers = "NONE",
-					operators = "NONE",
-					strings = "NONE",
-					types = "bold",
-					variables = "NONE",
-				},
-				inverse = {
-					match_paren = true,
-					visual = true,
-					search = true,
-				},
-				modules = {},
-			},
-		},
-	},
 	{
 		"folke/tokyonight.nvim",
 		lazy = true,
@@ -128,6 +96,133 @@ require("lazy").setup({
 			dim_inactive = true,
 		},
 	},
+	{
+		"projekt0n/github-nvim-theme",
+		lazy = true,
+		priority = 1000,
+		config = function()
+			require("github-theme").setup({
+				options = {
+					compile_path = vim.fn.stdpath("cache") .. "/github-theme",
+					compile_file_suffix = "_compiled",
+					hide_end_of_buffer = true,
+					hide_nc_statusline = true,
+					transparent = false,
+					terminal_colors = true,
+					dim_inactive = true,
+					module_default = true,
+					styles = {
+						comments = "italic",
+						functions = "bold",
+						keywords = "bold",
+						variables = "NONE",
+						conditionals = "bold",
+						constants = "bold",
+						numbers = "NONE",
+						operators = "NONE",
+						strings = "NONE",
+						types = "bold,italic",
+					},
+					inverse = {
+						match_paren = false,
+						visual = false,
+						search = false,
+					},
+					darken = {
+						floats = false,
+						sidebars = {
+							enabled = true,
+							list = {},
+						},
+					},
+				},
+			})
+		end,
+	},
+	{
+		"rose-pine/neovim",
+		lazy = true,
+		priority = 1000,
+		name = "rose-pine",
+		opts = {
+			variant = "auto",
+			dark_variant = "main",
+			dim_inactive_windows = true,
+			extend_background_behind_borders = true,
+			enable = {
+				terminal = true,
+				legacy_highlights = true,
+				migrations = true,
+			},
+			styles = {
+				bold = true,
+				italic = true,
+				transparency = false,
+			},
+		},
+	},
+	{
+		"ellisonleao/gruvbox.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {
+			terminal_colors = true,
+			undercurl = true,
+			underline = true,
+			bold = true,
+			italic = {
+				strings = false,
+				emphasis = false,
+				comments = true,
+				operators = false,
+				folds = false,
+			},
+			strikethrough = true,
+			invert_selection = false,
+			invert_signs = false,
+			invert_tabline = false,
+			invert_intend_guides = false,
+			inverse = true,
+			contrast = "", -- can be "hard", "soft" or empty string
+			dim_inactive = true,
+		},
+	},
+	{
+		"nyoom-engineering/oxocarbon.nvim",
+		lazy = true,
+		priority = 1000,
+	},
+	{ "pineapplegiant/spaceduck", lazy = true, priority = 1000 },
+	{
+		"olimorris/onedarkpro.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {},
+	},
+	{
+		"scottmckendry/cyberdream.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {
+			transparent = false,
+			italic_comments = true,
+			hide_fillchars = true,
+			borderless_telescope = true,
+			terminal_colors = true,
+		},
+	},
+	{
+		"oxfist/night-owl.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {
+			bold = true,
+			italics = true,
+			underline = true,
+			undercurl = true,
+			transparent_background = false,
+		},
+	},
 	{ "nvim-tree/nvim-web-devicons", opts = {} },
 	{
 		"goolord/alpha-nvim",
@@ -136,6 +231,15 @@ require("lazy").setup({
 			require("alpha").setup(require("alpha.themes.startify").config)
 		end,
 	},
+	{
+		"romgrk/barbar.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons", "lewis6991/gitsigns.nvim" },
+		opts = { animation = false },
+	},
+	{ {
+		"Bekaboo/dropbar.nvim",
+		dependencies = { "nvim-telescope/telescope-fzf-native.nvim" },
+	} },
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -325,7 +429,7 @@ require("lazy").setup({
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
-		dependencies = {},
+		dependencies = { "andymass/vim-matchup", { "m-demare/hlargs.nvim", opts = {} } },
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = {
@@ -344,6 +448,7 @@ require("lazy").setup({
 					"luadoc",
 					"markdown",
 					"markdown_inline",
+					"org",
 					"python",
 					"regex",
 					"sql",
@@ -358,6 +463,7 @@ require("lazy").setup({
 					enable = true,
 					additional_vim_regex_highlighting = false,
 				},
+				matchup = { enable = true },
 				indent = {
 					enable = true,
 					disable = { "python" },
@@ -390,9 +496,12 @@ require("lazy").setup({
 			"ray-x/cmp-treesitter",
 			"hrsh7th/cmp-nvim-lua",
 			"windwp/nvim-autopairs",
+			"nvim-orgmode/orgmode",
+			"onsails/lspkind.nvim",
 		},
 		config = function()
 			local cmp = require("cmp")
+			local lspkind = require("lspkind")
 			local luasnip = require("luasnip")
 			require("luasnip.loaders.from_vscode").lazy_load()
 
@@ -400,6 +509,9 @@ require("lazy").setup({
 			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
 			cmp.setup({
+				formatting = {
+					format = lspkind.cmp_format({ mode = "text_symbol" }),
+				},
 				snippet = {
 					expand = function(args)
 						luasnip.lsp_expand(args.body)
@@ -451,6 +563,7 @@ require("lazy").setup({
 					{ name = "luasnip" },
 					{ name = "nvim_lsp_signature_help" },
 					{ name = "nvim_lua" },
+					{ name = "orgmode" },
 					{ name = "treesitter" },
 				}, {
 					{ name = "buffer" },
@@ -475,6 +588,8 @@ require("lazy").setup({
 			"williamboman/mason-lspconfig.nvim",
 			"neovim/nvim-lspconfig",
 			"hrsh7th/cmp-nvim-lsp",
+			"jubnzv/virtual-types.nvim",
+			{ "VidocqH/lsp-lens.nvim", opts = {} },
 			{ "folke/neodev.nvim", opts = {} },
 			{ "j-hui/fidget.nvim", opts = { progress = { ignore_done_already = true, ignore_empty_message = true } } },
 		},
@@ -569,7 +684,11 @@ require("lazy").setup({
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+			local virtual_types = require("virtualtypes")
+
 			local on_attach = function(client, bufnr)
+				virtual_types.on_attach()
+
 				vim.api.nvim_create_autocmd("CursorHold", {
 					buffer = bufnr,
 					callback = function()
@@ -625,18 +744,18 @@ require("lazy").setup({
 					local opts = { buffer = ev.buf }
 					vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
 					vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 					vim.keymap.set("n", "gI", vim.lsp.buf.implementation, opts)
+					vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
+					vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 					vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
 					vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
 					vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
 					vim.keymap.set("n", "<leader>wl", function()
 						print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 					end, opts)
-					vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
 					vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 					vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-					vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 					vim.keymap.set("n", "<leader>f", function()
 						vim.lsp.buf.format({ async = true })
 					end, opts)
@@ -646,7 +765,7 @@ require("lazy").setup({
 	},
 	{
 		"stevearc/conform.nvim",
-		dependencies = {},
+		event = "BufWritePre",
 		opts = {
 			formatters_by_ft = {
 				lua = { "stylua" },
@@ -672,10 +791,12 @@ require("lazy").setup({
 	},
 	{
 		"NeogitOrg/neogit",
+		cmd = { "Neogit", "DiffviewOpen" },
 		dependencies = {
 			"sindrets/diffview.nvim",
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope.nvim",
+			{ "akinsho/git-conflict.nvim", opts = {} },
 			{
 				"lewis6991/gitsigns.nvim",
 				config = function()
@@ -770,7 +891,7 @@ require("lazy").setup({
 		},
 		opts = {},
 	},
-	{ "akinsho/toggleterm.nvim", opts = { open_mapping = [[<c-t>]] } },
+	{ "akinsho/toggleterm.nvim", opts = { open_mapping = [[<c-t>]] }, event = "VeryLazy" },
 	{
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.6",
@@ -852,12 +973,49 @@ require("lazy").setup({
 		},
 		opts = {},
 	},
+	{
+		"dundalek/parpar.nvim",
+		dependencies = { "gpanders/nvim-parinfer", "julienvincent/nvim-paredit" },
+		ft = { "fennel" },
+		opts = {},
+	},
+	{
+		"nvim-orgmode/orgmode",
+		ft = { "org" },
+		opts = {},
+	},
+	{
+		"lukas-reineke/headlines.nvim",
+		event = "VeryLazy",
+		dependencies = "nvim-treesitter/nvim-treesitter",
+		opts = {},
+	},
+	{
+		"kevinhwang91/nvim-hlslens",
+		opts = { calm_down = true, nearest_only = true, nearest_float_when = "always" },
+		event = "VeryLazy",
+	},
+	{ "lewis6991/satellite.nvim", opts = {}, event = "VeryLazy" },
+	{ "tzachar/highlight-undo.nvim", opts = {}, event = "VeryLazy" },
 }, {})
 
--- nightfox
--- carbonfox
+-- cyberdream
+-- github_dark
+-- github_dark_default
+-- github_dark_dimmed
+-- github_dark_high_contrast
+-- github_dark_colorblind
+-- github_dark_tritanopia
+-- gruvbox
+-- night-owl
+-- onedark
+-- onedark_dark
+-- onedark_vivid
+-- oxocarbon
+-- rose-pine-moon
+-- spaceduck
 -- tokyonight
 -- tokyonight-night
 -- tokyonight-storm
 -- tokyonight-moon
-vim.cmd("colorscheme tokyonight-moon")
+vim.cmd("colorscheme night-owl")
