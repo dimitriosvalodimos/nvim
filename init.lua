@@ -997,6 +997,13 @@ require("lazy").setup({
 	},
 	{ "lewis6991/satellite.nvim", opts = {}, event = "VeryLazy" },
 	{ "tzachar/highlight-undo.nvim", opts = {}, event = "VeryLazy" },
+	{
+		"m4xshen/hardtime.nvim",
+		event = "VeryLazy",
+		dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+		opts = {},
+	},
+	{ "karb94/neoscroll.nvim", event = "VeryLazy", opts = {} },
 }, {})
 
 -- cyberdream
@@ -1018,4 +1025,4 @@ require("lazy").setup({
 -- tokyonight-night
 -- tokyonight-storm
 -- tokyonight-moon
-vim.cmd("colorscheme night-owl")
+vim.cmd("colorscheme cyberdream")
