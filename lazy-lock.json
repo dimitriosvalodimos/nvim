@@ -22,7 +22,7 @@
   "headlines.nvim": { "branch": "master", "commit": "618ef1b2502c565c82254ef7d5b04402194d9ce3" },
   "highlight-undo.nvim": { "branch": "main", "commit": "a0dbc6afa19b438ca5a6f54bc7f1a10399f21a15" },
   "hlargs.nvim": { "branch": "main", "commit": "0f2dbf02ff948e8fc8ebe07b215f3174a12bbe3c" },
-  "lazy.nvim": { "branch": "main", "commit": "3f13f080434ac942b150679223d54f5ca91e0d52" },
+  "lazy.nvim": { "branch": "main", "commit": "758bb5de98b805acc5eeed8cdc8ac7f0bc4b0b86" },
   "lsp-lens.nvim": { "branch": "main", "commit": "48bb1a7e271424c15f3d588d54adc9b7c319d977" },
   "lspkind.nvim": { "branch": "master", "commit": "1735dd5a5054c1fb7feaf8e8658dbab925f4f0cf" },
   "lualine.nvim": { "branch": "master", "commit": "0a5a66803c7407767b799067986b4dc3036e1983" },
@@ -56,6 +56,7 @@
   "toggleterm.nvim": { "branch": "main", "commit": "066cccf48a43553a80a210eb3be89a15d789d6e6" },
   "tokyonight.nvim": { "branch": "main", "commit": "67afeaf7fd6ebba000633e89f63c31694057edde" },
   "trouble.nvim": { "branch": "dev", "commit": "b4b9a11b3578d510963f6f681fecb4631ae992c3" },
+  "typescript-tools.nvim": { "branch": "master", "commit": "c43d9580c3ff5999a1eabca849f807ab33787ea7" },
   "vim-matchup": { "branch": "master", "commit": "2d660e4aa7c566014c667af2cda0458043527902" },
   "virtual-types.nvim": { "branch": "master", "commit": "d652ec0b1781bbb0e83dc588fb62d638006cf61e" },
   "which-key.nvim": { "branch": "main", "commit": "4433e5ec9a507e5097571ed55c02ea9658fb268a" }
