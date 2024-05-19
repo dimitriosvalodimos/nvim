@@ -537,4 +537,4 @@ require("lazy").setup({
 -- tokyonight-night
 -- tokyonight-storm
 -- tokyonight-moon
-vim.cmd("colorscheme tokyonight")
+vim.cmd("colorscheme github_dark_default")
