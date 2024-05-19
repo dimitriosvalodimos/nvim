@@ -424,13 +424,13 @@ require("lazy").setup({
 		opts = {
 			formatters_by_ft = {
 				lua = { "stylua" },
-				css = { { "prettierd", "prettier" } },
-				html = { { "prettierd", "prettier" } },
-				json = { { "prettierd", "prettier" } },
-				javascript = { { "prettierd", "prettier" } },
-				typescript = { { "prettierd", "prettier" } },
-				javascriptreact = { { "prettierd", "prettier" } },
-				typescriptreact = { { "prettierd", "prettier" } },
+				css = { { "biome-check", "biome", "prettierd", "prettier" } },
+				html = { { "biome-check", "biome", "prettierd", "prettier" } },
+				json = { { "biome-check", "biome", "prettierd", "prettier" } },
+				javascript = { { "biome-check", "biome", "prettierd", "prettier" } },
+				typescript = { { "biome-check", "biome", "prettierd", "prettier" } },
+				javascriptreact = { { "biome-check", "biome", "prettierd", "prettier" } },
+				typescriptreact = { { "biome-check", "biome", "prettierd", "prettier" } },
 			},
 			format_on_save = {
 				timeout_ms = 500,
@@ -526,10 +526,10 @@ require("lazy").setup({
 -- github_dark_high_contrast
 -- github_dark_colorblind
 -- github_dark_tritanopia
--- nano
+-- nano-theme
 -- oxocarbon
 -- poimandres
 -- tokyonight-night
 -- tokyonight-storm
 -- tokyonight-moon
-vim.cmd("colorscheme github_dark_default")
+vim.cmd("colorscheme tokyonight")

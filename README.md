@@ -4,12 +4,12 @@
 
 ## must haves
 
-- [ ] completion
-- [ ] snippets
-- [ ] lsp
-- [ ] git
-- [ ] file explorer
-- [ ] search
-- [ ] syntax highlight
-- [ ] (error lookup)
-- [ ] format on save
+- [X] completion
+- [X] snippets
+- [X] lsp
+- [X] git
+- [X] file explorer
+- [X] search
+- [X] syntax highlight
+- [X] (error lookup)
+- [X] format on save
