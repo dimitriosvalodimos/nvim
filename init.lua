@@ -429,6 +429,7 @@ require("lazy").setup({
 		opts = {
 			formatters_by_ft = {
 				lua = { "stylua" },
+				go = { "gofumpt", "goimports", "golines" },
 				css = { { "biome-check", "biome", "prettierd", "prettier" } },
 				html = { { "biome-check", "biome", "prettierd", "prettier" } },
 				json = { { "biome-check", "biome", "prettierd", "prettier" } },
