@@ -391,6 +391,7 @@ require("lazy").setup({
 			"williamboman/mason-lspconfig.nvim",
 			"neovim/nvim-lspconfig",
 			"hrsh7th/cmp-nvim-lsp",
+			{ "nvim-telescope/telescope.nvim" },
 			{ "folke/neodev.nvim", opts = {} },
 			{ "j-hui/fidget.nvim", opts = { progress = { ignore_done_already = true, ignore_empty_message = true } } },
 		},
@@ -398,11 +399,6 @@ require("lazy").setup({
 			require("mason").setup()
 			local mason_lsp = require("mason-lspconfig")
 			local lspconfig = require("lspconfig")
-
-			local on_attach = function(client, bufnr) end
-
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 			local servers = {
 				cssls = {
@@ -464,6 +460,64 @@ require("lazy").setup({
 				},
 			}
 
+			local on_attach = function(client, bufnr) end
+
+			local telescope_builtin = require("telescope.builtin")
+
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+			capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("config-lspattach", { clear = true }),
+				callback = function(event)
+					local map = function(keys, func, desc)
+						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+					end
+
+					map("K", vim.lsp.buf.hover, "hover docs")
+					map("gD", vim.lsp.buf.declaration, "goto declaration")
+					map("gr", telescope_builtin.lsp_references, "goto reference")
+					map("gd", telescope_builtin.lsp_definitions, "goto definition")
+					map("gI", telescope_builtin.lsp_implementations, "goto implementation")
+					map("<leader>D", telescope_builtin.lsp_type_definitions, "type definition")
+					map("<leader>rn", vim.lsp.buf.rename, "rename")
+					map("<leader>ca", vim.lsp.buf.code_action, "code action")
+					map("<leader>ds", telescope_builtin.lsp_document_symbols, "document symbols")
+					map("<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols, "workspace symbols")
+
+					local client = vim.lsp.get_client_by_id(event.data.client_id)
+					if client and client.server_capabilities.documentHighlightProvider then
+						local highlight_augroup = vim.api.nvim_create_augroup("config-lsp-highlight", { clear = false })
+						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+							buffer = event.buf,
+							group = highlight_augroup,
+							callback = vim.lsp.buf.document_highlight,
+						})
+
+						vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+							buffer = event.buf,
+							group = highlight_augroup,
+							callback = vim.lsp.buf.clear_references,
+						})
+
+						vim.api.nvim_create_autocmd("LspDetach", {
+							group = vim.api.nvim_create_augroup("config-lsp-detach", { clear = true }),
+							callback = function(event2)
+								vim.lsp.buf.clear_references()
+								vim.api.nvim_clear_autocmds({ group = "config-lsp-highlight", buffer = event2.buf })
+							end,
+						})
+					end
+
+					if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+						map("<leader>th", function()
+							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+						end, "toggle inlay hints")
+					end
+				end,
+			})
+
 			mason_lsp.setup()
 			mason_lsp.setup_handlers({
 				function(server_name)
@@ -495,6 +549,7 @@ require("lazy").setup({
 	{
 		"stevearc/conform.nvim",
 		opts = {
+			notify_on_error = false,
 			formatters_by_ft = {
 				lua = { "stylua" },
 				go = { "gofumpt", "goimports", "golines" },
