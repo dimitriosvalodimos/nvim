@@ -317,12 +317,23 @@ require("lazy").setup({
 			"saadparwaiz1/cmp_luasnip",
 			"hrsh7th/cmp-nvim-lsp-signature-help",
 			{ "windwp/nvim-autopairs", event = "InsertEnter", opts = {} },
-			{ "L3MON4D3/LuaSnip", version = "v2.*", build = "make install_jsregexp" },
+			{
+				"L3MON4D3/LuaSnip",
+				version = "v2.*",
+				build = "make install_jsregexp",
+				dependencies = {
+					{
+						"rafamadriz/friendly-snippets",
+						config = function()
+							require("luasnip.loaders.from_vscode").lazy_load()
+						end,
+					},
+				},
+			},
 		},
 		config = function()
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
-			require("luasnip.loaders.from_vscode").lazy_load()
 
 			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 
@@ -376,10 +387,10 @@ require("lazy").setup({
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
+					{ name - "path" },
 					{ name = "nvim_lsp_signature_help" },
 					{ name = "nvim_lua" },
 					{ name = "treesitter" },
-				}, {
 					{ name = "buffer" },
 				}),
 			})
