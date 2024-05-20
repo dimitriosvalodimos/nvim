@@ -387,7 +387,7 @@ require("lazy").setup({
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
-					{ name - "path" },
+					{ name = "path" },
 					{ name = "nvim_lsp_signature_help" },
 					{ name = "nvim_lua" },
 					{ name = "treesitter" },
