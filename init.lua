@@ -219,6 +219,12 @@ require("lazy").setup({
 		end,
 	},
 	{
+		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = { options = { theme = "auto" } },
+	},
+	{ "Bekaboo/dropbar.nvim", dependencies = { "nvim-telescope/telescope-fzf-native.nvim" } },
+	{
 		"nvim-treesitter/nvim-treesitter",
 		dependencies = {
 			"andymass/vim-matchup",
@@ -526,8 +532,8 @@ require("lazy").setup({
 					current_line_blame = false,
 					current_line_blame_opts = {
 						virt_text = true,
-						virt_text_pos = "eol",
-						delay = 1000,
+						virt_text_pos = "right_align",
+						delay = 600,
 						ignore_whitespace = false,
 						virt_text_priority = 100,
 					},
