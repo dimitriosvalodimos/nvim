@@ -166,7 +166,58 @@ require("lazy").setup({
 			})
 		end,
 	},
-	{ "ronisbr/nano-theme.nvim", lazy = true, priority = 1000 },
+	{
+		"tiagovla/tokyodark.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {
+			transparent_background = false,
+			gamma = 1.00,
+			styles = {
+				comments = { italic = true },
+				keywords = { bold = true },
+				identifiers = {},
+				functions = { bold = true },
+				variables = {},
+			},
+			terminal_colors = true,
+		},
+	},
+	{
+		"olimorris/onedarkpro.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {
+			styles = {
+				comments = "NONE",
+				conditionals = "NONE",
+				constants = "NONE",
+				functions = "bold",
+				keywords = "bold",
+				methods = "bold",
+				numbers = "NONE",
+				operators = "NONE",
+				parameters = "NONE",
+				strings = "NONE",
+				types = "bold,italic",
+				variables = "NONE",
+				virtual_text = "NONE",
+			},
+			plugins = { all = true },
+		},
+	},
+	{
+		"luisiacc/gruvbox-baby",
+		lazy = true,
+		priority = 1000,
+		config = function()
+			vim.g.gruvbox_baby_function_style = "bold"
+			vim.g.gruvbox_baby_keyword_style = "bold"
+			vim.g.gruvbox_baby_telescope_theme = 1
+			vim.g.gruvbox_baby_transparent_mode = 0
+			vim.g.gruvbox_baby_background_color = "dark" -- dark, medium, soft, soft-flat
+		end,
+	},
 	{
 		"nvim-treesitter/nvim-treesitter",
 		dependencies = {
@@ -543,10 +594,14 @@ require("lazy").setup({
 -- github_dark_high_contrast
 -- github_dark_colorblind
 -- github_dark_tritanopia
--- nano-theme
+-- gruvbox-baby
+-- onedark
+-- onedark_vivid
+-- onedark_dark
 -- oxocarbon
 -- poimandres
 -- tokyonight-night
 -- tokyonight-storm
 -- tokyonight-moon
-vim.cmd("colorscheme github_dark_default")
+-- tokyodark
+vim.cmd("colorscheme onedark_vivid")
