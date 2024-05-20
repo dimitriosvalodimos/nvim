@@ -32,7 +32,6 @@ opt.scrolloff = 5 -- vertical buffer area on scroll
 opt.shiftround = true
 opt.shiftwidth = 2
 opt.shortmess:append({ W = true, I = true, c = true, C = true })
-opt.showmode = false -- Dont show mode since we have a statusline
 opt.sidescrolloff = 5 -- horizontal buffer area on scroll
 opt.signcolumn = "yes" -- Always show the signcolumn
 opt.smartcase = true
