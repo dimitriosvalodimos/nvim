@@ -529,7 +529,7 @@ require("lazy").setup({
 				end,
 			})
 
-			mason_lsp.setup()
+			mason_lsp.setup({ ensure_installed = vim.tbl_keys(servers) })
 			mason_lsp.setup_handlers({
 				function(server_name)
 					local server_config = servers[server_name] or {}
