@@ -487,15 +487,15 @@ require("lazy").setup({
 					end
 
 					map("K", vim.lsp.buf.hover, "hover docs")
-					map("gD", vim.lsp.buf.declaration, "goto declaration")
-					map("gr", telescope_builtin.lsp_references, "goto reference")
-					map("gd", telescope_builtin.lsp_definitions, "goto definition")
-					map("gI", telescope_builtin.lsp_implementations, "goto implementation")
-					map("<leader>D", telescope_builtin.lsp_type_definitions, "type definition")
-					map("<leader>rn", vim.lsp.buf.rename, "rename")
-					map("<leader>ca", vim.lsp.buf.code_action, "code action")
-					map("<leader>ds", telescope_builtin.lsp_document_symbols, "document symbols")
-					map("<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols, "workspace symbols")
+					map("gD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")
+					map("gr", telescope_builtin.lsp_references, "[g]oto [r]eference")
+					map("gd", telescope_builtin.lsp_definitions, "[g]oto [d]efinition")
+					map("gI", telescope_builtin.lsp_implementations, "[g]oto [I]mplementation")
+					map("<leader>D", telescope_builtin.lsp_type_definitions, "type [D]efinition")
+					map("<leader>rn", vim.lsp.buf.rename, "[r]e[n]ame")
+					map("<leader>ca", vim.lsp.buf.code_action, "[c]ode [a]ction")
+					map("<leader>ds", telescope_builtin.lsp_document_symbols, "[d]ocument [s]ymbols")
+					map("<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols, "[w]orkspace [s]ymbols")
 
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 					if client and client.server_capabilities.documentHighlightProvider then
@@ -543,19 +543,6 @@ require("lazy").setup({
 				end,
 			})
 		end,
-	},
-	{
-		"folke/trouble.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		opts = {},
-		keys = {
-			{ "<leader>xx", "<cmd>TroubleToggle<cr>", desc = "toggle trouble" },
-			{ "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "toggle workspace diagnostics" },
-			{ "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "toggle document diagnostics" },
-			{ "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", desc = "toggle quickfix" },
-			{ "<leader>xl", "<cmd>TroubleToggle loclist<cr>", desc = "toggle loclist" },
-			{ "gR", "<cmd>TroubleToggle lsp_references<cr>", desc = "toggle lsp references" },
-		},
 	},
 	{
 		"stevearc/conform.nvim",
@@ -676,4 +663,4 @@ require("lazy").setup({
 -- tokyonight-storm
 -- tokyonight-moon
 -- tokyodark
-vim.cmd("colorscheme onedark_vivid")
+vim.cmd("colorscheme gruvbox-baby")
