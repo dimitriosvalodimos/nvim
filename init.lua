@@ -646,27 +646,29 @@ require("lazy").setup({
 			},
 		},
 	},
-	{
-		"mfussenegger/nvim-lint",
-		config = function()
-			local lint = require("lint")
-			lint.linters_by_ft = {
-				lua = { "luacheck" },
-				javascript = { "biomejs", "eslint" },
-				typescript = { "biomejs", "eslint" },
-				javascriptreact = { "biomejs", "eslint" },
-				typescriptreact = { "biomejs", "eslint" },
-				["javascript.jsx"] = { "biomejs", "eslint" },
-				["typescript.jsx"] = { "biomejs", "eslint" },
-			}
-
-			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
-				callback = function()
-					lint.try_lint()
-				end,
-			})
-		end,
-	},
+	-- {
+	-- 	"mfussenegger/nvim-lint",
+	-- 	config = function()
+	-- 		local lint = require("lint")
+	-- 		local lint_config = {
+	-- 			lua = { "luacheck" },
+	-- 			javascript = { { "biomejs" }, { "eslint" } },
+	-- 			typescript = { { "biomejs" }, { "eslint" } },
+	-- 			javascriptreact = { { "biomejs" }, { "eslint" } },
+	-- 			typescriptreact = { { "biomejs" }, { "eslint" } },
+	-- 			["javascript.jsx"] = { { "biomejs" }, { "eslint" } },
+	-- 			["typescript.jsx"] = { { "biomejs" }, { "eslint" } },
+	-- 		}
+	--
+	-- 		lint.linters_by_ft = lint_config
+	--
+	-- 		vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
+	-- 			callback = function()
+	-- 				lint.try_lint()
+	-- 			end,
+	-- 		})
+	-- 	end,
+	-- },
 	{
 		"stevearc/oil.nvim",
 		opts = {},
@@ -777,4 +779,4 @@ require("lazy").setup({
 -- tokyonight-storm
 -- tokyonight-moon
 -- tokyodark
-vim.cmd("colorscheme gruvbox-baby")
+vim.cmd("colorscheme tokyonight-moon")
