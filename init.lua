@@ -41,6 +41,7 @@ opt.splitkeep = "screen"
 opt.splitright = true
 opt.tabstop = 2
 opt.termguicolors = true
+opt.updatetime = 300
 opt.timeoutlen = 300
 opt.timeout = true
 opt.title = true
@@ -56,6 +57,40 @@ if vim.fn.has("nvim-0.10") == 1 then
 	opt.foldtext = ""
 end
 
+local disabled_plugins = {
+	"2html_plugin",
+	"tohtml",
+	"getscript",
+	"getscriptPlugin",
+	"gzip",
+	"logipat",
+	"netrw",
+	"netrwPlugin",
+	"netrwSettings",
+	"netrwFileHandlers",
+	"matchit",
+	"tar",
+	"tarPlugin",
+	"rrhelper",
+	"spellfile_plugin",
+	"vimball",
+	"vimballPlugin",
+	"zip",
+	"zipPlugin",
+	"tutor",
+	"rplugin",
+	"syntax",
+	"synmenu",
+	"optwin",
+	"compiler",
+	"bugreport",
+	"ftplugin",
+}
+
+for i = 1, #disabled_plugins do
+	g["loaded_" .. disabled_plugins[i]] = true
+end
+
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("highlight_yank", {}),
 	desc = "Highlight selection on yank",
@@ -67,6 +102,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 vim.keymap.set("i", "<c-u>", "<c-r>=trim(system('uuidgen'))<cr>", { desc = "insert uuid at cursor" })
 vim.keymap.set("n", "<c-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>", { desc = "insert uuid at cursor" })
+
+vim.keymap.set("i", "<A-j>", "<Esc>:m .+1<CR>==gi", { desc = "move line up" })
+vim.keymap.set("i", "<A-k>", "<Esc>:m .-2<CR>==gi", { desc = "move line down" })
+vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", { desc = "move line up" })
+vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "move line down" })
+
+vim.keymap.set("v", "<", "<gv", { desc = "dedent" })
+vim.keymap.set("v", ">", ">gv", { desc = "indent" })
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -257,14 +300,14 @@ require("lazy").setup({
 				},
 				sync_install = false,
 				auto_install = true,
-				highlight = { enable = true, additional_vim_regex_highlighting = false },
+				highlight = { enable = true, additional_vim_regex_highlighting = false, use_languagetree = true },
+				indent = { enable = true },
 				matchup = { enable = true },
 				refactor = {
 					highlight_definitions = {
 						enable = true,
 						clear_on_cursor_move = true,
 					},
-					-- highlight_current_scope = { enable = true },
 				},
 			})
 			require("treesitter-context").setup({
@@ -471,7 +514,22 @@ require("lazy").setup({
 				},
 			}
 
-			local on_attach = function(client, bufnr) end
+			local on_attach = function(client, bufnr)
+				vim.api.nvim_create_autocmd("CursorHold", {
+					buffer = bufnr,
+					callback = function()
+						local opts = {
+							focusable = false,
+							close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+							border = "rounded",
+							source = "always",
+							prefix = " ",
+							scope = "cursor",
+						}
+						vim.diagnostic.open_float(nil, opts)
+					end,
+				})
+			end
 
 			local telescope_builtin = require("telescope.builtin")
 
@@ -542,6 +600,29 @@ require("lazy").setup({
 					})
 				end,
 			})
+
+			vim.diagnostic.config({
+				virtual_text = { source = "if_many" },
+				float = { source = "if_many" },
+				signs = true,
+				underline = true,
+				update_in_insert = true,
+				severity_sort = true,
+			})
+
+			local function preview_location_callback(_, result)
+				if result == nil or vim.tbl_isempty(result) then
+					return nil
+				end
+				vim.lsp.util.preview_location(result[1])
+			end
+
+			local function peek_definition()
+				local params = vim.lsp.util.make_position_params()
+				return vim.lsp.buf_request(0, "textDocument/definition", params, preview_location_callback)
+			end
+
+			vim.lsp.handlers["textDocument/definition"] = peek_definition()
 		end,
 	},
 	{
@@ -564,6 +645,27 @@ require("lazy").setup({
 				lsp_fallback = true,
 			},
 		},
+	},
+	{
+		"mfussenegger/nvim-lint",
+		config = function()
+			local lint = require("lint")
+			lint.linters_by_ft = {
+				lua = { "luacheck" },
+				javascript = { "biomejs", "eslint" },
+				typescript = { "biomejs", "eslint" },
+				javascriptreact = { "biomejs", "eslint" },
+				typescriptreact = { "biomejs", "eslint" },
+				["javascript.jsx"] = { "biomejs", "eslint" },
+				["typescript.jsx"] = { "biomejs", "eslint" },
+			}
+
+			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
+				callback = function()
+					lint.try_lint()
+				end,
+			})
+		end,
 	},
 	{
 		"stevearc/oil.nvim",
@@ -644,6 +746,18 @@ require("lazy").setup({
 	{
 		"kevinhwang91/nvim-hlslens",
 		opts = { calm_down = true, nearest_only = true, nearest_float_when = "always" },
+	},
+	{
+		"folke/trouble.nvim",
+		cmd = { "TroubleToggle", "Trouble" },
+		opts = { use_diagnostic_signs = true },
+		keys = {
+			{ "<leader>xx", "<cmd>TroubleToggle<cr>", desc = "toggle diagnostics" },
+			{ "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "document diagnostics" },
+			{ "<leader>xX", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "workspace diagnostics" },
+			{ "<leader>xL", "<cmd>TroubleToggle loclist<cr>", desc = "location list" },
+			{ "<leader>xQ", "<cmd>TroubleToggle quickfix<cr>", desc = "quickfix list" },
+		},
 	},
 }, {})
 
