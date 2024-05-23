@@ -751,16 +751,23 @@ require("lazy").setup({
 	},
 	{
 		"folke/trouble.nvim",
+		branch = "dev",
 		cmd = { "TroubleToggle", "Trouble" },
 		opts = { use_diagnostic_signs = true },
 		keys = {
-			{ "<leader>xx", "<cmd>TroubleToggle<cr>", desc = "toggle diagnostics" },
-			{ "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "document diagnostics" },
-			{ "<leader>xX", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "workspace diagnostics" },
-			{ "<leader>xL", "<cmd>TroubleToggle loclist<cr>", desc = "location list" },
-			{ "<leader>xQ", "<cmd>TroubleToggle quickfix<cr>", desc = "quickfix list" },
+			{
+				"<leader>xx",
+				"<cmd>Trouble diagnostics toggle filter.buf=0<cr><cr>",
+				desc = "toggle buffer diagnostics",
+			},
+			{ "<leader>xX", "<cmd>Trouble diagnostics toggle<cr>", desc = "toggle workspace diagnostics" },
+			{ "<leader>xs", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "toggle symbols" },
+			{ "<leader>xl", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", desc = "toggle lsp" },
+			{ "<leader>xL", "<cmd>Trouble loclist toggle<cr>", desc = "toggle loclist" },
+			{ "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", desc = "toggle quickfix" },
 		},
 	},
+	{ "ivanjermakov/troublesum.nvim", opts = {} },
 }, {})
 
 -- github_dark
