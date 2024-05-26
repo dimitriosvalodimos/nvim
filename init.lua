@@ -633,13 +633,13 @@ require("lazy").setup({
 			formatters_by_ft = {
 				lua = { "stylua" },
 				go = { "gofumpt", "goimports", "golines" },
-				css = { { "biome-check", "biome", "prettierd", "prettier" } },
-				html = { { "biome-check", "biome", "prettierd", "prettier" } },
-				json = { { "biome-check", "biome", "prettierd", "prettier" } },
-				javascript = { { "biome-check", "biome", "prettierd", "prettier" } },
-				typescript = { { "biome-check", "biome", "prettierd", "prettier" } },
-				javascriptreact = { { "biome-check", "biome", "prettierd", "prettier" } },
-				typescriptreact = { { "biome-check", "biome", "prettierd", "prettier" } },
+				css = { { "prettier", "biome" } },
+				html = { { "prettier", "biome" } },
+				json = { { "prettier", "biome" } },
+				javascript = { { "prettier", "biome" } },
+				typescript = { { "prettier", "biome" } },
+				javascriptreact = { { "prettier", "biome" } },
+				typescriptreact = { { "prettier", "biome" } },
 			},
 			format_on_save = {
 				timeout_ms = 500,
@@ -647,29 +647,6 @@ require("lazy").setup({
 			},
 		},
 	},
-	-- {
-	-- 	"mfussenegger/nvim-lint",
-	-- 	config = function()
-	-- 		local lint = require("lint")
-	-- 		local lint_config = {
-	-- 			lua = { "luacheck" },
-	-- 			javascript = { { "biomejs" }, { "eslint" } },
-	-- 			typescript = { { "biomejs" }, { "eslint" } },
-	-- 			javascriptreact = { { "biomejs" }, { "eslint" } },
-	-- 			typescriptreact = { { "biomejs" }, { "eslint" } },
-	-- 			["javascript.jsx"] = { { "biomejs" }, { "eslint" } },
-	-- 			["typescript.jsx"] = { { "biomejs" }, { "eslint" } },
-	-- 		}
-	--
-	-- 		lint.linters_by_ft = lint_config
-	--
-	-- 		vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
-	-- 			callback = function()
-	-- 				lint.try_lint()
-	-- 			end,
-	-- 		})
-	-- 	end,
-	-- },
 	{
 		"stevearc/oil.nvim",
 		opts = {},
