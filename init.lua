@@ -272,6 +272,7 @@ require("lazy").setup({
 		"nvim-treesitter/nvim-treesitter",
 		dependencies = {
 			"andymass/vim-matchup",
+			"windwp/nvim-ts-autotag",
 			"nvim-treesitter/nvim-treesitter-context",
 			"nvim-treesitter/nvim-treesitter-refactor",
 		},
@@ -311,6 +312,15 @@ require("lazy").setup({
 					},
 				},
 			})
+
+			require("nvim-ts-autotag").setup({
+				opts = {
+					enable_close = true,
+					enable_rename = true,
+					enable_close_on_slash = true,
+				},
+			})
+
 			require("treesitter-context").setup({
 				enable = true,
 				-- max_lines = 5,
