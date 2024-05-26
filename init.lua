@@ -355,11 +355,13 @@ require("lazy").setup({
 			"hrsh7th/cmp-path",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-cmdline",
-			"ray-x/cmp-treesitter",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-nvim-lua",
+			"onsails/lspkind-nvim",
+			"ray-x/cmp-treesitter",
 			"saadparwaiz1/cmp_luasnip",
 			"hrsh7th/cmp-nvim-lsp-signature-help",
+			"luckasRanarison/tailwind-tools.nvim",
 			{ "windwp/nvim-autopairs", event = "InsertEnter", opts = {} },
 			{
 				"L3MON4D3/LuaSnip",
@@ -378,16 +380,39 @@ require("lazy").setup({
 		config = function()
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
-
+			local lspkind = require("lspkind")
+			local tailwind = require("tailwind-tools")
 			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 
 			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+			tailwind.setup({
+				document_color = {
+					enabled = true,
+					kind = "background",
+					inline_symbol = "󰝤 ",
+					debounce = 500,
+				},
+				conceal = {
+					enabled = true,
+					min_length = nil,
+					symbol = "󱏿",
+					highlight = {
+						fg = "#38BDF8",
+					},
+				},
+			})
 
 			cmp.setup({
 				snippet = {
 					expand = function(args)
 						require("luasnip").lsp_expand(args.body)
 					end,
+				},
+				formatting = {
+					format = lspkind.cmp_format({
+						before = require("tailwind-tools.cmp").lspkind_format,
+					}),
 				},
 				window = {
 					completion = cmp.config.window.bordered(),
@@ -490,17 +515,6 @@ require("lazy").setup({
 					settings = {},
 					filetypes = { "html", "templ" },
 				},
-				tsserver = {
-					settings = {},
-					filetypes = {
-						"javascript",
-						"javascriptreact",
-						"javascript.jsx",
-						"typescript",
-						"typescriptreact",
-						"typescript.tsx",
-					},
-				},
 				lua_ls = {
 					settings = {
 						Lua = {
@@ -512,6 +526,28 @@ require("lazy").setup({
 						},
 					},
 					filetypes = { "lua" },
+				},
+				tailwindcss = {
+					settings = {},
+					filetypes = {
+						"html",
+						"css",
+						"javascript",
+						"javascriptreact",
+						"typescript",
+						"typescriptreact",
+					},
+				},
+				tsserver = {
+					settings = {},
+					filetypes = {
+						"javascript",
+						"javascriptreact",
+						"javascript.jsx",
+						"typescript",
+						"typescriptreact",
+						"typescript.tsx",
+					},
 				},
 			}
 
