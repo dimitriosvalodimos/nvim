@@ -261,6 +261,7 @@ require("lazy").setup({
 			vim.g.gruvbox_baby_background_color = "dark" -- dark, medium, soft, soft-flat
 		end,
 	},
+	{ "akinsho/bufferline.nvim", requires = "nvim-tree/nvim-web-devicons", opts = {} },
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -786,4 +787,4 @@ require("lazy").setup({
 -- tokyonight-storm
 -- tokyonight-moon
 -- tokyodark
-vim.cmd("colorscheme tokyonight-moon")
+vim.cmd("colorscheme tokyodark")
