@@ -7,7 +7,7 @@ g.maplocalleader = ","
 opt.breakindent = true
 opt.clipboard = "unnamedplus"
 opt.completeopt = { "menu", "menuone", "noselect" }
-opt.conceallevel = 2 -- hide bold/italic markers
+-- opt.conceallevel = 2 -- hide bold/italic markers
 opt.confirm = true -- ask to save changes
 opt.copyindent = true
 opt.cursorline = true
@@ -290,6 +290,7 @@ require("lazy").setup({
 					"html",
 					"java",
 					"javascript",
+					"jsdoc",
 					"json",
 					"lua",
 					"luadoc",
