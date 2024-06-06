@@ -640,7 +640,6 @@ require("lazy").setup({
 	},
 	{
 		"folke/trouble.nvim",
-		branch = "dev",
 		cmd = { "TroubleToggle", "Trouble" },
 		opts = { use_diagnostic_signs = true },
 		keys = {
