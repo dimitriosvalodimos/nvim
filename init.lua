@@ -125,6 +125,22 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+	{
+		"miikanissi/modus-themes.nvim",
+		priority = 1000,
+		lazy = true,
+		opts = {
+			variant = "default", -- default, tinted, deuteranopia, tritanopia
+			dim_inactive = true,
+			hide_inactive_statusline = true,
+			styles = {
+				comments = { italic = false },
+				keywords = { bold = true },
+				functions = { bold = true },
+				variables = {},
+			},
+		},
+	},
 	{ "akinsho/bufferline.nvim", requires = "nvim-tree/nvim-web-devicons", opts = {} },
 	{
 		"nvim-lualine/lualine.nvim",
@@ -704,3 +720,5 @@ require("lazy").setup({
 		enabled = vim.fn.has("nvim-0.10.0") == 1,
 	},
 }, {})
+
+vim.cmd("colorscheme modus_vivendi")
