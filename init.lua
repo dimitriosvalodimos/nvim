@@ -332,19 +332,30 @@ require("lazy").setup({
 							fallback()
 						end
 					end, { "i", "s" }),
-					["<CR>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							if luasnip.expandable() then
-								luasnip.expand()
+					-- ["<CR>"] = cmp.mapping(function(fallback)
+					-- 	if cmp.visible() then
+					-- 		if luasnip.expandable() then
+					-- 			luasnip.expand()
+					-- 		else
+					-- 			cmp.confirm({
+					-- 				select = true,
+					-- 			})
+					-- 		end
+					-- 	else
+					-- 		fallback()
+					-- 	end
+					-- end),
+					["<CR>"] = cmp.mapping({
+						i = function(fallback)
+							if cmp.visible() and cmp.get_selected_entry() then -- cmp.get_active_entry() then
+								cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
 							else
-								cmp.confirm({
-									select = true,
-								})
+								fallback()
 							end
-						else
-							fallback()
-						end
-					end),
+						end,
+						s = cmp.mapping.confirm({ select = true }),
+						c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+					}),
 				}),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
