@@ -733,6 +733,12 @@ require("lazy").setup({
 		event = "VeryLazy",
 		enabled = vim.fn.has("nvim-0.10.0") == 1,
 	},
+	{
+		"norcalli/nvim-colorizer.lua",
+		config = function()
+			require("colorizer").setup({ "*" })
+		end,
+	},
 }, {})
 
 vim.cmd("colorscheme modus_vivendi")
