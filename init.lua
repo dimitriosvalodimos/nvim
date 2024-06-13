@@ -141,19 +141,32 @@ require("lazy").setup({
 			},
 		},
 	},
+	{
+		"shaunsingh/nord.nvim",
+		priority = 1000,
+		lazy = true,
+		config = function()
+			vim.g.nord_contrast = true
+			vim.g.nord_borders = true
+			vim.g.nord_disable_background = false
+			vim.g.nord_italic = true
+			vim.g.nord_uniform_diff_background = true
+			vim.g.nord_bold = true
+		end,
+	},
 	{ "akinsho/bufferline.nvim", requires = "nvim-tree/nvim-web-devicons", opts = {} },
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = { options = { theme = "auto" } },
 	},
-	{ "Bekaboo/dropbar.nvim", dependencies = { "nvim-telescope/telescope-fzf-native.nvim" } },
+	-- { "Bekaboo/dropbar.nvim", dependencies = { "nvim-telescope/telescope-fzf-native.nvim" } },
 	{
 		"nvim-treesitter/nvim-treesitter",
 		dependencies = {
 			"andymass/vim-matchup",
 			"windwp/nvim-ts-autotag",
-			"nvim-treesitter/nvim-treesitter-context",
+			-- "nvim-treesitter/nvim-treesitter-context",
 			"nvim-treesitter/nvim-treesitter-refactor",
 		},
 		build = ":TSUpdate",
@@ -201,12 +214,11 @@ require("lazy").setup({
 					enable_close_on_slash = true,
 				},
 			})
-
-			require("treesitter-context").setup({
-				enable = true,
-				-- max_lines = 5,
-				multiline_threshold = 1,
-			})
+			-- require("treesitter-context").setup({
+			-- 	enable = true,
+			-- 	-- max_lines = 5,
+			-- 	multiline_threshold = 1,
+			-- })
 		end,
 	},
 	{
@@ -752,4 +764,6 @@ require("lazy").setup({
 	},
 }, {})
 
-vim.cmd("colorscheme modus_vivendi")
+-- modus_vivendi
+-- nord
+vim.cmd("colorscheme nord")
