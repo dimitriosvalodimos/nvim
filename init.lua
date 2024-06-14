@@ -141,33 +141,17 @@ require("lazy").setup({
 			},
 		},
 	},
-	{
-		"shaunsingh/nord.nvim",
-		priority = 1000,
-		lazy = true,
-		config = function()
-			vim.g.nord_contrast = true
-			vim.g.nord_borders = true
-			vim.g.nord_disable_background = false
-			vim.g.nord_italic = true
-			vim.g.nord_uniform_diff_background = true
-			vim.g.nord_bold = true
-		end,
-	},
 	{ "akinsho/bufferline.nvim", requires = "nvim-tree/nvim-web-devicons", opts = {} },
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = { options = { theme = "auto" } },
 	},
-	-- { "Bekaboo/dropbar.nvim", dependencies = { "nvim-telescope/telescope-fzf-native.nvim" } },
 	{
 		"nvim-treesitter/nvim-treesitter",
 		dependencies = {
 			"andymass/vim-matchup",
 			"windwp/nvim-ts-autotag",
-			-- "nvim-treesitter/nvim-treesitter-context",
-			"nvim-treesitter/nvim-treesitter-refactor",
 		},
 		build = ":TSUpdate",
 		config = function()
@@ -199,14 +183,7 @@ require("lazy").setup({
 				highlight = { enable = true, additional_vim_regex_highlighting = false, use_languagetree = true },
 				indent = { enable = true },
 				matchup = { enable = true },
-				refactor = {
-					highlight_definitions = {
-						enable = true,
-						clear_on_cursor_move = true,
-					},
-				},
 			})
-
 			require("nvim-ts-autotag").setup({
 				opts = {
 					enable_close = true,
@@ -214,11 +191,6 @@ require("lazy").setup({
 					enable_close_on_slash = true,
 				},
 			})
-			-- require("treesitter-context").setup({
-			-- 	enable = true,
-			-- 	-- max_lines = 5,
-			-- 	multiline_threshold = 1,
-			-- })
 		end,
 	},
 	{
@@ -344,19 +316,6 @@ require("lazy").setup({
 							fallback()
 						end
 					end, { "i", "s" }),
-					-- ["<CR>"] = cmp.mapping(function(fallback)
-					-- 	if cmp.visible() then
-					-- 		if luasnip.expandable() then
-					-- 			luasnip.expand()
-					-- 		else
-					-- 			cmp.confirm({
-					-- 				select = true,
-					-- 			})
-					-- 		end
-					-- 	else
-					-- 		fallback()
-					-- 	end
-					-- end),
 					["<CR>"] = cmp.mapping({
 						i = function(fallback)
 							if cmp.visible() and cmp.get_selected_entry() then -- cmp.get_active_entry() then
@@ -704,53 +663,6 @@ require("lazy").setup({
 		opts = {},
 	},
 	{
-		"folke/flash.nvim",
-		event = "VeryLazy",
-		opts = {},
-		keys = {
-			{
-				"s",
-				mode = { "n", "x", "o" },
-				function()
-					require("flash").jump()
-				end,
-				desc = "Flash",
-			},
-			{
-				"S",
-				mode = { "n", "x", "o" },
-				function()
-					require("flash").treesitter()
-				end,
-				desc = "Flash Treesitter",
-			},
-			{
-				"r",
-				mode = "o",
-				function()
-					require("flash").remote()
-				end,
-				desc = "Remote Flash",
-			},
-			{
-				"R",
-				mode = { "o", "x" },
-				function()
-					require("flash").treesitter_search()
-				end,
-				desc = "Treesitter Search",
-			},
-			{
-				"<c-s>",
-				mode = { "c" },
-				function()
-					require("flash").toggle()
-				end,
-				desc = "Toggle Flash Search",
-			},
-		},
-	},
-	{
 		"folke/ts-comments.nvim",
 		opts = {},
 		event = "VeryLazy",
@@ -764,6 +676,4 @@ require("lazy").setup({
 	},
 }, {})
 
--- modus_vivendi
--- nord
-vim.cmd("colorscheme nord")
+vim.cmd("colorscheme modus_vivendi")
