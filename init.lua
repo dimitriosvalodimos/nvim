@@ -150,6 +150,7 @@ require("lazy").setup({
 	{
 		"nvim-treesitter/nvim-treesitter",
 		dependencies = {
+			"m-demare/hlargs.nvim",
 			"andymass/vim-matchup",
 			"windwp/nvim-ts-autotag",
 		},
@@ -191,6 +192,7 @@ require("lazy").setup({
 					enable_close_on_slash = true,
 				},
 			})
+			require("hlargs").setup({})
 		end,
 	},
 	{
