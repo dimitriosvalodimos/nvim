@@ -586,7 +586,7 @@ require("lazy").setup({
 						virt_text_priority = 100,
 					},
 					current_line_blame_formatter = "<author>, <author_time:%d.%m.%Y> - <summary>",
-					current_line_blame_formatter_opts = { relative_time = true },
+					-- current_line_blame_formatter_opts = { relative_time = true },
 					on_attach = function(bufnr)
 						local gitsigns = require("gitsigns")
 						local function map(mode, l, r, opts)
