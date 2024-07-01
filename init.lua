@@ -416,8 +416,10 @@ require("lazy").setup({
 						"css",
 						"javascript",
 						"javascriptreact",
+						"svelte",
 						"typescript",
 						"typescriptreact",
+						"vue",
 					},
 				},
 				tsserver = {
@@ -426,10 +428,16 @@ require("lazy").setup({
 						"javascript",
 						"javascriptreact",
 						"javascript.jsx",
+						"svelte",
 						"typescript",
 						"typescriptreact",
 						"typescript.tsx",
+						"vue",
 					},
+				},
+				volar = {
+					settings = {},
+					filetypes = { "vue" },
 				},
 			}
 
