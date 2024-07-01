@@ -428,11 +428,9 @@ require("lazy").setup({
 						"javascript",
 						"javascriptreact",
 						"javascript.jsx",
-						"svelte",
 						"typescript",
 						"typescriptreact",
 						"typescript.tsx",
-						"vue",
 					},
 				},
 				volar = {
