@@ -178,6 +178,7 @@ require("lazy").setup({
 					"typescript",
 					"vim",
 					"vimdoc",
+					"vue",
 				},
 				sync_install = false,
 				auto_install = true,
@@ -403,6 +404,10 @@ require("lazy").setup({
 						},
 					},
 					filetypes = { "lua" },
+				},
+				svelte = {
+					settings = {},
+					filetypes = { "svelte" },
 				},
 				tailwindcss = {
 					settings = {},
