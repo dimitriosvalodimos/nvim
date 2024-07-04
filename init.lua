@@ -7,7 +7,7 @@ g.maplocalleader = ","
 opt.breakindent = true
 opt.clipboard = "unnamedplus"
 opt.completeopt = { "menu", "menuone", "noselect" }
--- opt.conceallevel = 2 -- hide bold/italic markers
+opt.conceallevel = 0 -- don't hide bold/italic markers
 opt.confirm = true -- ask to save changes
 opt.copyindent = true
 opt.cursorline = true
@@ -31,7 +31,7 @@ opt.relativenumber = true
 opt.scrolloff = 5 -- vertical buffer area on scroll
 opt.shiftround = true
 opt.shiftwidth = 2
-opt.shortmess:append({ W = true, I = true, c = true, C = true })
+-- opt.shortmess:append({ W = true, I = true, c = true, C = true })
 opt.sidescrolloff = 5 -- horizontal buffer area on scroll
 opt.signcolumn = "yes" -- Always show the signcolumn
 opt.smartcase = true
@@ -359,6 +359,22 @@ require("lazy").setup({
 			local lspconfig = require("lspconfig")
 
 			local servers = {
+				biome = {
+					settings = {},
+					filetypes = {
+						"astro",
+						"css",
+						"javascript",
+						"javascriptreact",
+						"json",
+						"jsonc",
+						"svelte",
+						"typescript",
+						"typescriptreact",
+						"typescript.tsx",
+						"vue",
+					},
+				},
 				cssls = {
 					settings = {},
 					filetypes = { "css", "scss", "less" },
@@ -552,24 +568,35 @@ require("lazy").setup({
 	},
 	{
 		"stevearc/conform.nvim",
-		opts = {
-			notify_on_error = false,
-			formatters_by_ft = {
-				lua = { "stylua" },
-				go = { "gofumpt", "goimports", "golines" },
-				css = { { "prettier", "biome" } },
-				html = { { "prettier", "biome" } },
-				json = { { "prettier", "biome" } },
-				javascript = { { "prettier", "biome" } },
-				typescript = { { "prettier", "biome" } },
-				javascriptreact = { { "prettier", "biome" } },
-				typescriptreact = { { "prettier", "biome" } },
-			},
-			format_on_save = {
-				timeout_ms = 500,
-				lsp_fallback = true,
-			},
-		},
+		config = function()
+			local conform = require("conform")
+			conform.setup({
+				notify_on_error = false,
+				formatters_by_ft = {
+					lua = { "stylua" },
+					go = { "gofumpt", "goimports", "golines" },
+					css = { { "prettier", "biome" } },
+					html = { { "prettier", "biome" } },
+					json = { { "prettier", "biome" } },
+					javascript = { { "prettier", "biome" } },
+					typescript = { { "prettier", "biome" } },
+					javascriptreact = { { "prettier", "biome" } },
+					typescriptreact = { { "prettier", "biome" } },
+				},
+			})
+
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				pattern = "*",
+				callback = function(args)
+					local lsp_clients = vim.lsp.get_clients({ bufnr = args.buf, name = "tailwindcss" })
+					if #lsp_clients > 0 then
+						vim.cmd("TailwindSort") -- some custom stuff for sorting
+					end
+
+					conform.format({ bufnr = args.buf })
+				end,
+			})
+		end,
 	},
 	{
 		"stevearc/oil.nvim",
