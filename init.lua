@@ -568,35 +568,21 @@ require("lazy").setup({
 	},
 	{
 		"stevearc/conform.nvim",
-		config = function()
-			local conform = require("conform")
-			conform.setup({
-				notify_on_error = false,
-				formatters_by_ft = {
-					lua = { "stylua" },
-					go = { "gofumpt", "goimports", "golines" },
-					css = { { "prettier", "biome" } },
-					html = { { "prettier", "biome" } },
-					json = { { "prettier", "biome" } },
-					javascript = { { "prettier", "biome" } },
-					typescript = { { "prettier", "biome" } },
-					javascriptreact = { { "prettier", "biome" } },
-					typescriptreact = { { "prettier", "biome" } },
-				},
-			})
-
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				pattern = "*",
-				callback = function(args)
-					local lsp_clients = vim.lsp.get_clients({ bufnr = args.buf, name = "tailwindcss" })
-					if #lsp_clients > 0 then
-						vim.cmd("TailwindSort") -- some custom stuff for sorting
-					end
-
-					conform.format({ bufnr = args.buf })
-				end,
-			})
-		end,
+		opts = {
+			notify_on_error = false,
+			formatters_by_ft = {
+				lua = { "stylua" },
+				go = { "gofumpt", "goimports", "golines" },
+				css = { { "prettier", "biome" } },
+				html = { { "prettier", "biome" } },
+				json = { { "prettier", "biome" } },
+				javascript = { { "prettier", "biome" } },
+				typescript = { { "prettier", "biome" } },
+				javascriptreact = { { "prettier", "biome" } },
+				typescriptreact = { { "prettier", "biome" } },
+			},
+			format_on_save = { lsp_fallback = true, timeout_ms = 500 },
+		},
 	},
 	{
 		"stevearc/oil.nvim",
