@@ -581,6 +581,7 @@ require("lazy").setup({
 				svelte = { "prettier" },
 				typescript = { { "prettier", "biome" } },
 				typescriptreact = { { "prettier", "biome" } },
+				vue = { "prettier" },
 			},
 			format_on_save = { lsp_fallback = true, timeout_ms = 500 },
 		},
