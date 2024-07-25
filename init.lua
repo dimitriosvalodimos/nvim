@@ -141,6 +141,8 @@ require("lazy").setup({
 			},
 		},
 	},
+	{ "nyoom-engineering/oxocarbon.nvim", lazy = true, priority = 1000 },
+	{ "dasupradyumna/midnight.nvim", lazy = true, priority = 1000 },
 	{ "akinsho/bufferline.nvim", requires = "nvim-tree/nvim-web-devicons", opts = {} },
 	{
 		"nvim-lualine/lualine.nvim",
@@ -170,6 +172,7 @@ require("lazy").setup({
 					"javascript",
 					"jsdoc",
 					"json",
+					"kotlin",
 					"lua",
 					"luadoc",
 					"markdown",
@@ -704,4 +707,7 @@ require("lazy").setup({
 	},
 }, {})
 
-vim.cmd("colorscheme modus_vivendi")
+-- modus_vivendi
+-- oxocarbon
+-- midnight
+vim.cmd("colorscheme oxocarbon")
