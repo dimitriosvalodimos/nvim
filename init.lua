@@ -549,9 +549,12 @@ require("lazy").setup({
 						})
 					end,
 				})
-				require("tiny-inline-diagnostic").setup({
-					multiple_diag_under_cursor = true,
-				})
+				-- require("tiny-inline-diagnostic").setup({
+				-- 	options = {
+				-- 		show_source = true,
+				-- 		multiple_diag_under_cursor = true,
+				-- 	},
+				-- })
 			end,
 		},
 		{
