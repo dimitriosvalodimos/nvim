@@ -703,8 +703,8 @@ require("lazy").setup({
 			end,
 		},
 	},
-	install = {},
-	checker = { enabled = true },
+	-- install = {},
+	-- checker = { enabled = true },
 })
 
 -- oxocarbon
