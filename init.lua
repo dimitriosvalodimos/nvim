@@ -400,12 +400,12 @@ require("lazy").setup({
 			},
 			config = function()
 				vim.diagnostic.config({
-					virtual_text = true, -- { source = "if_many" },
+					virtual_text = { source = "if_many" },
 					signs = true,
 					underline = true,
 					update_in_insert = false,
 					severity_sort = true,
-					float = true, -- { source = "if_many" },
+					float = { source = "if_many" },
 				})
 				local servers = {
 					biome = {
