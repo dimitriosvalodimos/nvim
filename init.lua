@@ -393,20 +393,20 @@ require("lazy").setup({
 				"hrsh7th/cmp-nvim-lsp",
 				"nvim-lua/plenary.nvim",
 				{
-					"VidocqH/lsp-lens.nvim",
-					opts = {
-						include_declaration = true,
-						sections = {
-							definition = true,
-						},
-					},
-				},
-				{
 					"j-hui/fidget.nvim",
 					opts = { progress = { ignore_done_already = false, ignore_empty_message = false } },
 				},
+				"rachartier/tiny-inline-diagnostic.nvim",
 			},
 			config = function()
+				vim.diagnostic.config({
+					virtual_text = true, -- { source = "if_many" },
+					signs = true,
+					underline = true,
+					update_in_insert = false,
+					severity_sort = true,
+					float = true, -- { source = "if_many" },
+				})
 				local servers = {
 					biome = {
 						filetypes = {
@@ -549,13 +549,8 @@ require("lazy").setup({
 						})
 					end,
 				})
-				vim.diagnostic.config({
-					virtual_text = { source = "if_many" },
-					signs = true,
-					underline = true,
-					update_in_insert = false,
-					severity_sort = false,
-					float = { source = "if_many" },
+				require("tiny-inline-diagnostic").setup({
+					multiple_diag_under_cursor = true,
 				})
 			end,
 		},
@@ -567,7 +562,6 @@ require("lazy").setup({
 				"nvim-treesitter/nvim-treesitter",
 			},
 			opts = {},
-			-- event = { "CmdlineEnter" },
 			ft = { "go", "gomod" },
 			build = ':lua require("go.install").update_all_sync()',
 		},
