@@ -130,23 +130,6 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	spec = {
-		{ "nyoom-engineering/oxocarbon.nvim", lazy = true, priority = 1000 },
-		{
-			"scottmckendry/cyberdream.nvim",
-			lazy = true,
-			opts = {
-				extensions = {
-					cmp = true,
-					gitsigns = true,
-					lazy = true,
-					rainbow_delimiters = true,
-					telescope = true,
-					trouble = true,
-					whichkey = true,
-				},
-			},
-			priority = 1000,
-		},
 		{
 			"ahmedkhalf/project.nvim",
 			config = function()
@@ -350,7 +333,6 @@ require("lazy").setup({
 								fallback()
 							end
 						end, { "i", "s" }),
-
 						["<S-Tab>"] = cmp.mapping(function(fallback)
 							if cmp.visible() then
 								cmp.select_prev_item()
@@ -404,17 +386,8 @@ require("lazy").setup({
 					"j-hui/fidget.nvim",
 					opts = { progress = { ignore_done_already = false, ignore_empty_message = false } },
 				},
-				"rachartier/tiny-inline-diagnostic.nvim",
 			},
 			config = function()
-				vim.diagnostic.config({
-					virtual_text = { source = "if_many" },
-					signs = true,
-					underline = true,
-					update_in_insert = false,
-					severity_sort = true,
-					float = { source = "if_many" },
-				})
 				local servers = {
 					biome = {
 						filetypes = {
@@ -484,6 +457,12 @@ require("lazy").setup({
 				capabilities =
 					vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 				local lspconfig = require("lspconfig")
+				local float_config = {
+					header = "",
+					border = "single",
+					source = "if_many",
+					severity_sort = true,
+				}
 				vim.api.nvim_create_autocmd("LspAttach", {
 					group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
 					callback = function(event)
@@ -514,14 +493,13 @@ require("lazy").setup({
 								group = highlight_augroup,
 								callback = function()
 									vim.lsp.buf.document_highlight()
-									vim.diagnostic.open_float(nil, {
+									local config = float_config
+									config = vim.tbl_deep_extend("force", config, {
 										focusable = false,
 										close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-										border = "rounded",
-										source = "always",
-										prefix = " ",
 										scope = "cursor",
 									})
+									vim.diagnostic.open_float(nil, config)
 								end,
 							})
 							vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
@@ -557,12 +535,19 @@ require("lazy").setup({
 						})
 					end,
 				})
-				-- require("tiny-inline-diagnostic").setup({
-				-- 	options = {
-				-- 		show_source = true,
-				-- 		multiple_diag_under_cursor = true,
-				-- 	},
-				-- })
+				vim.diagnostic.config({
+					virtual_text = {
+						source = "if_many",
+						linehl = { "DiagnosticErrorLn", "DiagnosticWarnLn", "DiagnosticInfoLn", "DiagnosticHintLn" },
+					},
+					signs = {
+						linehl = { "DiagnosticErrorLn", "DiagnosticWarnLn", "DiagnosticInfoLn", "DiagnosticHintLn" },
+					},
+					underline = true,
+					update_in_insert = false,
+					severity_sort = true,
+					float = float_config,
+				})
 			end,
 		},
 		{
@@ -709,7 +694,3 @@ require("lazy").setup({
 		},
 	},
 })
-
--- oxocarbon
--- cyberdream
-vim.cmd("colorscheme cyberdream")
