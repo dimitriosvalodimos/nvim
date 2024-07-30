@@ -147,7 +147,6 @@ require("lazy").setup({
 			},
 			priority = 1000,
 		},
-		{ "lewis6991/satellite.nvim", opts = {} },
 		{
 			"ahmedkhalf/project.nvim",
 			config = function()
@@ -155,7 +154,16 @@ require("lazy").setup({
 			end,
 		},
 		{ "nvim-tree/nvim-web-devicons", opts = {} },
-		{ "akinsho/bufferline.nvim", opts = {}, version = "*", dependencies = "nvim-tree/nvim-web-devicons" },
+		{
+			"echasnovski/mini.nvim",
+			version = false,
+			config = function()
+				require("mini.statusline").setup()
+				require("mini.tabline").setup()
+				require("mini.ai").setup()
+				require("mini.trailspace").setup()
+			end,
+		},
 		{ "akinsho/toggleterm.nvim", version = "*", opts = { open_mapping = [[<c-t>]] } },
 		{ "windwp/nvim-autopairs", opts = { disable_filetype = { "TelescopePrompt", "vim" } } },
 		{
@@ -700,8 +708,6 @@ require("lazy").setup({
 			end,
 		},
 	},
-	-- install = {},
-	-- checker = { enabled = true },
 })
 
 -- oxocarbon
