@@ -4,6 +4,7 @@ local opt = vim.opt
 g.mapleader = " "
 g.maplocalleader = ","
 
+opt.backupcopy = "yes"
 opt.background = "dark"
 opt.breakindent = true
 opt.clipboard = "unnamedplus"
@@ -177,6 +178,7 @@ require("lazy").setup({
 						"gomod",
 						"gosum",
 						"html",
+						"http",
 						"javascript",
 						"jsdoc",
 						"json",
@@ -192,6 +194,7 @@ require("lazy").setup({
 						"typescript",
 						"vim",
 						"vimdoc",
+						"xml",
 						"zig",
 					},
 					auto_install = true,
