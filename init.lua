@@ -133,10 +133,148 @@ require("lazy").setup({
 	spec = {
 		{ "nvim-tree/nvim-web-devicons", opts = {} },
 		{
+			"folke/tokyonight.nvim",
+			lazy = true,
+			priority = 1000,
+			opts = {
+				styles = {
+					comments = {},
+					keywords = { bold = true },
+					functions = { bold = true },
+					variables = {},
+					sidebars = "dark",
+					floats = "dark",
+				},
+			},
+		},
+		{
+			"rose-pine/neovim",
+			lazy = true,
+			priority = 1000,
+			name = "rose-pine",
+			opts = {
+				dim_inactive_windows = false,
+				extend_background_behind_borders = true,
+				enable = {
+					terminal = true,
+					legacy_highlights = true,
+					migrations = true,
+				},
+				highlight_groups = {
+					TelescopeBorder = { fg = "overlay", bg = "overlay" },
+					TelescopeNormal = { fg = "subtle", bg = "overlay" },
+					TelescopeSelection = { fg = "text", bg = "highlight_med" },
+					TelescopeSelectionCaret = { fg = "love", bg = "highlight_med" },
+					TelescopeMultiSelection = { fg = "text", bg = "highlight_high" },
+					TelescopeTitle = { fg = "base", bg = "love" },
+					TelescopePromptTitle = { fg = "base", bg = "pine" },
+					TelescopePreviewTitle = { fg = "base", bg = "iris" },
+					TelescopePromptNormal = { fg = "text", bg = "surface" },
+					TelescopePromptBorder = { fg = "surface", bg = "surface" },
+
+					StatusLine = { fg = "love", bg = "love", blend = 10 },
+					StatusLineNC = { fg = "subtle", bg = "surface" },
+				},
+				styles = {
+					bold = true,
+					italic = false,
+					transparency = false,
+				},
+			},
+		},
+		{
+			"projekt0n/github-nvim-theme",
+			lazy = true,
+			priority = 1000,
+			name = "github-theme",
+			opts = {
+				options = {
+					compile_path = vim.fn.stdpath("cache") .. "/github-theme",
+					compile_file_suffix = "_compiled",
+					hide_end_of_buffer = true,
+					hide_nc_statusline = true,
+					transparent = false,
+					terminal_colors = true,
+					dim_inactive = false,
+					module_default = true,
+					styles = {
+						comments = "NONE",
+						functions = "bold",
+						keywords = "bold",
+						variables = "NONE",
+						conditionals = "NONE",
+						constants = "NONE",
+						numbers = "NONE",
+						operators = "NONE",
+						strings = "NONE",
+						types = "NONE",
+					},
+					inverse = {
+						match_paren = true,
+						visual = true,
+						search = true,
+					},
+					darken = {
+						floats = true,
+						sidebars = {
+							enable = true,
+							list = {},
+						},
+					},
+					modules = {},
+				},
+			},
+		},
+		{ "nyoom-engineering/oxocarbon.nvim", lazy = true, priority = 1000 },
+		{
+			"bluz71/vim-moonfly-colors",
+			name = "moonfly",
+			lazy = true,
+			priority = 1000,
+			config = function()
+				vim.g.moonflyCursorColor = true
+				vim.g.moonflyItalics = false
+				vim.g.moonflyNormalFloat = true
+				vim.g.moonflyTerminalColors = true
+				vim.g.moonflyUndercurls = true
+				vim.g.moonflyUnderlineMatchParen = true
+				vim.g.moonflyVirtualTextColor = true
+				vim.g.moonflyWinSeparator = 2
+				vim.opt.fillchars = {
+					horiz = "━",
+					horizup = "┻",
+					horizdown = "┳",
+					vert = "┃",
+					vertleft = "┫",
+					vertright = "┣",
+					verthoriz = "╋",
+				}
+			end,
+		},
+		{
+			"dasupradyumna/midnight.nvim",
+			lazy = true,
+			priority = 1000,
+			config = function()
+				local palette = require("midnight.colors").palette
+				local components = require("midnight.colors").components
+
+				require("midnight").setup({
+					HighlightGroup = {
+						StatusLine = { fg = components.comment, bg = palette.red[1] },
+						StatusLineNC = { clear = true },
+						clear = true,
+					},
+				})
+
+				vim.opt.statusline = "%n %f %m %= %l/%L:%c"
+			end,
+		},
+		{
 			"echasnovski/mini.nvim",
 			version = false,
 			config = function()
-				require("mini.statusline").setup()
+				-- require("mini.statusline").setup()
 				require("mini.tabline").setup()
 				require("mini.ai").setup()
 				require("mini.trailspace").setup()
@@ -691,3 +829,17 @@ require("lazy").setup({
 		},
 	},
 })
+
+-- tokyonight-night
+-- tokyonight-storm
+-- tokyonight-moon
+-- rose-pine-main
+-- rose-pine-moon
+-- github_dark
+-- github_dark_default
+-- github_dark_dimmed
+-- github_dark_high_contrast
+-- oxocarbon
+-- moonfly
+-- midnight
+vim.cmd("colorscheme midnight")
