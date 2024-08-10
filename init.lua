@@ -131,12 +131,6 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	spec = {
-		{
-			"ahmedkhalf/project.nvim",
-			config = function()
-				require("project_nvim").setup({})
-			end,
-		},
 		{ "nvim-tree/nvim-web-devicons", opts = {} },
 		{
 			"echasnovski/mini.nvim",
