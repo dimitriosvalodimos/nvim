@@ -171,9 +171,6 @@ require("lazy").setup({
 					TelescopePreviewTitle = { fg = "base", bg = "iris" },
 					TelescopePromptNormal = { fg = "text", bg = "surface" },
 					TelescopePromptBorder = { fg = "surface", bg = "surface" },
-
-					StatusLine = { fg = "love", bg = "love", blend = 10 },
-					StatusLineNC = { fg = "subtle", bg = "surface" },
 				},
 				styles = {
 					bold = true,
@@ -255,30 +252,91 @@ require("lazy").setup({
 			"dasupradyumna/midnight.nvim",
 			lazy = true,
 			priority = 1000,
-			config = function()
-				local palette = require("midnight.colors").palette
-				local components = require("midnight.colors").components
-
-				require("midnight").setup({
-					HighlightGroup = {
-						StatusLine = { fg = components.comment, bg = palette.red[1] },
-						StatusLineNC = { clear = true },
-						clear = true,
-					},
-				})
-
-				vim.opt.statusline = "%n %f %m %= %l/%L:%c"
-			end,
+			opts = {},
 		},
 		{
-			"echasnovski/mini.nvim",
-			version = false,
-			config = function()
-				-- require("mini.statusline").setup()
-				require("mini.tabline").setup()
-				require("mini.ai").setup()
-				require("mini.trailspace").setup()
-			end,
+			"olimorris/onedarkpro.nvim",
+			priority = 1000,
+			lazy = true,
+			opts = {
+				styles = {
+					types = "NONE",
+					methods = "bold",
+					numbers = "NONE",
+					strings = "NONE",
+					comments = "NONE",
+					keywords = "bold",
+					constants = "NONE",
+					functions = "bold",
+					operators = "NONE",
+					variables = "NONE",
+					parameters = "NONE",
+					conditionals = "NONE",
+					virtual_text = "bold",
+				},
+				plugins = {
+					gitsigns = true,
+					nvim_cmp = true,
+					nvim_hlslens = true,
+					nvim_lsp = true,
+					nvim_notify = true,
+					nvim_ts_rainbow = true,
+					rainbow_delimiters = true,
+					telescope = true,
+					toggleterm = true,
+					treesitter = true,
+					trouble = true,
+					which_key = true,
+				},
+				options = {
+					cursorline = true,
+					transparency = false,
+					terminal_colors = true,
+					lualine_transparency = false,
+					highlight_inactive_windows = false,
+				},
+			},
+		},
+		{
+			"nvim-lualine/lualine.nvim",
+			dependencies = { "nvim-tree/nvim-web-devicons" },
+			opts = {
+				options = { section_separators = "", component_separators = "" },
+				sections = {
+					lualine_a = { "mode" },
+					lualine_b = { { "b:gitsigns_head", icon = "" }, "diff", "diagnostics" },
+					lualine_c = {
+						"filename",
+						{
+							"diagnostics",
+							sources = { "nvim_lsp", "nvim_diagnostic", "nvim_workspace_diagnostic" },
+							sections = { "error", "warn", "info", "hint" },
+							diagnostics_color = {
+								error = "DiagnosticError",
+								warn = "DiagnosticWarn",
+								info = "DiagnosticInfo",
+								hint = "DiagnosticHint",
+							},
+							symbols = { error = "E", warn = "W", info = "I", hint = "H" },
+							colored = true,
+							update_in_insert = true,
+							always_visible = false,
+						},
+					},
+					lualine_x = {},
+					lualine_y = {},
+					lualine_z = { "location" },
+				},
+				tabline = {
+					lualine_a = { "buffers" },
+					lualine_b = {},
+					lualine_c = {},
+					lualine_x = {},
+					lualine_y = {},
+					lualine_z = { "tabs" },
+				},
+				extensions = {},
+			},
 		},
 		{ "akinsho/toggleterm.nvim", version = "*", opts = { open_mapping = [[<c-t>]] } },
 		{ "windwp/nvim-autopairs", opts = { disable_filetype = { "TelescopePrompt", "vim" } } },
@@ -842,4 +900,5 @@ require("lazy").setup({
 -- oxocarbon
 -- moonfly
 -- midnight
-vim.cmd("colorscheme midnight")
+-- onedark_dark
+vim.cmd("colorscheme onedark_dark")
