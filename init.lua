@@ -885,6 +885,11 @@ require("lazy").setup({
 				})
 			end,
 		},
+		{
+			"shellRaining/hlchunk.nvim",
+			event = { "BufReadPre", "BufNewFile" },
+			opts = { line_num = { enable = true } },
+		},
 	},
 })
 
