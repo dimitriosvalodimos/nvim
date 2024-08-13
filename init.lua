@@ -906,4 +906,4 @@ require("lazy").setup({
 -- moonfly
 -- midnight
 -- onedark_dark
-vim.cmd("colorscheme onedark_dark")
+vim.cmd("colorscheme midnight")
