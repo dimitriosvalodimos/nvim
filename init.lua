@@ -358,6 +358,7 @@ require("lazy").setup({
 				telescope.load_extension("ui-select")
 				local builtin = require("telescope.builtin")
 				vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "find help" })
+				vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "find buffer" })
 				vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "find keymapping" })
 				vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "find file" })
 				vim.keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "find current word" })
@@ -671,17 +672,6 @@ require("lazy").setup({
 			end,
 		},
 		{
-			"ray-x/go.nvim",
-			dependencies = {
-				"ray-x/guihua.lua",
-				"neovim/nvim-lspconfig",
-				"nvim-treesitter/nvim-treesitter",
-			},
-			opts = {},
-			ft = { "go", "gomod" },
-			build = ':lua require("go.install").update_all_sync()',
-		},
-		{
 			"folke/trouble.nvim",
 			opts = {},
 			cmd = "Trouble",
@@ -752,30 +742,6 @@ require("lazy").setup({
 			opts = { signs = false },
 		},
 		{
-			"cshuaimin/ssr.nvim",
-			module = "ssr",
-			config = function()
-				require("ssr").setup({
-					border = "rounded",
-					min_width = 50,
-					min_height = 5,
-					max_width = 120,
-					max_height = 25,
-					adjust_window = true,
-					keymaps = {
-						close = "q",
-						next_match = "n",
-						prev_match = "N",
-						replace_confirm = "<cr>",
-						replace_all = "<leader><cr>",
-					},
-				})
-				vim.keymap.set({ "n", "x" }, "<leader>sr", function()
-					require("ssr").open()
-				end)
-			end,
-		},
-		{
 			"stevearc/conform.nvim",
 			opts = {
 				notify_on_error = false,
@@ -803,23 +769,13 @@ require("lazy").setup({
 			opts = { calm_down = true, nearest_only = true, nearest_float_when = "always" },
 		},
 		-- {
-		-- 	"smjonas/live-command.nvim",
-		-- 	config = function()
-		-- 		require("live-command").setup({
-		-- 			commands = {
-		-- 				Norm = { cmd = "norm" },
-		-- 			},
-		-- 		})
-		-- 	end,
+		-- 	"rasulomaroff/reactive.nvim",
+		-- 	opts = { builtin = {
+		-- 		cursorline = true,
+		-- 		cursor = true,
+		-- 		modemsg = true,
+		-- 	} },
 		-- },
-		{
-			"rasulomaroff/reactive.nvim",
-			opts = { builtin = {
-				cursorline = true,
-				cursor = true,
-				modemsg = true,
-			} },
-		},
 	},
 })
 
