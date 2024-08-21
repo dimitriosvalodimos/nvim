@@ -351,7 +351,7 @@ require("lazy").setup({
 			build = ":TSUpdate",
 			dependencies = {
 				"andymass/vim-matchup",
-				"HiPhish/rainbow-delimiters.nvim",
+				-- "HiPhish/rainbow-delimiters.nvim",
 				"windwp/nvim-ts-autotag",
 				"m-demare/hlargs.nvim",
 			},
@@ -392,7 +392,7 @@ require("lazy").setup({
 					highlight = { enable = true },
 				})
 				require("hlargs").setup()
-				require("rainbow-delimiters.setup").setup({})
+				-- require("rainbow-delimiters.setup").setup({})
 				require("nvim-ts-autotag").setup({
 					opts = {
 						enable_close = true,
@@ -906,4 +906,4 @@ require("lazy").setup({
 -- moonfly
 -- midnight
 -- onedark_dark
-vim.cmd("colorscheme midnight")
+-- vim.cmd("colorscheme midnight")
