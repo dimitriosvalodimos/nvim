@@ -133,21 +133,6 @@ require("lazy").setup({
 	spec = {
 		{ "nvim-tree/nvim-web-devicons", opts = {} },
 		{
-			"folke/tokyonight.nvim",
-			lazy = true,
-			priority = 1000,
-			opts = {
-				styles = {
-					comments = {},
-					keywords = { bold = true },
-					functions = { bold = true },
-					variables = {},
-					sidebars = "dark",
-					floats = "dark",
-				},
-			},
-		},
-		{
 			"rose-pine/neovim",
 			lazy = true,
 			priority = 1000,
@@ -160,18 +145,6 @@ require("lazy").setup({
 					legacy_highlights = true,
 					migrations = true,
 				},
-				highlight_groups = {
-					TelescopeBorder = { fg = "overlay", bg = "overlay" },
-					TelescopeNormal = { fg = "subtle", bg = "overlay" },
-					TelescopeSelection = { fg = "text", bg = "highlight_med" },
-					TelescopeSelectionCaret = { fg = "love", bg = "highlight_med" },
-					TelescopeMultiSelection = { fg = "text", bg = "highlight_high" },
-					TelescopeTitle = { fg = "base", bg = "love" },
-					TelescopePromptTitle = { fg = "base", bg = "pine" },
-					TelescopePreviewTitle = { fg = "base", bg = "iris" },
-					TelescopePromptNormal = { fg = "text", bg = "surface" },
-					TelescopePromptBorder = { fg = "surface", bg = "surface" },
-				},
 				styles = {
 					bold = true,
 					italic = false,
@@ -179,121 +152,77 @@ require("lazy").setup({
 				},
 			},
 		},
+		{ "nyoom-engineering/oxocarbon.nvim", lazy = true, priority = 1000 },
 		{
-			"projekt0n/github-nvim-theme",
+			"Mofiqul/vscode.nvim",
 			lazy = true,
 			priority = 1000,
-			name = "github-theme",
+			opts = { italic_comments = true, underline_links = true },
+		},
+		{ "embark-theme/vim", lazy = true, priority = 1000, name = "embark" },
+		{
+			"olivercederborg/poimandres.nvim",
+			lazy = true,
+			priority = 1000,
 			opts = {
-				options = {
-					compile_path = vim.fn.stdpath("cache") .. "/github-theme",
-					compile_file_suffix = "_compiled",
-					hide_end_of_buffer = true,
-					hide_nc_statusline = true,
-					transparent = false,
-					terminal_colors = true,
-					dim_inactive = false,
-					module_default = true,
-					styles = {
-						comments = "NONE",
-						functions = "bold",
-						keywords = "bold",
-						variables = "NONE",
-						conditionals = "NONE",
-						constants = "NONE",
-						numbers = "NONE",
-						operators = "NONE",
-						strings = "NONE",
-						types = "NONE",
-					},
-					inverse = {
-						match_paren = true,
-						visual = true,
-						search = true,
-					},
-					darken = {
-						floats = true,
-						sidebars = {
-							enable = true,
-							list = {},
-						},
-					},
-					modules = {},
+				bold_vert_split = true,
+				dim_nc_background = true,
+				disable_background = false,
+				disable_float_background = false,
+				disable_italics = false,
+			},
+		},
+		{ "Yazeed1s/oh-lucy.nvim", lazy = true, priority = 1000 },
+		{ "kvrohit/substrata.nvim", lazy = true, priority = 1000 },
+		{
+			"datsfilipe/vesper.nvim",
+			lazy = true,
+			priority = 1000,
+			opts = {
+				transparent = false,
+				italics = {
+					comments = true,
+					keywords = false,
+					functions = false,
+					strings = false,
+					variables = false,
 				},
 			},
 		},
-		{ "nyoom-engineering/oxocarbon.nvim", lazy = true, priority = 1000 },
+		{ "cranberry-clockworks/coal.nvim", lazy = true, priority = 1000 },
 		{
-			"bluz71/vim-moonfly-colors",
-			name = "moonfly",
+			"no-clown-fiesta/no-clown-fiesta.nvim",
 			lazy = true,
 			priority = 1000,
-			config = function()
-				vim.g.moonflyCursorColor = true
-				vim.g.moonflyItalics = false
-				vim.g.moonflyNormalFloat = true
-				vim.g.moonflyTerminalColors = true
-				vim.g.moonflyUndercurls = true
-				vim.g.moonflyUnderlineMatchParen = true
-				vim.g.moonflyVirtualTextColor = true
-				vim.g.moonflyWinSeparator = 2
-				vim.opt.fillchars = {
-					horiz = "━",
-					horizup = "┻",
-					horizdown = "┳",
-					vert = "┃",
-					vertleft = "┫",
-					vertright = "┣",
-					verthoriz = "╋",
-				}
-			end,
-		},
-		{
-			"dasupradyumna/midnight.nvim",
-			lazy = true,
-			priority = 1000,
-			opts = {},
-		},
-		{
-			"olimorris/onedarkpro.nvim",
-			priority = 1000,
-			lazy = true,
 			opts = {
+				transparent = false,
 				styles = {
-					types = "NONE",
-					methods = "bold",
-					numbers = "NONE",
-					strings = "NONE",
-					comments = "NONE",
-					keywords = "bold",
-					constants = "NONE",
-					functions = "bold",
-					operators = "NONE",
-					variables = "NONE",
-					parameters = "NONE",
-					conditionals = "NONE",
-					virtual_text = "bold",
+					comments = { italic = true },
+					functions = { bold = true },
+					keywords = { bold = true },
+					lsp = { underline = true },
+					match_paren = {},
+					type = { bold = true, italic = true },
+					variables = {},
 				},
-				plugins = {
-					gitsigns = true,
-					nvim_cmp = true,
-					nvim_hlslens = true,
-					nvim_lsp = true,
-					nvim_notify = true,
-					nvim_ts_rainbow = true,
-					rainbow_delimiters = true,
-					telescope = true,
-					toggleterm = true,
-					treesitter = true,
-					trouble = true,
-					which_key = true,
-				},
-				options = {
-					cursorline = true,
-					transparency = false,
-					terminal_colors = true,
-					lualine_transparency = false,
-					highlight_inactive_windows = false,
+			},
+		},
+		{ "cocopon/iceberg.vim", lazy = true, priority = 1000 },
+		{ "techtuner/aura-neovim", lazy = true, priority = 1000 },
+		{
+			"jesseleite/nvim-noirbuddy",
+			dependencies = {
+				{ "tjdevries/colorbuddy.nvim" },
+			},
+			lazy = true,
+			priority = 1000,
+			opts = {
+				preset = "minimal", -- miami-nights, kiwi, slate
+				styles = {
+					italic = true,
+					bold = true,
+					underline = true,
+					undercurl = true,
 				},
 			},
 		},
@@ -351,7 +280,6 @@ require("lazy").setup({
 			build = ":TSUpdate",
 			dependencies = {
 				"andymass/vim-matchup",
-				-- "HiPhish/rainbow-delimiters.nvim",
 				"windwp/nvim-ts-autotag",
 				"m-demare/hlargs.nvim",
 			},
@@ -392,7 +320,6 @@ require("lazy").setup({
 					highlight = { enable = true },
 				})
 				require("hlargs").setup()
-				-- require("rainbow-delimiters.setup").setup({})
 				require("nvim-ts-autotag").setup({
 					opts = {
 						enable_close = true,
@@ -875,35 +802,37 @@ require("lazy").setup({
 			"kevinhwang91/nvim-hlslens",
 			opts = { calm_down = true, nearest_only = true, nearest_float_when = "always" },
 		},
+		-- {
+		-- 	"smjonas/live-command.nvim",
+		-- 	config = function()
+		-- 		require("live-command").setup({
+		-- 			commands = {
+		-- 				Norm = { cmd = "norm" },
+		-- 			},
+		-- 		})
+		-- 	end,
+		-- },
 		{
-			"smjonas/live-command.nvim",
-			config = function()
-				require("live-command").setup({
-					commands = {
-						Norm = { cmd = "norm" },
-					},
-				})
-			end,
-		},
-		{
-			"shellRaining/hlchunk.nvim",
-			event = { "BufReadPre", "BufNewFile" },
-			opts = { line_num = { enable = true } },
+			"rasulomaroff/reactive.nvim",
+			opts = { builtin = {
+				cursorline = true,
+				cursor = true,
+				modemsg = true,
+			} },
 		},
 	},
 })
 
--- tokyonight-night
--- tokyonight-storm
--- tokyonight-moon
 -- rose-pine-main
 -- rose-pine-moon
--- github_dark
--- github_dark_default
--- github_dark_dimmed
--- github_dark_high_contrast
--- oxocarbon
--- moonfly
--- midnight
--- onedark_dark
--- vim.cmd("colorscheme midnight")
+-- vscode
+-- embark
+-- poimandres, more muted substrata or iceberg
+-- oh-lucy
+-- oh-lucy-evening
+-- vesper
+-- coal
+-- no-clown-fiesta
+-- aura
+-- noirbuddy
+vim.cmd.colorscheme("noirbuddy")
