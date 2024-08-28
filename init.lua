@@ -768,14 +768,6 @@ require("lazy").setup({
 			"kevinhwang91/nvim-hlslens",
 			opts = { calm_down = true, nearest_only = true, nearest_float_when = "always" },
 		},
-		-- {
-		-- 	"rasulomaroff/reactive.nvim",
-		-- 	opts = { builtin = {
-		-- 		cursorline = true,
-		-- 		cursor = true,
-		-- 		modemsg = true,
-		-- 	} },
-		-- },
 	},
 })
 
@@ -783,7 +775,9 @@ require("lazy").setup({
 -- rose-pine-moon
 -- vscode
 -- embark
--- poimandres, more muted substrata or iceberg
+-- poimandres
+-- substrata
+-- iceberg
 -- oh-lucy
 -- oh-lucy-evening
 -- vesper
@@ -791,4 +785,4 @@ require("lazy").setup({
 -- no-clown-fiesta
 -- aura
 -- noirbuddy
-vim.cmd.colorscheme("noirbuddy")
+vim.cmd.colorscheme("no-clown-fiesta")
