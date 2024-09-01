@@ -104,6 +104,8 @@ vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", { desc = "move line up" })
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "move line down" })
 vim.keymap.set("v", "<", "<gv", { desc = "dedent" })
 vim.keymap.set("v", ">", ">gv", { desc = "indent" })
+vim.keymap.set("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { noremap = true, expr = true })
+vim.keymap.set("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { noremap = true, expr = true })
 
 require("config.lazy")
 
