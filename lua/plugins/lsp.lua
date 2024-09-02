@@ -3,9 +3,9 @@ return {
 	dependencies = {
 		"williamboman/mason-lspconfig.nvim",
 		"nvim-telescope/telescope.nvim",
+		"deathbeam/autocomplete.nvim",
 		"neovim/nvim-lspconfig",
 		"nvim-lua/plenary.nvim",
-		"ms-jpq/coq_nvim",
 		{
 			"j-hui/fidget.nvim",
 			opts = { progress = { ignore_done_already = false, ignore_empty_message = false } },
@@ -69,7 +69,11 @@ return {
 				settings = {},
 			},
 		}
-		local capabilities = vim.lsp.protocol.make_client_capabilities()
+		local capabilities = vim.tbl_deep_extend(
+			"force",
+			vim.lsp.protocol.make_client_capabilities(),
+			require("autocomplete.capabilities")
+		)
 		capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 		local lspconfig = require("lspconfig")
@@ -133,14 +137,13 @@ return {
 		})
 
 		require("mason").setup()
-		local coq = require("coq")
 		local mason_lspconfig = require("mason-lspconfig")
 		mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(servers) })
 		mason_lspconfig.setup_handlers({
 			function(server_name)
 				local config = servers[server_name] or {}
 				lspconfig[server_name].setup({
-					capabilities = coq.lsp_ensure_capabilities(capabilities),
+					capabilities = capabilities,
 					filetypes = config.filetypes or {},
 					settings = config.settings or {},
 				})
