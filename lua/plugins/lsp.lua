@@ -3,9 +3,9 @@ return {
 	dependencies = {
 		"williamboman/mason-lspconfig.nvim",
 		"nvim-telescope/telescope.nvim",
-		"deathbeam/autocomplete.nvim",
 		"neovim/nvim-lspconfig",
 		"nvim-lua/plenary.nvim",
+		"hrsh7th/cmp-nvim-lsp",
 		{
 			"j-hui/fidget.nvim",
 			opts = { progress = { ignore_done_already = false, ignore_empty_message = false } },
@@ -72,9 +72,9 @@ return {
 		local capabilities = vim.tbl_deep_extend(
 			"force",
 			vim.lsp.protocol.make_client_capabilities(),
-			require("autocomplete.capabilities")
+			require("cmp_nvim_lsp").default_capabilities()
 		)
-		capabilities.textDocument.completion.completionItem.snippetSupport = true
+		capabilities.textDocument.completion.completionItem.snippetSupport = false
 
 		local lspconfig = require("lspconfig")
 		local float_config = {
