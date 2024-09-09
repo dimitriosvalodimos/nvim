@@ -57,7 +57,7 @@ return {
 					},
 				},
 			},
-			tsserver = {
+			ts_ls = {
 				filetypes = {
 					"javascript",
 					"javascriptreact",
