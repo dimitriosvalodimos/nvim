@@ -109,6 +109,19 @@ vim.keymap.set("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { norem
 
 require("config.lazy")
 
--- poimandres, substrata, iceberg, oh-lucy, oh-lucy-evening, vesper, no-clown-fiesta, aura, oxocarbon
+-- gruber-darker
+-- iceberg
+-- midnight
+-- modus
+-- modus_vivendi
+-- no-clown-fiesta
+-- oh-lucy
+-- oh-lucy-evening
+-- onedark_dark
+-- oxocarbon
+-- poimandres
+-- substrata
+-- vague
+-- vesper
 
-vim.cmd.colorscheme("no-clown-fiesta")
+vim.cmd.colorscheme("gruber-darker")
