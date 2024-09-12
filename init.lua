@@ -112,7 +112,6 @@ require("config.lazy")
 -- gruber-darker
 -- iceberg
 -- midnight
--- modus
 -- modus_vivendi
 -- no-clown-fiesta
 -- oh-lucy
@@ -125,3 +124,4 @@ require("config.lazy")
 -- vesper
 
 vim.cmd.colorscheme("gruber-darker")
+-- vim.cmd.colorscheme("modus_vivendi")
