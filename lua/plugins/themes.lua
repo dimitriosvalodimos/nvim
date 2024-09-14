@@ -182,4 +182,5 @@ return {
 			underline = true,
 		},
 	},
+	{ "wadackel/vim-dogrun", lazy = true, priority = 1000 },
 }

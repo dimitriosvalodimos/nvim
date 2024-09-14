@@ -122,5 +122,7 @@ require("config.lazy")
 -- substrata
 -- vague
 -- vesper
+-- dogrun
 
-vim.cmd.colorscheme("modus_vivendi")
+-- vim.cmd.colorscheme("modus_vivendi")
+vim.cmd.colorscheme("dogrun")
