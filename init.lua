@@ -6,7 +6,7 @@ opt.backupcopy = "yes"
 opt.background = "dark"
 opt.breakindent = true
 opt.clipboard = "unnamedplus"
-opt.completeopt = { "menu", "menuone", "noselect", "popup" }
+opt.completeopt = { "menu", "menuone", "noselect", "noinsert", "popup" }
 opt.conceallevel = 0 -- don't hide bold/italic markers
 opt.confirm = true -- ask to save changes
 opt.copyindent = true
@@ -104,8 +104,8 @@ vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", { desc = "move line up" })
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "move line down" })
 vim.keymap.set("v", "<", "<gv", { desc = "dedent" })
 vim.keymap.set("v", ">", ">gv", { desc = "indent" })
-vim.keymap.set("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { noremap = true, expr = true })
-vim.keymap.set("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { noremap = true, expr = true })
+-- vim.keymap.set("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { noremap = true, expr = true })
+-- vim.keymap.set("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { noremap = true, expr = true })
 
 require("config.lazy")
 
@@ -123,5 +123,4 @@ require("config.lazy")
 -- vague
 -- vesper
 
-vim.cmd.colorscheme("gruber-darker")
--- vim.cmd.colorscheme("modus_vivendi")
+vim.cmd.colorscheme("modus_vivendi")

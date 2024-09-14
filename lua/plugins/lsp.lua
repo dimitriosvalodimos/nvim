@@ -3,6 +3,7 @@ return {
 	dependencies = {
 		"williamboman/mason-lspconfig.nvim",
 		"nvim-telescope/telescope.nvim",
+		"aznhe21/actions-preview.nvim",
 		"neovim/nvim-lspconfig",
 		"nvim-lua/plenary.nvim",
 		"hrsh7th/cmp-nvim-lsp",
@@ -10,8 +11,28 @@ return {
 			"j-hui/fidget.nvim",
 			opts = { progress = { ignore_done_already = false, ignore_empty_message = false } },
 		},
+		{ "smjonas/inc-rename.nvim", event = "VeryLazy", opts = {} },
+		{ "VidocqH/lsp-lens.nvim", event = "VeryLazy", opts = {} },
+		{
+			"zeioth/garbage-day.nvim",
+			event = "VeryLazy",
+			opts = {
+				--  notifications = true
+			},
+		},
 	},
 	config = function()
+		local inlayHints = {
+			includeInlayParameterNameHints = "all",
+			includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+			includeInlayFunctionParameterTypeHints = true,
+			includeInlayVariableTypeHints = true,
+			includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+			includeInlayPropertyDeclarationTypeHints = true,
+			includeInlayFunctionLikeReturnTypeHints = true,
+			includeInlayEnumMemberValueHints = true,
+		}
+
 		local servers = {
 			biome = {
 				filetypes = {
@@ -43,12 +64,26 @@ return {
 				},
 				settings = {},
 			},
-			gopls = { filetypes = { "go", "gomod", "gowork", "gotmpl" }, settings = {} },
+			gopls = {
+				filetypes = { "go", "gomod", "gowork", "gotmpl" },
+				settings = {
+					hints = {
+						rangeVariableTypes = true,
+						parameterNames = true,
+						constantValues = true,
+						assignVariableTypes = true,
+						compositeLiteralFields = true,
+						compositeLiteralTypes = true,
+						functionTypeParameters = true,
+					},
+				},
+			},
 			html = { filetypes = { "html", "templ" }, settings = {} },
 			lua_ls = {
 				filetypes = { "lua" },
 				settings = {
 					Lua = {
+						hint = { enable = true },
 						completion = { callSnippet = "Replace" },
 						diagnostics = { globals = { "vim" }, disable = { "missing-fields" } },
 						runtime = { version = "LuaJIT" },
@@ -66,7 +101,10 @@ return {
 					"typescriptreact",
 					"typescript.tsx",
 				},
-				settings = {},
+				settings = {
+					typescript = { inlayHints = inlayHints },
+					javascript = { inlayHints = inlayHints },
+				},
 			},
 		}
 		local capabilities = vim.tbl_deep_extend(
@@ -74,7 +112,7 @@ return {
 			vim.lsp.protocol.make_client_capabilities(),
 			require("cmp_nvim_lsp").default_capabilities()
 		)
-		capabilities.textDocument.completion.completionItem.snippetSupport = false
+		capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 		local lspconfig = require("lspconfig")
 		local float_config = {
@@ -95,9 +133,18 @@ return {
 				map("<leader>D", require("telescope.builtin").lsp_type_definitions, "goto type definition")
 				map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "document symbols")
 				map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "workspace symbols")
-				map("<leader>rn", vim.lsp.buf.rename, "rename")
-				map("<leader>ca", vim.lsp.buf.code_action, "code action")
 				map("gD", vim.lsp.buf.declaration, "goto declaration")
+				-- map("<leader>rn", vim.lsp.buf.rename, "rename")
+				-- map("<leader>ca", vim.lsp.buf.code_action, "code action")
+				vim.keymap.set("n", "<leader>rn", function()
+					return ":IncRename " .. vim.fn.expand("<cword>")
+				end, { expr = true, desc = "LSP: rename" })
+				vim.keymap.set(
+					{ "v", "n" },
+					"<leader>ca",
+					require("actions-preview").code_actions,
+					{ buffer = event.buf, desc = "LSP: code action" }
+				)
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
 				if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
 					local highlight_augroup = vim.api.nvim_create_augroup("config-lsp-highlight", { clear = false })

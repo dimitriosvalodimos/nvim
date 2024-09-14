@@ -4,6 +4,7 @@ return {
 	dependencies = {
 		"andymass/vim-matchup",
 		"windwp/nvim-ts-autotag",
+		"m-demare/hlargs.nvim",
 	},
 	config = function()
 		require("nvim-treesitter.install").prefer_git = true
@@ -42,5 +43,6 @@ return {
 				enable_close_on_slash = true,
 			},
 		})
+		require("hlargs").setup({})
 	end,
 }
