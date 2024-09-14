@@ -183,4 +183,70 @@ return {
 		},
 	},
 	{ "wadackel/vim-dogrun", lazy = true, priority = 1000 },
+	{
+		"dgox16/oldworld.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {
+			terminal_colors = true,
+			styles = {
+				comments = { italic = true },
+				keywords = { bold = true },
+				identifiers = { bold = true },
+				functions = { bold = true },
+				variables = {},
+				booleans = { bold = true },
+			},
+			integrations = {
+				alpha = false,
+				cmp = true,
+				flash = false,
+				gitsigns = true,
+				hop = false,
+				indent_blankline = false,
+				lazy = true,
+				lsp = true,
+				markdown = true,
+				mason = true,
+				navic = false,
+				neo_tree = false,
+				neorg = false,
+				noice = false,
+				notify = true,
+				rainbow_delimiters = true,
+				telescope = true,
+				treesitter = true,
+			},
+		},
+	},
+	{
+		"oxfist/night-owl.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {
+			bold = true,
+			italics = true,
+			underline = true,
+			undercurl = true,
+			transparent_background = false,
+		},
+	},
+	{
+		"mellow-theme/mellow.nvim",
+		lazy = true,
+		priority = 1000,
+		config = function()
+			vim.g.mellow_italic_comments = true
+			vim.g.mellow_italic_keywords = false
+			vim.g.mellow_italic_booleans = false
+			vim.g.mellow_italic_functions = false
+			vim.g.mellow_italic_variables = false
+			vim.g.mellow_bold_comments = false
+			vim.g.mellow_bold_keywords = true
+			vim.g.mellow_bold_booleans = true
+			vim.g.mellow_bold_functions = true
+			vim.g.mellow_bold_variables = false
+			vim.g.mellow_transparent = false
+		end,
+	},
 }

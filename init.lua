@@ -109,20 +109,22 @@ vim.keymap.set("v", ">", ">gv", { desc = "indent" })
 
 require("config.lazy")
 
+-- dogrun
 -- gruber-darker
 -- iceberg
+-- mellow
 -- midnight
 -- modus_vivendi
+-- night-owl
 -- no-clown-fiesta
 -- oh-lucy
 -- oh-lucy-evening
+-- oldworld
 -- onedark_dark
 -- oxocarbon
 -- poimandres
 -- substrata
 -- vague
 -- vesper
--- dogrun
 
--- vim.cmd.colorscheme("modus_vivendi")
-vim.cmd.colorscheme("dogrun")
+vim.cmd.colorscheme("mellow")
