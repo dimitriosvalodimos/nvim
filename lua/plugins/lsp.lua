@@ -136,7 +136,7 @@ return {
 					vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 				end, "toggle inlayHints")
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
-				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+				-- vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 				if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
 					local highlight_augroup = vim.api.nvim_create_augroup("config-lsp-highlight", { clear = false })
 					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
