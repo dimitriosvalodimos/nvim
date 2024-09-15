@@ -132,6 +132,9 @@ return {
 					require("actions-preview").code_actions,
 					{ buffer = event.buf, desc = "LSP: code action" }
 				)
+				map("<leader>tI", function()
+					vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+				end, "toggle inlayHints")
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
 				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 				if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
