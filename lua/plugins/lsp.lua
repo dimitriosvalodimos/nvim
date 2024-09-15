@@ -7,19 +7,10 @@ return {
 		"neovim/nvim-lspconfig",
 		"nvim-lua/plenary.nvim",
 		"hrsh7th/cmp-nvim-lsp",
-		{
-			"j-hui/fidget.nvim",
-			opts = { progress = { ignore_done_already = false, ignore_empty_message = false } },
-		},
+		{ "j-hui/fidget.nvim", opts = { progress = { ignore_done_already = false, ignore_empty_message = false } } },
+		{ "zeioth/garbage-day.nvim", event = "VeryLazy", opts = { notifications = true } },
 		{ "smjonas/inc-rename.nvim", event = "VeryLazy", opts = {} },
 		{ "VidocqH/lsp-lens.nvim", event = "VeryLazy", opts = {} },
-		{
-			"zeioth/garbage-day.nvim",
-			event = "VeryLazy",
-			opts = {
-				--  notifications = true
-			},
-		},
 	},
 	config = function()
 		local inlayHints = {
@@ -32,7 +23,6 @@ return {
 			includeInlayFunctionLikeReturnTypeHints = true,
 			includeInlayEnumMemberValueHints = true,
 		}
-
 		local servers = {
 			biome = {
 				filetypes = {
@@ -113,7 +103,6 @@ return {
 			require("cmp_nvim_lsp").default_capabilities()
 		)
 		capabilities.textDocument.completion.completionItem.snippetSupport = true
-
 		local lspconfig = require("lspconfig")
 		local float_config = {
 			header = "",
@@ -122,7 +111,7 @@ return {
 			severity_sort = true,
 		}
 		vim.api.nvim_create_autocmd("LspAttach", {
-			group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
+			group = vim.api.nvim_create_augroup("config-lsp-attach", { clear = true }),
 			callback = function(event)
 				local map = function(keys, func, desc)
 					vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
@@ -134,8 +123,6 @@ return {
 				map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "document symbols")
 				map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "workspace symbols")
 				map("gD", vim.lsp.buf.declaration, "goto declaration")
-				-- map("<leader>rn", vim.lsp.buf.rename, "rename")
-				-- map("<leader>ca", vim.lsp.buf.code_action, "code action")
 				vim.keymap.set("n", "<leader>rn", function()
 					return ":IncRename " .. vim.fn.expand("<cword>")
 				end, { expr = true, desc = "LSP: rename" })
@@ -146,6 +133,7 @@ return {
 					{ buffer = event.buf, desc = "LSP: code action" }
 				)
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
+				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 				if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
 					local highlight_augroup = vim.api.nvim_create_augroup("config-lsp-highlight", { clear = false })
 					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {

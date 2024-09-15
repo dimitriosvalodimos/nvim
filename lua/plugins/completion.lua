@@ -38,13 +38,11 @@ return {
 			Operator = "󰆕",
 			TypeParameter = "󰅲",
 		}
-
 		local has_words_before = function()
 			unpack = unpack or table.unpack
 			local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 			return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 		end
-
 		local cmp = require("cmp")
 		cmp.setup({
 			snippet = {
@@ -60,17 +58,16 @@ return {
 				format = function(entry, vim_item)
 					vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
 					vim_item.menu = ({
-						nvim_lsp = "[lsp]",
-						treesitter = "[ts]",
-						nvim_lua = "[lua]",
-						sql = "[sql]",
-						buffer = "[buf]",
-						async_path = "[path]",
+						nvim_lsp = "LSP",
+						treesitter = "TS",
+						nvim_lua = "LUA",
+						sql = "SQL",
+						buffer = "BUF",
+						async_path = "PATH",
 					})[entry.source.name]
 					return vim_item
 				end,
 			},
-
 			mapping = cmp.mapping.preset.insert({
 				["<C-b>"] = cmp.mapping.scroll_docs(-4),
 				["<C-f>"] = cmp.mapping.scroll_docs(4),
@@ -106,25 +103,19 @@ return {
 				{ name = "nvim_lsp_signature_help" },
 			}),
 		})
-
 		cmp.setup.cmdline({ "/", "?" }, {
+			view = { entries = { name = "wildmenu", separator = " | " } },
 			mapping = cmp.mapping.preset.cmdline(),
-			view = {
-				entries = { name = "wildmenu", separator = "|" },
-			},
 			sources = {
 				{ name = "buffer" },
 			},
 		})
-
 		cmp.setup.cmdline(":", {
-			view = {
-				entries = { name = "wildmenu", separator = "|" },
-			},
+			view = { entries = { name = "wildmenu", separator = " | " } },
 			mapping = cmp.mapping.preset.cmdline(),
 			sources = cmp.config.sources({
-				{ name = "async_path" },
 				{ name = "cmdline" },
+				{ name = "async_path" },
 			}),
 			matching = { disallow_symbol_nonprefix_matching = false },
 		})
