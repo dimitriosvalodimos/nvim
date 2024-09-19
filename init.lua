@@ -115,8 +115,6 @@ require("config.lazy")
 -- modus_vivendi
 -- night-owl
 -- no-clown-fiesta
--- oh-lucy
--- oh-lucy-evening
 -- oldworld
 -- onedark_dark
 -- oxocarbon
@@ -125,4 +123,4 @@ require("config.lazy")
 -- vague
 -- vesper
 
-vim.cmd.colorscheme("oldworld")
+vim.cmd.colorscheme("vesper")

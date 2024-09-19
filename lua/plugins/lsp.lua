@@ -6,10 +6,21 @@ return {
 		"aznhe21/actions-preview.nvim",
 		"neovim/nvim-lspconfig",
 		"nvim-lua/plenary.nvim",
-		"ms-jpq/coq_nvim",
-		{ "j-hui/fidget.nvim", opts = { progress = { ignore_done_already = false, ignore_empty_message = false } } },
-		{ "zeioth/garbage-day.nvim", event = "VeryLazy", opts = { notifications = true } },
-		{ "smjonas/inc-rename.nvim", event = "VeryLazy", opts = {} },
+		"hrsh7th/cmp-nvim-lsp",
+		{
+			"j-hui/fidget.nvim",
+			opts = { progress = { ignore_done_already = false, ignore_empty_message = false } },
+		},
+		{
+			"zeioth/garbage-day.nvim",
+			event = "VeryLazy",
+			opts = { notifications = true },
+		},
+		{
+			"smjonas/inc-rename.nvim",
+			event = "VeryLazy",
+			opts = {},
+		},
 		{
 			"dnlhc/glance.nvim",
 			event = "VeryLazy",
@@ -90,9 +101,33 @@ return {
 					javascript = { inlayHints = inlayHints },
 				},
 			},
+			typst_lsp = {
+				settings = { exportPdf = "onType" }, -- onSave
+				filetypes = { "typst" },
+			},
 		}
-		local capabilities = vim.lsp.protocol.make_client_capabilities()
-		capabilities.textDocument.completion.completionItem.snippetSupport = true
+		local capabilities = vim.tbl_deep_extend(
+			"force",
+			vim.lsp.protocol.make_client_capabilities(),
+			require("cmp_nvim_lsp").default_capabilities(),
+			{
+				textDocument = {
+					completion = {
+						completionItem = {
+							documentationFormat = { "markdown", "plaintext" },
+							snippetSupport = true,
+							preselectSupport = true,
+							insertReplaceSupport = true,
+							labelDetailsSupport = true,
+							deprecatedSupport = true,
+							commitCharactersSupport = true,
+							tagSupport = { valueSet = { 1 } },
+							resolveSupport = { properties = { "documentation", "detail", "additionalTextEdits" } },
+						},
+					},
+				},
+			}
+		)
 		local lspconfig = require("lspconfig")
 		local float_config = {
 			header = "",
@@ -136,18 +171,17 @@ return {
 		})
 
 		require("mason").setup()
-		local coq = require("coq")
 		local mason_lspconfig = require("mason-lspconfig")
 		mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(servers) })
 		mason_lspconfig.setup_handlers({
 			function(server_name)
 				local config = servers[server_name] or {}
-				lspconfig[server_name].setup(coq.lsp_ensure_capabilities({
+				lspconfig[server_name].setup({
 					capabilities = capabilities,
 					filetypes = config.filetypes or {},
 					settings = config.settings or {},
 					flags = { debounce_text_changes = 150 },
-				}))
+				})
 			end,
 		})
 
