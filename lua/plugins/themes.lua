@@ -9,7 +9,7 @@ return {
 			dim_nc_background = true,
 			disable_background = false,
 			disable_float_background = false,
-			disable_italics = false,
+			disable_italics = true,
 		},
 	},
 	{ "kvrohit/substrata.nvim", lazy = true, priority = 1000 },
@@ -20,7 +20,7 @@ return {
 		opts = {
 			transparent = false,
 			italics = {
-				comments = true,
+				comments = false,
 				keywords = false,
 				functions = false,
 				strings = false,
@@ -35,12 +35,12 @@ return {
 		opts = {
 			transparent = false,
 			styles = {
-				comments = { italic = true },
+				comments = {},
 				functions = { bold = true },
 				keywords = { bold = true },
 				lsp = { underline = true },
 				match_paren = {},
-				type = { bold = true, italic = true },
+				type = { bold = true },
 				variables = {},
 			},
 		},
@@ -52,7 +52,7 @@ return {
 		priority = 1000,
 		opts = {
 			styles = {
-				types = "bold,italic",
+				types = "bold",
 				methods = "bold",
 				numbers = "NONE",
 				strings = "NONE",
@@ -123,7 +123,7 @@ return {
 				dim_inactive = false,
 				hide_inactive_statusline = false,
 				styles = {
-					comments = { italic = true },
+					comments = {},
 					keywords = { bold = true },
 					functions = { bold = true },
 					variables = {},
@@ -147,7 +147,7 @@ return {
 				functions = "bold",
 				headings = "bold",
 				operators = "none",
-				strings = "italic",
+				strings = "none",
 				variables = "none",
 				keywords = "bold",
 				keyword_return = "bold",
@@ -156,7 +156,7 @@ return {
 				keywords_exception = "bold",
 				builtin_constants = "bold",
 				builtin_functions = "bold",
-				builtin_types = "bold,italic",
+				builtin_types = "bold",
 				builtin_variables = "none",
 			},
 		},
@@ -190,7 +190,7 @@ return {
 		opts = {
 			terminal_colors = true,
 			styles = {
-				comments = { italic = true },
+				comments = {},
 				keywords = { bold = true },
 				identifiers = { bold = true },
 				functions = { bold = true },
@@ -225,7 +225,7 @@ return {
 		priority = 1000,
 		opts = {
 			bold = true,
-			italics = true,
+			italics = false,
 			underline = true,
 			undercurl = true,
 			transparent_background = false,
@@ -236,7 +236,7 @@ return {
 		lazy = true,
 		priority = 1000,
 		config = function()
-			vim.g.mellow_italic_comments = true
+			vim.g.mellow_italic_comments = false
 			vim.g.mellow_italic_keywords = false
 			vim.g.mellow_italic_booleans = false
 			vim.g.mellow_italic_functions = false

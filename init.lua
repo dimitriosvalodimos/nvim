@@ -123,4 +123,4 @@ require("config.lazy")
 -- vague
 -- vesper
 
-vim.cmd.colorscheme("vesper")
+vim.cmd.colorscheme("vague")
