@@ -12,7 +12,6 @@ return {
 			disable_italics = true,
 		},
 	},
-	{ "kvrohit/substrata.nvim", lazy = true, priority = 1000 },
 	{
 		"datsfilipe/vesper.nvim",
 		lazy = true,
@@ -45,7 +44,6 @@ return {
 			},
 		},
 	},
-	{ "cocopon/iceberg.vim", lazy = true, priority = 1000 },
 	{
 		"olimorris/onedarkpro.nvim",
 		lazy = true,
@@ -110,7 +108,6 @@ return {
 			},
 		},
 	},
-	{ "dasupradyumna/midnight.nvim", lazy = true, priority = 1000 },
 	{
 		"miikanissi/modus-themes.nvim",
 		lazy = true,
@@ -182,53 +179,32 @@ return {
 			underline = true,
 		},
 	},
-	{ "wadackel/vim-dogrun", lazy = true, priority = 1000 },
 	{
-		"dgox16/oldworld.nvim",
+		"tiagovla/tokyodark.nvim",
 		lazy = true,
 		priority = 1000,
 		opts = {
-			terminal_colors = true,
+			transparent_background = false,
+			gamma = 1.00,
 			styles = {
 				comments = {},
 				keywords = { bold = true },
-				identifiers = { bold = true },
+				identifiers = {},
 				functions = { bold = true },
 				variables = {},
-				booleans = { bold = true },
 			},
-			integrations = {
-				alpha = false,
-				cmp = true,
-				flash = false,
-				gitsigns = true,
-				hop = false,
-				indent_blankline = false,
-				lazy = true,
-				lsp = true,
-				markdown = true,
-				mason = true,
-				navic = false,
-				neo_tree = false,
-				neorg = false,
-				noice = false,
-				notify = true,
-				rainbow_delimiters = true,
-				telescope = true,
-				treesitter = true,
-			},
+			terminal_colors = true,
 		},
 	},
 	{
-		"oxfist/night-owl.nvim",
+		"Mofiqul/vscode.nvim",
 		lazy = true,
 		priority = 1000,
 		opts = {
-			bold = true,
-			italics = false,
-			underline = true,
-			undercurl = true,
-			transparent_background = false,
+			transparent = false,
+			italic_comments = false,
+			underline_links = true,
+			disable_nvimtree_bg = false,
 		},
 	},
 	{
@@ -248,5 +224,38 @@ return {
 			vim.g.mellow_bold_variables = false
 			vim.g.mellow_transparent = false
 		end,
+	},
+	{
+		"kvrohit/rasmus.nvim",
+		lazy = true,
+		priority = 1000,
+		config = function()
+			vim.g.rasmus_italic_comments = false
+			vim.g.rasmus_italic_keywords = false
+			vim.g.rasmus_italic_booleans = false
+			vim.g.rasmus_italic_functions = false
+			vim.g.rasmus_italic_variables = false
+			vim.g.rasmus_bold_comments = false
+			vim.g.rasmus_bold_keywords = false
+			vim.g.rasmus_bold_booleans = false
+			vim.g.rasmus_bold_functions = false
+			vim.g.rasmus_bold_variables = false
+			vim.g.rasmus_transparent = false
+			vim.g.rasmus_variant = "dark" -- monochrome
+		end,
+	},
+	{ "felipeagc/fleet-theme-nvim", lazy = true, priority = 1000 },
+	{
+		"mrjones2014/lighthaus.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {
+			bg_dark = true,
+			colors = {},
+			lsp_underline_style = "undercurl",
+			transparent = false,
+			italic_comments = false,
+			italic_keywords = false,
+		},
 	},
 }

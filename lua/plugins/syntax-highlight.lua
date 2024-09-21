@@ -33,7 +33,7 @@ return {
 			},
 			auto_install = true,
 			matchup = { enable = true, enable_quotes = true },
-			highlight = { enable = true },
+			highlight = { enable = true, additional_vim_regex_highlighting = false },
 		})
 		require("nvim-ts-autotag").setup({
 			opts = {

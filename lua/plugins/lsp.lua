@@ -9,7 +9,10 @@ return {
 		"hrsh7th/cmp-nvim-lsp",
 		{
 			"j-hui/fidget.nvim",
-			opts = { progress = { ignore_done_already = false, ignore_empty_message = false } },
+			opts = {
+				progress = { ignore_done_already = false, ignore_empty_message = false },
+				notification = { window = { winblend = 0 } },
+			},
 		},
 		{
 			"zeioth/garbage-day.nvim",
