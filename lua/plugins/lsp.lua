@@ -46,6 +46,18 @@ return {
 			includeInlayEnumMemberValueHints = true,
 		}
 		local servers = {
+			biome = {
+				filetypes = {
+					"javascript",
+					"javascriptreact",
+					"json",
+					"jsonc",
+					"typescript",
+					"typescript.tsx",
+					"typescriptreact",
+					"css",
+				},
+			},
 			cssls = { filetypes = { "css" }, settings = {} },
 			emmet_ls = {
 				filetypes = { "css", "html", "javascriptreact", "svelte", "typescriptreact" },
