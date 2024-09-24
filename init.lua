@@ -126,4 +126,4 @@ require("config.lazy")
 -- vesper
 -- vscode
 
-vim.cmd.colorscheme("lighthaus")
+vim.cmd.colorscheme("vscode")

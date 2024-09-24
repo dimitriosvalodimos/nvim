@@ -241,7 +241,7 @@ return {
 			vim.g.rasmus_bold_functions = false
 			vim.g.rasmus_bold_variables = false
 			vim.g.rasmus_transparent = false
-			vim.g.rasmus_variant = "dark" -- monochrome
+			vim.g.rasmus_variant = "dark" -- dark / monochrome
 		end,
 	},
 	{ "felipeagc/fleet-theme-nvim", lazy = true, priority = 1000 },

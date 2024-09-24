@@ -1,7 +1,7 @@
 return {
 	"folke/trouble.nvim",
-	opts = {},
 	cmd = "Trouble",
+	opts = {},
 	keys = {
 		{ "<leader>XX", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
 		{

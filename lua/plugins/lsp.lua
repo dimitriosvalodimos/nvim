@@ -24,15 +24,6 @@ return {
 			event = "VeryLazy",
 			opts = {},
 		},
-		{
-			"dnlhc/glance.nvim",
-			event = "VeryLazy",
-			opts = {
-				border = { enable = true },
-				indent_lines = { enable = false },
-				preview_win_opts = { wrap = false },
-			},
-		},
 	},
 	config = function()
 		local inlayHints = {
@@ -156,14 +147,10 @@ return {
 				local map = function(keys, func, desc)
 					vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 				end
-				map("gd", "<CMD>Glance definitions<CR>", "goto definitions")
-				map("gr", "<CMD>Glance references<CR>", "goto references")
-				map("<leader>D", "<CMD>Glance type_definitions<CR>", "goto type definitions")
-				map("gI", "<CMD>Glance implementations<CR>", "goto implementations")
-				-- map("gd", require("telescope.builtin").lsp_definitions, "goto definition")
-				-- map("gr", require("telescope.builtin").lsp_references, "goto references")
-				-- map("gI", require("telescope.builtin").lsp_implementations, "goto implementation")
-				-- map("<leader>D", require("telescope.builtin").lsp_type_definitions, "goto type definition")
+				map("gd", require("telescope.builtin").lsp_definitions, "goto definition")
+				map("gr", require("telescope.builtin").lsp_references, "goto references")
+				map("gI", require("telescope.builtin").lsp_implementations, "goto implementation")
+				map("<leader>D", require("telescope.builtin").lsp_type_definitions, "goto type definition")
 				map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "document symbols")
 				map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "workspace symbols")
 				map("gD", vim.lsp.buf.declaration, "goto declaration")
