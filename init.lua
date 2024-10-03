@@ -11,7 +11,7 @@ opt.conceallevel = 0 -- don't hide bold/italic markers
 opt.confirm = true -- ask to save changes
 opt.copyindent = true
 opt.cursorline = true
-opt.cursorlineopt = "number"
+-- opt.cursorlineopt = "number"
 opt.diffopt = vim.list_extend(vim.opt.diffopt:get(), { "algorithm:histogram", "linematch:60" })
 opt.expandtab = true
 opt.foldcolumn = "1"
@@ -88,6 +88,7 @@ local disabled_plugins = {
 for i = 1, #disabled_plugins do
 	g["loaded_" .. disabled_plugins[i]] = true
 end
+
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("highlight_yank", {}),
 	desc = "Highlight selection on yank",
@@ -99,6 +100,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 local function map(mode, lhs, rhs, desc)
 	vim.keymap.set(mode, lhs, rhs, { desc = desc })
 end
+map("n", "<c-h>", "<c-w><c-h>", "Move focus to the left window")
+map("n", "<c-l>", "<c-w><c-l>", "Move focus to the right window")
+map("n", "<c-j>", "<c-w><c-j>", "Move focus to the lower window")
+map("n", "<c-k>", "<c-w><c-k>", "Move focus to the upper window")
 map("i", "<c-u>", "<c-r>=trim(system('uuidgen'))<cr>", "insert uuid at cursor")
 map("n", "<c-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>", "insert uuid at cursor")
 map("i", "<A-j>", "<Esc>:m .+1<CR>==gi", "move line up")
@@ -109,21 +114,3 @@ map("v", "<", "<gv", "dedent")
 map("v", ">", ">gv", "indent")
 
 require("config.lazy")
-
--- fleet
--- gruber-darker
--- lighthaus
--- lighthaus-dark
--- mellow
--- modus_vivendi
--- no-clown-fiesta
--- onedark_dark
--- oxocarbon
--- poimandres
--- rasmus
--- tokyodark
--- vague
--- vesper
--- vscode
-
-vim.cmd.colorscheme("vscode")
