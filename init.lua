@@ -229,6 +229,7 @@ require("lazy").setup({
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
+		dependencies = { "m-demare/hlargs.nvim" },
 		config = function()
 			require("nvim-treesitter.install").prefer_git = true
 			require("nvim-treesitter.configs").setup({
@@ -251,6 +252,7 @@ require("lazy").setup({
 				auto_install = true,
 				highlight = { enable = true, additional_vim_regex_highlighting = false },
 			})
+			require("hlargs").setup({})
 		end,
 	},
 	{
@@ -313,7 +315,7 @@ require("lazy").setup({
 			{
 				"j-hui/fidget.nvim",
 				opts = {
-					progress = { ignore_done_already = false, ignore_empty_message = false },
+					progress = { ignore_done_already = true, ignore_empty_message = true },
 					notification = { window = { winblend = 0 } },
 				},
 			},
