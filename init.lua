@@ -1,9 +1,11 @@
 local g = vim.g
 local opt = vim.opt
+
 g.mapleader = " "
 g.maplocalleader = ","
-opt.backupcopy = "yes"
+
 opt.background = "dark"
+opt.backupcopy = "yes"
 opt.breakindent = true
 opt.clipboard = "unnamedplus"
 opt.completeopt = { "menu", "menuone", "noselect", "noinsert", "popup" }
@@ -11,7 +13,6 @@ opt.conceallevel = 0 -- don't hide bold/italic markers
 opt.confirm = true -- ask to save changes
 opt.copyindent = true
 opt.cursorline = true
--- opt.cursorlineopt = "number"
 opt.diffopt = vim.list_extend(vim.opt.diffopt:get(), { "algorithm:histogram", "linematch:60" })
 opt.expandtab = true
 opt.foldcolumn = "1"
@@ -28,7 +29,6 @@ opt.numberwidth = 4
 opt.preserveindent = true
 opt.pumblend = 10 -- popup blend
 opt.pumheight = 10 -- popup max height
--- opt.relativenumber = true
 opt.scrolloff = 5 -- vertical buffer area on scroll
 opt.shiftround = true
 opt.shiftwidth = 2
@@ -41,12 +41,12 @@ opt.splitkeep = "screen"
 opt.splitright = true
 opt.tabstop = 2
 opt.termguicolors = true
-opt.updatetime = 300
 opt.timeoutlen = 300
 opt.timeout = true
 opt.title = true
 opt.undofile = true
 opt.undolevels = 10000
+opt.updatetime = 300
 opt.virtualedit = "block"
 opt.wildmode = { "longest:full", "full" }
 opt.wrap = false
@@ -56,6 +56,7 @@ if vim.fn.has("nvim-0.10") == 1 then
 	opt.foldmethod = "expr"
 	opt.foldtext = ""
 end
+
 local disabled_plugins = {
 	"2html_plugin",
 	"tohtml",
@@ -85,6 +86,7 @@ local disabled_plugins = {
 	"bugreport",
 	"ftplugin",
 }
+
 for i = 1, #disabled_plugins do
 	g["loaded_" .. disabled_plugins[i]] = true
 end
@@ -97,19 +99,25 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 300 })
 	end,
 })
+
 local function map(mode, lhs, rhs, desc)
 	vim.keymap.set(mode, lhs, rhs, { desc = desc })
 end
+
 map("n", "<c-h>", "<c-w><c-h>", "Move focus to the left window")
 map("n", "<c-l>", "<c-w><c-l>", "Move focus to the right window")
 map("n", "<c-j>", "<c-w><c-j>", "Move focus to the lower window")
 map("n", "<c-k>", "<c-w><c-k>", "Move focus to the upper window")
+
 map("i", "<c-u>", "<c-r>=trim(system('uuidgen'))<cr>", "insert uuid at cursor")
 map("n", "<c-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>", "insert uuid at cursor")
+
 map("i", "<A-j>", "<Esc>:m .+1<CR>==gi", "move line up")
 map("i", "<A-k>", "<Esc>:m .-2<CR>==gi", "move line down")
+
 map("n", "<A-j>", ":m .+1<CR>==", "move line up")
 map("n", "<A-k>", ":m .-2<CR>==", "move line down")
+
 map("v", "<", "<gv", "dedent")
 map("v", ">", ">gv", "indent")
 
