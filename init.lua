@@ -563,7 +563,6 @@ require("lazy").setup({
 	{
 		"stevearc/oil.nvim",
 		opts = {},
-		dependencies = { "nvim-tree/nvim-web-devicons" },
 		keys = { { "-", "<cmd>Oil<cr>", desc = "open parent dir" } },
 	},
 	{
@@ -588,4 +587,74 @@ require("lazy").setup({
 			},
 		},
 	},
+	{
+		"mfussenegger/nvim-dap",
+		event = "VeryLazy",
+		ft = "typescript",
+		dependencies = {
+			"rcarriga/nvim-dap-ui",
+			"nvim-neotest/nvim-nio",
+			"jay-babu/mason-nvim-dap.nvim",
+			"williamboman/mason.nvim",
+			"mxsdev/nvim-dap-vscode-js",
+		},
+		config = function()
+			require("mason").setup()
+			require("mason-nvim-dap").setup({
+				ensure_installed = {},
+				automatic_setup = true,
+				automatic_installation = true,
+				handlers = {},
+			})
+			local dap = require("dap")
+			local dapui = require("dapui")
+			dap.listeners.before.attach.dapui_config = dapui.open
+			-- function()
+			-- 	dapui.open()
+			-- end
+			dap.listeners.before.launch.dapui_config = dapui.open
+			-- function()
+			-- 	dapui.open()
+			-- end
+			dap.listeners.before.event_terminated.dapui_config = dapui.close
+			-- function()
+			-- 	dapui.close()
+			-- end
+			dap.listeners.before.event_exited.dapui_config = dapui.close
+			-- function()
+			-- 	dapui.close()
+			-- end
+			vim.fn.sign_define("DapBreakpoint", { text = "🟥", texthl = "", linehl = "", numhl = "" })
+			vim.fn.sign_define("DapStopped", { text = "▶️", texthl = "", linehl = "", numhl = "" })
+			require("dap-vscode-js").setup({
+				debugger_cmd = { "js-debug-adapter" },
+				debugger_path = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter",
+				adapters = { "pwa-node" },
+			})
+			dap.configurations["typescript"] = {
+				{
+					type = "pwa-node",
+					request = "launch",
+					name = "Launch file",
+					program = "${file}",
+					cwd = "${workspaceFolder}",
+				},
+				{
+					type = "pwa-node",
+					request = "attach",
+					name = "Attach",
+					processId = require("dap.utils").pick_process,
+					cwd = "${workspaceFolder}",
+				},
+			}
+			map("n", "<F2>", dap.close, "Debug: Close")
+			map("n", "<F5>", dap.continue, "Debug: Start/Continue")
+			map("n", "<F9>", dap.toggle_breakpoint, "Debug: Toggle breakpoint")
+			map("n", "<F10>", dap.step_over, "Debug: Step Over")
+			map("n", "<F11>", dap.step_into, "Debug: Step Into")
+			map("n", "<S-F11>", dap.step_out, "Debug: Step Out")
+		end,
+	},
 })
+
+-- https://github.com/ChristianChiarulli/neovim-codicons
