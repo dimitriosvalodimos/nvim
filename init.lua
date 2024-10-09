@@ -139,6 +139,88 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	{ "nvim-tree/nvim-web-devicons", opts = {} },
+	{ "slugbyte/lackluster.nvim", lazy = true, priority = 1000, opts = {} },
+	{ "nyoom-engineering/oxocarbon.nvim", lazy = true, priority = 1000 },
+	{ "aktersnurra/no-clown-fiesta.nvim", lazy = true, priority = 1000, opts = {} },
+	{
+		"jesseleite/nvim-noirbuddy",
+		dependencies = { "tjdevries/colorbuddy.nvim" },
+		lazy = true,
+		priority = 1000,
+		opts = {
+			preset = "minimal", -- miami-nights, kiwi, slate, crt-green, crt-amber
+		},
+	},
+	{
+		"olivercederborg/poimandres.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {
+			bold_vert_split = false,
+			dim_nc_background = false,
+			disable_background = false,
+			disable_float_background = false,
+			disable_italics = true,
+		},
+	},
+	{
+		"kvrohit/rasmus.nvim",
+		lazy = true,
+		priority = 1000,
+		config = function()
+			vim.g.rasmus_italic_comments = false
+		end,
+	},
+	{
+		"vague2k/vague.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {
+			style = {
+				boolean = "bold",
+				number = "bold",
+				float = "bold",
+				error = "bold",
+				comments = "none",
+				conditionals = "none",
+				functions = "bold",
+				headings = "bold",
+				operators = "none",
+				strings = "none",
+				variables = "none",
+				keywords = "bold",
+				keyword_return = "bold",
+				keywords_loop = "bold",
+				keywords_label = "none",
+				keywords_exception = "none",
+				builtin_constants = "none",
+				builtin_functions = "none",
+				builtin_types = "none",
+				builtin_variables = "none",
+			},
+		},
+	},
+	{
+		"blazkowolf/gruber-darker.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {
+			bold = true,
+			invert = {
+				signs = false,
+				tabline = false,
+				visual = false,
+			},
+			italic = {
+				strings = false,
+				comments = false,
+				operators = false,
+				folds = false,
+			},
+			undercurl = true,
+			underline = true,
+		},
+	},
 	{
 		"lewis6991/gitsigns.nvim",
 		event = "VeryLazy",
@@ -157,7 +239,7 @@ require("lazy").setup({
 		"nvim-lualine/lualine.nvim",
 		opts = {
 			options = {
-				theme = "iceberg_dark",
+				theme = "auto", -- iceberg_dark,
 				section_separators = "",
 				component_separators = "",
 			},
@@ -589,64 +671,48 @@ require("lazy").setup({
 	},
 	{
 		"mfussenegger/nvim-dap",
-		event = "VeryLazy",
 		ft = "typescript",
 		dependencies = {
 			"rcarriga/nvim-dap-ui",
 			"nvim-neotest/nvim-nio",
-			"jay-babu/mason-nvim-dap.nvim",
-			"williamboman/mason.nvim",
 			"mxsdev/nvim-dap-vscode-js",
+			{
+				"microsoft/vscode-js-debug",
+				build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+			},
 		},
 		config = function()
-			require("mason").setup()
-			require("mason-nvim-dap").setup({
-				ensure_installed = {},
-				automatic_setup = true,
-				automatic_installation = true,
-				handlers = {},
-			})
-			local dap = require("dap")
-			local dapui = require("dapui")
-			dap.listeners.before.attach.dapui_config = dapui.open
-			-- function()
-			-- 	dapui.open()
-			-- end
-			dap.listeners.before.launch.dapui_config = dapui.open
-			-- function()
-			-- 	dapui.open()
-			-- end
-			dap.listeners.before.event_terminated.dapui_config = dapui.close
-			-- function()
-			-- 	dapui.close()
-			-- end
-			dap.listeners.before.event_exited.dapui_config = dapui.close
-			-- function()
-			-- 	dapui.close()
-			-- end
 			vim.fn.sign_define("DapBreakpoint", { text = "🟥", texthl = "", linehl = "", numhl = "" })
 			vim.fn.sign_define("DapStopped", { text = "▶️", texthl = "", linehl = "", numhl = "" })
 			require("dap-vscode-js").setup({
-				debugger_cmd = { "js-debug-adapter" },
-				debugger_path = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter",
+				debugger_path = vim.fn.stdpath("data") .. "/lazy/vscode-js-debug",
 				adapters = { "pwa-node" },
 			})
-			dap.configurations["typescript"] = {
-				{
-					type = "pwa-node",
-					request = "launch",
-					name = "Launch file",
-					program = "${file}",
-					cwd = "${workspaceFolder}",
-				},
-				{
-					type = "pwa-node",
-					request = "attach",
-					name = "Attach",
-					processId = require("dap.utils").pick_process,
-					cwd = "${workspaceFolder}",
-				},
-			}
+			local dap = require("dap")
+			for _, lang in ipairs({ "typescript", "javascript" }) do
+				dap.configurations[lang] = {
+					{
+						type = "pwa-node",
+						request = "attach",
+						name = "Attach",
+						cwd = "${workspaceFolder}",
+						port = 9876,
+					},
+				}
+			end
+			local dapui = require("dapui")
+			dap.listeners.before.attach.dapui_config = function()
+				dapui.open()
+			end
+			dap.listeners.before.launch.dapui_config = function()
+				dapui.open()
+			end
+			dap.listeners.before.event_terminated.dapui_config = function()
+				dapui.close()
+			end
+			dap.listeners.before.event_exited.dapui_config = function()
+				dapui.close()
+			end
 			map("n", "<F2>", dap.close, "Debug: Close")
 			map("n", "<F5>", dap.continue, "Debug: Start/Continue")
 			map("n", "<F9>", dap.toggle_breakpoint, "Debug: Toggle breakpoint")
@@ -657,4 +723,15 @@ require("lazy").setup({
 	},
 })
 
--- https://github.com/ChristianChiarulli/neovim-codicons
+-- lackluster
+-- lackluster-hack
+-- lackluster-mint
+-- lackluster-night
+-- oxocarbon
+-- no-clown-fiesta
+-- noirbuddy
+-- poimandres
+-- rasmus
+-- vague
+-- gruber-darker
+vim.cmd.colorscheme("no-clown-fiesta")
