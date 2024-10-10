@@ -139,67 +139,8 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	{ "nvim-tree/nvim-web-devicons", opts = {} },
-	{ "slugbyte/lackluster.nvim", lazy = true, priority = 1000, opts = {} },
 	{ "nyoom-engineering/oxocarbon.nvim", lazy = true, priority = 1000 },
 	{ "aktersnurra/no-clown-fiesta.nvim", lazy = true, priority = 1000, opts = {} },
-	{
-		"jesseleite/nvim-noirbuddy",
-		dependencies = { "tjdevries/colorbuddy.nvim" },
-		lazy = true,
-		priority = 1000,
-		opts = {
-			preset = "minimal", -- miami-nights, kiwi, slate, crt-green, crt-amber
-		},
-	},
-	{
-		"olivercederborg/poimandres.nvim",
-		lazy = true,
-		priority = 1000,
-		opts = {
-			bold_vert_split = false,
-			dim_nc_background = false,
-			disable_background = false,
-			disable_float_background = false,
-			disable_italics = true,
-		},
-	},
-	{
-		"kvrohit/rasmus.nvim",
-		lazy = true,
-		priority = 1000,
-		config = function()
-			vim.g.rasmus_italic_comments = false
-		end,
-	},
-	{
-		"vague2k/vague.nvim",
-		lazy = true,
-		priority = 1000,
-		opts = {
-			style = {
-				boolean = "bold",
-				number = "bold",
-				float = "bold",
-				error = "bold",
-				comments = "none",
-				conditionals = "none",
-				functions = "bold",
-				headings = "bold",
-				operators = "none",
-				strings = "none",
-				variables = "none",
-				keywords = "bold",
-				keyword_return = "bold",
-				keywords_loop = "bold",
-				keywords_label = "none",
-				keywords_exception = "none",
-				builtin_constants = "none",
-				builtin_functions = "none",
-				builtin_types = "none",
-				builtin_variables = "none",
-			},
-		},
-	},
 	{
 		"blazkowolf/gruber-darker.nvim",
 		lazy = true,
@@ -219,6 +160,37 @@ require("lazy").setup({
 			},
 			undercurl = true,
 			underline = true,
+		},
+	},
+	{
+		"Mofiqul/adwaita.nvim",
+		lazy = true,
+		priority = 1000,
+		config = function()
+			vim.g.adwaita_darker = true
+			vim.g.adwaita_disable_cursorline = true
+			vim.g.adwaita_transparent = false
+		end,
+	},
+	{
+		"aliqyan-21/darkvoid.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = { transparent = false, glow = true, show_end_of_buffer = true },
+	},
+	{
+		"datsfilipe/vesper.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {
+			transparent = false,
+			italics = {
+				comments = false,
+				keywords = false,
+				functions = false,
+				strings = false,
+				variables = false,
+			},
 		},
 	},
 	{
@@ -723,15 +695,10 @@ require("lazy").setup({
 	},
 })
 
--- lackluster
--- lackluster-hack
--- lackluster-mint
--- lackluster-night
 -- oxocarbon
 -- no-clown-fiesta
--- noirbuddy
--- poimandres
--- rasmus
--- vague
 -- gruber-darker
-vim.cmd.colorscheme("no-clown-fiesta")
+-- adwaita
+-- darkvoid
+
+vim.cmd.colorscheme("oxocarbon")
