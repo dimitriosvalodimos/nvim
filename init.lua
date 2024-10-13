@@ -1,9 +1,7 @@
 local g = vim.g
 local opt = vim.opt
-
 g.mapleader = " "
 g.maplocalleader = ","
-
 opt.background = "dark"
 opt.backupcopy = "yes"
 opt.breakindent = true
@@ -13,6 +11,7 @@ opt.conceallevel = 0 -- don't hide bold/italic markers
 opt.confirm = true -- ask to save changes
 opt.copyindent = true
 opt.cursorline = true
+opt.cursorlineopt = "number"
 opt.diffopt = vim.list_extend(vim.opt.diffopt:get(), { "algorithm:histogram", "linematch:60" })
 opt.expandtab = true
 opt.foldcolumn = "1"
@@ -139,6 +138,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	{ "nvim-tree/nvim-web-devicons", opts = {} },
+	{ "p00f/alabaster.nvim", lazy = true, priority = 1000 },
 	{ "nyoom-engineering/oxocarbon.nvim", lazy = true, priority = 1000 },
 	{ "aktersnurra/no-clown-fiesta.nvim", lazy = true, priority = 1000, opts = {} },
 	{
@@ -171,12 +171,6 @@ require("lazy").setup({
 			vim.g.adwaita_disable_cursorline = true
 			vim.g.adwaita_transparent = false
 		end,
-	},
-	{
-		"aliqyan-21/darkvoid.nvim",
-		lazy = true,
-		priority = 1000,
-		opts = { transparent = false, glow = true, show_end_of_buffer = true },
 	},
 	{
 		"datsfilipe/vesper.nvim",
@@ -223,6 +217,16 @@ require("lazy").setup({
 	},
 	{ "windwp/nvim-autopairs", event = "InsertEnter", opts = { disable_filetype = { "TelescopePrompt", "vim" } } },
 	{
+		"folke/lazydev.nvim",
+		ft = "lua",
+		dependencies = { { "Bilal2453/luvit-meta", lazy = true } },
+		opts = {
+			library = {
+				{ path = "luvit-meta/library", words = { "vim%.uv" } },
+			},
+		},
+	},
+	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
 			"windwp/nvim-autopairs",
@@ -255,6 +259,7 @@ require("lazy").setup({
 					{ name = "nvim_lsp" },
 					{ name = "nvim_lsp_signature_help" },
 					{ name = "nvim_lua" },
+					{ name = "lazydev", group_index = 0 },
 					{ name = "buffer" },
 				}),
 			})
@@ -290,6 +295,7 @@ require("lazy").setup({
 					"css",
 					"diff",
 					"html",
+					"http",
 					"javascript",
 					"jsdoc",
 					"json",
@@ -332,26 +338,26 @@ require("lazy").setup({
 			})
 			telescope.load_extension("fzf")
 			local builtin = require("telescope.builtin")
-			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "find help" })
-			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "find buffer" })
-			vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "find keymapping" })
-			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "find file" })
-			vim.keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "find current word" })
-			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "live grep" })
-			vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "find diagnostics" })
-			vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "resume search" })
-			vim.keymap.set("n", "<leader>f.", builtin.oldfiles, { desc = 'find recent files ("." for repeat)' })
-			vim.keymap.set("n", "<leader>/", function()
+			map("n", "<leader>fh", builtin.help_tags, "find help")
+			map("n", "<leader>fb", builtin.buffers, "find buffer")
+			map("n", "<leader>fk", builtin.keymaps, "find keymapping")
+			map("n", "<leader>ff", builtin.find_files, "find file")
+			map("n", "<leader>fw", builtin.grep_string, "find current word")
+			map("n", "<leader>fg", builtin.live_grep, "live grep")
+			map("n", "<leader>fd", builtin.diagnostics, "find diagnostics")
+			map("n", "<leader>fr", builtin.resume, "resume search")
+			map("n", "<leader>f.", builtin.oldfiles, 'find recent files ("." for repeat)')
+			map("n", "<leader>/", function()
 				builtin.current_buffer_fuzzy_find(
 					require("telescope.themes").get_dropdown({ winblend = 10, previewer = false })
 				)
-			end, { desc = "fuzzy find in buffer" })
-			vim.keymap.set("n", "<leader>f/", function()
+			end, "fuzzy find in buffer")
+			map("n", "<leader>f/", function()
 				builtin.live_grep({
 					grep_open_files = true,
 					prompt_title = "Live Grep in Open Files",
 				})
-			end, { desc = "find in open files" })
+			end, "find in open files")
 		end,
 	},
 	{
@@ -501,16 +507,14 @@ require("lazy").setup({
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("config-lsp-attach", { clear = true }),
 				callback = function(event)
-					local map = function(keys, func, desc)
-						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
-					end
-					map("gd", require("telescope.builtin").lsp_definitions, "goto definition")
-					map("gr", require("telescope.builtin").lsp_references, "goto references")
-					map("gI", require("telescope.builtin").lsp_implementations, "goto implementation")
-					map("<leader>D", require("telescope.builtin").lsp_type_definitions, "goto type definition")
-					map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "document symbols")
-					map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "workspace symbols")
-					map("gD", vim.lsp.buf.declaration, "goto declaration")
+					local builtin = require("telescope.builtin")
+					map("n", "gd", builtin.lsp_definitions, "goto definition")
+					map("n", "gr", builtin.lsp_references, "goto references")
+					map("n", "gI", builtin.lsp_implementations, "goto implementation")
+					map("n", "<leader>D", builtin.lsp_type_definitions, "goto type definition")
+					map("n", "<leader>ds", builtin.lsp_document_symbols, "document symbols")
+					map("n", "<leader>ws", builtin.lsp_dynamic_workspace_symbols, "workspace symbols")
+					map("n", "gD", vim.lsp.buf.declaration, "goto declaration")
 					vim.keymap.set("n", "<leader>rn", function()
 						return ":IncRename " .. vim.fn.expand("<cword>")
 					end, { expr = true, desc = "LSP: rename" })
@@ -528,7 +532,15 @@ require("lazy").setup({
 			mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(servers) })
 			mason_lspconfig.setup_handlers({
 				function(server_name)
-					if server_name == "ts_ls" then
+					if server_name ~= "ts_ls" then
+						local config = servers[server_name] or {}
+						lspconfig[server_name].setup({
+							capabilities = capabilities,
+							filetypes = config.filetypes or {},
+							settings = config.settings or {},
+							flags = { debounce_text_changes = 150 },
+						})
+					else
 						require("typescript-tools").setup({
 							separate_diagnostic_server = true,
 							publish_diagnostic_on = "insert_leave",
@@ -551,14 +563,6 @@ require("lazy").setup({
 								enable = true,
 								filetypes = { "javascriptreact", "typescriptreact" },
 							},
-						})
-					else
-						local config = servers[server_name] or {}
-						lspconfig[server_name].setup({
-							capabilities = capabilities,
-							filetypes = config.filetypes or {},
-							settings = config.settings or {},
-							flags = { debounce_text_changes = 150 },
 						})
 					end
 				end,
@@ -695,10 +699,11 @@ require("lazy").setup({
 	},
 })
 
--- oxocarbon
--- no-clown-fiesta
--- gruber-darker
 -- adwaita
--- darkvoid
+-- alabaster
+-- gruber-darker
+-- no-clown-fiesta
+-- oxocarbon
+-- vesper
 
-vim.cmd.colorscheme("oxocarbon")
+vim.cmd.colorscheme("vesper")
