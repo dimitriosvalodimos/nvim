@@ -1,7 +1,9 @@
 local g = vim.g
 local opt = vim.opt
+
 g.mapleader = " "
 g.maplocalleader = ","
+
 opt.background = "dark"
 opt.backupcopy = "yes"
 opt.breakindent = true
@@ -49,11 +51,13 @@ opt.updatetime = 300
 opt.virtualedit = "block"
 opt.wildmode = { "longest:full", "full" }
 opt.wrap = false
+
 if vim.fn.has("nvim-0.10") == 1 then
 	opt.smoothscroll = true
 	opt.foldmethod = "expr"
 	opt.foldtext = ""
 end
+
 local disabled_plugins = {
 	"2html_plugin",
 	"bugreport",
@@ -83,9 +87,11 @@ local disabled_plugins = {
 	"zip",
 	"zipPlugin",
 }
+
 for i = 1, #disabled_plugins do
 	g["loaded_" .. disabled_plugins[i]] = true
 end
+
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("highlight_yank", {}),
 	desc = "Highlight selection on yank",
@@ -94,9 +100,11 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 300 })
 	end,
 })
+
 local function map(mode, lhs, rhs, opts)
 	vim.keymap.set(mode, lhs, rhs, opts or {})
 end
+
 map("n", "<c-h>", "<c-w><c-h>", { desc = "Move focus to the left window" })
 map("n", "<c-l>", "<c-w><c-l>", { desc = "Move focus to the right window" })
 map("n", "<c-j>", "<c-w><c-j>", { desc = "Move focus to the lower window" })
@@ -109,6 +117,7 @@ map("n", "<A-j>", ":m .+1<CR>==", { desc = "move line up" })
 map("n", "<A-k>", ":m .-2<CR>==", { desc = "move line down" })
 map("v", "<", "<gv", { desc = "dedent" })
 map("v", ">", ">gv", { desc = "indent" })
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -124,34 +133,10 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	end
 end
 vim.opt.rtp:prepend(lazypath)
+
 require("lazy").setup({
 	{ "nvim-tree/nvim-web-devicons", opts = {} },
 	{ "nyoom-engineering/oxocarbon.nvim", lazy = true, priority = 1000 },
-	{
-		"scottmckendry/cyberdream.nvim",
-		lazy = true,
-		priority = 1000,
-		opts = {
-			transparent = false,
-			italic_comments = false,
-			hide_fillchars = false,
-			borderless_telescope = true,
-			terminal_colors = true,
-			cache = false,
-			theme = { variant = "default" },
-			extensions = {
-				cmp = true,
-				gitsigns = true,
-				grugfar = true,
-				lazy = true,
-				markdown = true,
-				notify = true,
-				telescope = true,
-				treesitter = true,
-				whichkey = true,
-			},
-		},
-	},
 	{ "aktersnurra/no-clown-fiesta.nvim", lazy = true, priority = 1000, opts = {} },
 	{ "Mofiqul/vscode.nvim", lazy = true, priority = 1000, opts = { transparent = false, italic_comments = false } },
 	{
@@ -185,6 +170,31 @@ require("lazy").setup({
 			},
 			undercurl = true,
 			underline = true,
+		},
+	},
+	{
+		"scottmckendry/cyberdream.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {
+			transparent = false,
+			italic_comments = false,
+			hide_fillchars = false,
+			borderless_telescope = true,
+			terminal_colors = true,
+			cache = false,
+			theme = { variant = "default" },
+			extensions = {
+				cmp = true,
+				gitsigns = true,
+				grugfar = true,
+				lazy = true,
+				markdown = true,
+				notify = true,
+				telescope = true,
+				treesitter = true,
+				whichkey = true,
+			},
 		},
 	},
 	{
@@ -369,10 +379,6 @@ require("lazy").setup({
 					},
 				},
 				cssls = { filetypes = { "css" }, settings = {} },
-				emmet_ls = {
-					filetypes = { "css", "html", "javascriptreact", "svelte", "typescriptreact" },
-					settings = {},
-				},
 				eslint = {
 					filetypes = {
 						"javascript",
@@ -381,15 +387,10 @@ require("lazy").setup({
 						"typescript",
 						"typescriptreact",
 						"typescript.tsx",
-						"svelte",
 					},
 					settings = {},
 				},
-				gopls = {
-					filetypes = { "go", "gomod", "gowork", "gotmpl" },
-					settings = {},
-				},
-				html = { filetypes = { "html", "templ" }, settings = {} },
+				html = { filetypes = { "html" }, settings = {} },
 				lua_ls = {
 					filetypes = { "lua" },
 					settings = {
