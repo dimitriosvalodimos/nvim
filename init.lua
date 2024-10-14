@@ -127,7 +127,45 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	{ "nvim-tree/nvim-web-devicons", opts = {} },
 	{ "nyoom-engineering/oxocarbon.nvim", lazy = true, priority = 1000 },
+	{
+		"scottmckendry/cyberdream.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {
+			transparent = false,
+			italic_comments = false,
+			hide_fillchars = false,
+			borderless_telescope = true,
+			terminal_colors = true,
+			cache = false,
+			theme = { variant = "default" },
+			extensions = {
+				cmp = true,
+				gitsigns = true,
+				grugfar = true,
+				lazy = true,
+				markdown = true,
+				notify = true,
+				telescope = true,
+				treesitter = true,
+				whichkey = true,
+			},
+		},
+	},
 	{ "aktersnurra/no-clown-fiesta.nvim", lazy = true, priority = 1000, opts = {} },
+	{ "Mofiqul/vscode.nvim", lazy = true, priority = 1000, opts = { transparent = false, italic_comments = false } },
+	{
+		"olivercederborg/poimandres.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = {
+			bold_vert_split = false,
+			dim_nc_background = false,
+			disable_background = false,
+			disable_float_background = false,
+			disable_italics = true,
+		},
+	},
 	{
 		"blazkowolf/gruber-darker.nvim",
 		lazy = true,
@@ -151,8 +189,10 @@ require("lazy").setup({
 	},
 	{
 		"lewis6991/gitsigns.nvim",
-		opts = {},
-		keys = { { "<leader>gs", "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "toggle git blame" } },
+		config = function()
+			require("gitsigns").setup({})
+			map("n", "<leader>gs", "<cmd>Gitsigns toggle_current_line_blame<cr>", { desc = "toggle git blame" })
+		end,
 	},
 	{
 		"nvim-lualine/lualine.nvim",
@@ -470,4 +510,5 @@ require("lazy").setup({
 	},
 	{ "MagicDuck/grug-far.nvim", opts = {}, keys = { { ",", "<cmd>GrugFar<cr>", desc = "Search/Replace" } } },
 })
-vim.cmd.colorscheme("gruber-darker") -- gruber-darker, no-clown-fiesta, oxocarbon
+-- gruber-darker, no-clown-fiesta, oxocarbon, vscode, poimandres, cyberdream
+vim.cmd.colorscheme("cyberdream")
