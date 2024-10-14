@@ -467,6 +467,7 @@ require("lazy").setup({
 						vim.lsp.buf.code_action,
 						{ buffer = buffer, desc = "LSP: code action" }
 					)
+					map("n", "<leader>k", vim.diagnostic.open_float, { buffer = buffer, desc = "open float" })
 				end,
 			})
 			require("mason").setup()
@@ -511,4 +512,4 @@ require("lazy").setup({
 	{ "MagicDuck/grug-far.nvim", opts = {}, keys = { { ",", "<cmd>GrugFar<cr>", desc = "Search/Replace" } } },
 })
 -- gruber-darker, no-clown-fiesta, oxocarbon, vscode, poimandres, cyberdream
-vim.cmd.colorscheme("cyberdream")
+vim.cmd.colorscheme("gruber-darker")
