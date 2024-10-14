@@ -56,32 +56,32 @@ if vim.fn.has("nvim-0.10") == 1 then
 end
 local disabled_plugins = {
 	"2html_plugin",
-	"tohtml",
+	"bugreport",
+	"compiler",
+	"ftplugin",
 	"getscript",
 	"getscriptPlugin",
 	"gzip",
 	"logipat",
+	"matchit",
 	"netrw",
+	"netrwFileHandlers",
 	"netrwPlugin",
 	"netrwSettings",
-	"netrwFileHandlers",
-	"matchit",
-	"tar",
-	"tarPlugin",
+	"optwin",
+	"rplugin",
 	"rrhelper",
 	"spellfile_plugin",
+	"synmenu",
+	"syntax",
+	"tar",
+	"tarPlugin",
+	"tohtml",
+	"tutor",
 	"vimball",
 	"vimballPlugin",
 	"zip",
 	"zipPlugin",
-	"tutor",
-	"rplugin",
-	"syntax",
-	"synmenu",
-	"optwin",
-	"compiler",
-	"bugreport",
-	"ftplugin",
 }
 for i = 1, #disabled_plugins do
 	g["loaded_" .. disabled_plugins[i]] = true
@@ -165,11 +165,7 @@ require("lazy").setup({
 		"folke/lazydev.nvim",
 		ft = "lua",
 		dependencies = { { "Bilal2453/luvit-meta", lazy = true } },
-		opts = {
-			library = {
-				{ path = "luvit-meta/library", words = { "vim%.uv" } },
-			},
-		},
+		opts = { library = { { path = "luvit-meta/library", words = { "vim%.uv" } } } },
 	},
 	{
 		"hrsh7th/nvim-cmp",
@@ -178,7 +174,6 @@ require("lazy").setup({
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-cmdline",
 			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-nvim-lua",
 			"hrsh7th/cmp-nvim-lsp-signature-help",
 		},
 		config = function()
@@ -200,19 +195,9 @@ require("lazy").setup({
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
 					{ name = "nvim_lsp_signature_help" },
-					{ name = "nvim_lua" },
 					{ name = "lazydev", group_index = 0 },
 					{ name = "buffer" },
 				}),
-			})
-			cmp.setup.cmdline({ "/", "?" }, {
-				view = {
-					entries = { name = "wildmenu", separator = " | " },
-				},
-				mapping = cmp.mapping.preset.cmdline(),
-				sources = {
-					{ name = "buffer" },
-				},
 			})
 			cmp.setup.cmdline(":", {
 				view = {
@@ -260,25 +245,36 @@ require("lazy").setup({
 	{ "numToStr/Comment.nvim", opts = {} },
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.8",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		opts = {
-			pickers = {
-				buffers = { previewer = false, theme = "ivy" },
-				current_buffer_fuzzy_find = { theme = "ivy" },
-				diagnostics = { previewer = false, theme = "ivy" },
-				find_files = { previewer = false, theme = "ivy" },
-				grep_string = { previewer = false, theme = "ivy" },
-				help_tags = { previewer = false, theme = "ivy" },
-				keymaps = { previewer = false, theme = "ivy" },
-				live_grep = { theme = "ivy" },
-				oldfiles = { previewer = false, theme = "ivy" },
-				resume = { previewer = false, theme = "ivy" },
-			},
-			defaults = {
-				layout_config = { prompt_position = "bottom" },
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			{
+				"nvim-telescope/telescope-fzf-native.nvim",
+				build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
 			},
 		},
+		tag = "0.1.8",
+		config = function()
+			local telescope = require("telescope")
+			telescope.setup({
+				extensions = {
+					fzf = {
+						fuzzy = true,
+						override_generic_sorter = true,
+						override_file_sorter = true,
+						case_mode = "ignore_case",
+					},
+				},
+				defaults = require("telescope.themes").get_ivy({
+					previewer = false,
+					layout_config = { prompt_position = "bottom" },
+				}),
+				pickers = {
+					current_buffer_fuzzy_find = { previewer = true },
+					live_grep = { previewer = true },
+				},
+			})
+			telescope.load_extension("fzf")
+		end,
 		keys = {
 			{ "<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<cr>", desc = "find help tags" },
 			{ "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", desc = "find buffers" },
@@ -288,7 +284,9 @@ require("lazy").setup({
 			{ "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", desc = "find live" },
 			{ "<leader>fd", "<cmd>lua require('telescope.builtin').diagnostics()<cr>", desc = "find diagnostics" },
 			{ "<leader>fr", "<cmd>lua require('telescope.builtin').resume()<cr>", desc = "resume search" },
+			{ "<leader>fR", "<cmd>lua require('telescope.builtin').registers()<cr>", desc = "registers" },
 			{ "<leader>f.", "<cmd>lua require('telescope.builtin').oldfiles()<cr>", desc = "find in oldfiles" },
+			{ "<leader>xx", "<cmd>lua require('telescope.builtin').diagnostics()<cr>", desc = "diagnostics" },
 			{
 				"<leader>/",
 				"<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>",
@@ -410,14 +408,15 @@ require("lazy").setup({
 				group = vim.api.nvim_create_augroup("config-lsp-attach", { clear = true }),
 				callback = function(event)
 					local buffer = event.buf
+					local builtin = require("telescope.builtin")
 					map("n", "K", vim.lsp.buf.hover, { buffer = buffer, desc = "hover" })
-					map("n", "gd", vim.lsp.buf.definition, { buffer = buffer, desc = "goto definition" })
-					map("n", "gr", vim.lsp.buf.references, { buffer = buffer, desc = "goto references" })
-					map("n", "gI", vim.lsp.buf.implementation, { buffer = buffer, desc = "goto implementation" })
+					map("n", "gd", builtin.lsp_definitions, { buffer = buffer, desc = "goto definition" })
+					map("n", "gr", builtin.lsp_references, { buffer = buffer, desc = "goto references" })
+					map("n", "gI", builtin.lsp_implementations, { buffer = buffer, desc = "goto implementation" })
 					map(
 						"n",
 						"<leader>gD",
-						vim.lsp.buf.type_definition,
+						builtin.lsp_type_definitions,
 						{ buffer = buffer, desc = "goto type definition" }
 					)
 					map("n", "gD", vim.lsp.buf.declaration, { buffer = buffer, desc = "goto declaration" })
@@ -469,5 +468,6 @@ require("lazy").setup({
 			},
 		},
 	},
+	{ "MagicDuck/grug-far.nvim", opts = {}, keys = { { ",", "<cmd>GrugFar<cr>", desc = "Search/Replace" } } },
 })
 vim.cmd.colorscheme("gruber-darker") -- gruber-darker, no-clown-fiesta, oxocarbon
