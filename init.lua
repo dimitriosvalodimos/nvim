@@ -417,6 +417,7 @@ require("lazy").setup({
 						javascript = {},
 					},
 				},
+				tinymist = { settings = {}, filetypes = { "typst" } },
 				typst_lsp = {
 					settings = { exportPdf = "onType" }, -- onSave
 					filetypes = { "typst" },
@@ -511,6 +512,23 @@ require("lazy").setup({
 		},
 	},
 	{ "MagicDuck/grug-far.nvim", opts = {}, keys = { { ",", "<cmd>GrugFar<cr>", desc = "Search/Replace" } } },
+	{
+		"chomosuke/typst-preview.nvim",
+		ft = "typst",
+		cmd = {
+			"TypstPreviewUpdate",
+			"TypstPreview",
+			"TypstPreviewStop",
+			"TypstPreviewToggle",
+			"TypstPreviewFollowCursor",
+			"TypstPreviewNoFollowCursor",
+			"TypstPreviewFollowCursorToggle",
+		},
+		version = "1.*",
+		build = function()
+			require("typst-preview").update()
+		end,
+	},
 })
 -- gruber-darker, no-clown-fiesta, oxocarbon, vscode, poimandres, cyberdream
 vim.cmd.colorscheme("gruber-darker")
