@@ -417,7 +417,18 @@ require("lazy").setup({
 						javascript = {},
 					},
 				},
-				tinymist = { settings = {}, filetypes = { "typst" } },
+				tinymist = {
+					settings = {
+						exportPdf = "onType",
+						preview = {
+							refresh = "onType",
+							invertColors = "always",
+							cursorIndicator = true,
+							showExportFileIn = "Orion.app",
+						},
+					},
+					filetypes = { "typst" },
+				},
 				typst_lsp = {
 					settings = { exportPdf = "onType" }, -- onSave
 					filetypes = { "typst" },
