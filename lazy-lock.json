@@ -19,7 +19,7 @@
   "mason.nvim": { "branch": "main", "commit": "e2f7f9044ec30067bc11800a9e266664b88cda22" },
   "no-clown-fiesta.nvim": { "branch": "master", "commit": "6fda94cc0748a57e7057ce1e68ae4a3480ff4b78" },
   "nvim-cmp": { "branch": "main", "commit": "ae644feb7b67bf1ce4260c231d1d4300b19c6f30" },
-  "nvim-lspconfig": { "branch": "master", "commit": "b58d56c0c7b3dfb1c71797013ad7b4aca5e6b898" },
+  "nvim-lspconfig": { "branch": "master", "commit": "fd49d5863e873891be37afac79b1f56fb34bb5d3" },
   "nvim-treesitter": { "branch": "master", "commit": "a3ca2e60563064cea008555d0b7d031430305b09" },
   "nvim-web-devicons": { "branch": "master", "commit": "19d257cf889f79f4022163c3fbb5e08639077bd8" },
   "oil.nvim": { "branch": "master", "commit": "39dbf875861449cf09e936fa80073f3413e9439c" },

@@ -498,7 +498,7 @@ require("lazy").setup({
 					})
 				end,
 			})
-			require("tiny-inline-diagnostic").setup()
+			require("tiny-inline-diagnostic").setup({})
 			vim.diagnostic.config({ virtual_text = false })
 		end,
 	},
@@ -513,15 +513,15 @@ require("lazy").setup({
 				lsp_format = "fallback",
 			},
 			formatters_by_ft = {
-				css = { "prettier", "biome-check", "biome", stop_after_first = true },
+				css = { "biome-check", "biome", "prettier", stop_after_first = true },
 				go = { "goimports", "golines", "gofumpt" },
-				html = { "prettier", "biome-check", "biome", stop_after_first = true },
-				javascript = { "prettier", "biome-check", "biome", stop_after_first = true },
-				javascriptreact = { "prettier", "biome-check", "biome", stop_after_first = true },
-				json = { "prettier", "biome-check", "biome", stop_after_first = true },
+				html = { "biome-check", "biome", "prettier", stop_after_first = true },
+				javascript = { "biome-check", "biome", "prettier", stop_after_first = true },
+				javascriptreact = { "biome-check", "biome", "prettier", stop_after_first = true },
+				json = { "biome-check", "biome", "prettier", stop_after_first = true },
 				lua = { "stylua" },
-				typescript = { "prettier", "biome-check", "biome", stop_after_first = true },
-				typescriptreact = { "prettier", "biome-check", "biome", stop_after_first = true },
+				typescript = { "biome-check", "biome", "prettier", stop_after_first = true },
+				typescriptreact = { "biome-check", "biome", "prettier", stop_after_first = true },
 			},
 		},
 	},
