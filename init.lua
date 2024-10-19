@@ -352,6 +352,7 @@ require("lazy").setup({
 	{
 		"williamboman/mason.nvim",
 		dependencies = {
+			"rachartier/tiny-inline-diagnostic.nvim",
 			"williamboman/mason-lspconfig.nvim",
 			"neovim/nvim-lspconfig",
 			"nvim-lua/plenary.nvim",
@@ -497,6 +498,8 @@ require("lazy").setup({
 					})
 				end,
 			})
+			require("tiny-inline-diagnostic").setup()
+			vim.diagnostic.config({ virtual_text = false })
 		end,
 	},
 	{ "stevearc/oil.nvim", opts = {}, keys = { { "-", "<cmd>Oil<cr>", desc = "open parent dir" } } },
