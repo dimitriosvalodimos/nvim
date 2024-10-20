@@ -518,7 +518,7 @@ require("lazy").setup({
 			formatters_by_ft = {
 				css = { "biome-check", "biome", "prettier", stop_after_first = true },
 				go = { "goimports", "golines", "gofumpt" },
-				html = { "biome-check", "biome", "prettier", stop_after_first = true },
+				html = { "prettier", "biome-check", "biome", stop_after_first = true },
 				javascript = { "biome-check", "biome", "prettier", stop_after_first = true },
 				javascriptreact = { "biome-check", "biome", "prettier", stop_after_first = true },
 				json = { "biome-check", "biome", "prettier", stop_after_first = true },
