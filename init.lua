@@ -283,6 +283,7 @@ require("lazy").setup({
 					"markdown_inline",
 					"regex",
 					"sql",
+					"svelte",
 					"tsx",
 					"typescript",
 				},
@@ -404,11 +405,13 @@ require("lazy").setup({
 						},
 					},
 				},
+				svelte = { filetypes = { "svelte" }, settings = {} },
 				ts_ls = {
 					filetypes = {
 						"javascript",
 						"javascriptreact",
 						"javascript.jsx",
+						"svelte",
 						"typescript",
 						"typescriptreact",
 						"typescript.tsx",
