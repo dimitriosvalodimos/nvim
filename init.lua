@@ -353,10 +353,8 @@ require("lazy").setup({
 	{
 		"williamboman/mason.nvim",
 		dependencies = {
-			"rachartier/tiny-inline-diagnostic.nvim",
 			"williamboman/mason-lspconfig.nvim",
 			"neovim/nvim-lspconfig",
-			"nvim-lua/plenary.nvim",
 			"hrsh7th/cmp-nvim-lsp",
 			{
 				"j-hui/fidget.nvim",
@@ -499,9 +497,31 @@ require("lazy").setup({
 					})
 				end,
 			})
-			require("tiny-inline-diagnostic").setup({})
 			vim.diagnostic.config({ virtual_text = false })
 		end,
+	},
+	{
+		"rachartier/tiny-inline-diagnostic.nvim",
+		event = "LspAttach",
+		opts = {
+			signs = {
+				left = "",
+				right = "",
+				diag = "●",
+				arrow = "    ",
+				up_arrow = "    ",
+				vertical = " │",
+				vertical_end = " └",
+			},
+			options = {
+				show_source = true,
+				throttle = 100,
+				softwrap = 15,
+				multiple_diag_under_cursor = true,
+				multilines = false,
+				show_all_diags_on_cursorline = true,
+			},
+		},
 	},
 	{ "stevearc/oil.nvim", opts = {}, keys = { { "-", "<cmd>Oil<cr>", desc = "open parent dir" } } },
 	{
@@ -514,15 +534,15 @@ require("lazy").setup({
 				lsp_format = "fallback",
 			},
 			formatters_by_ft = {
-				css = { "biome-check", "biome", "prettier", stop_after_first = true },
+				css = { "prettier", "biome-check", "biome", stop_after_first = true },
 				go = { "goimports", "golines", "gofumpt" },
 				html = { "prettier", "biome-check", "biome", stop_after_first = true },
-				javascript = { "biome-check", "biome", "prettier", stop_after_first = true },
-				javascriptreact = { "biome-check", "biome", "prettier", stop_after_first = true },
-				json = { "biome-check", "biome", "prettier", stop_after_first = true },
+				javascript = { "prettier", "biome-check", "biome", stop_after_first = true },
+				javascriptreact = { "prettier", "biome-check", "biome", stop_after_first = true },
+				json = { "prettier", "biome-check", "biome", stop_after_first = true },
 				lua = { "stylua" },
-				typescript = { "biome-check", "biome", "prettier", stop_after_first = true },
-				typescriptreact = { "biome-check", "biome", "prettier", stop_after_first = true },
+				typescript = { "prettier", "biome-check", "biome", stop_after_first = true },
+				typescriptreact = { "prettier", "biome-check", "biome", stop_after_first = true },
 			},
 		},
 	},
@@ -546,4 +566,4 @@ require("lazy").setup({
 	},
 })
 -- gruber-darker, no-clown-fiesta, oxocarbon, vscode, poimandres, cyberdream
-vim.cmd.colorscheme("gruber-darker")
+vim.cmd.colorscheme("cyberdream")
