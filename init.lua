@@ -141,41 +141,6 @@ require("lazy").setup({
 	{ "aktersnurra/no-clown-fiesta.nvim", lazy = true, priority = 1000, opts = {} },
 	{ "Mofiqul/vscode.nvim", lazy = true, priority = 1000, opts = { transparent = false, italic_comments = false } },
 	{
-		"miikanissi/modus-themes.nvim",
-		lazy = true,
-		priority = 1000,
-		opts = {
-			style = "modus_vivendi",
-			variant = "default", -- default, tinted, deuteranopia, tritanopia
-			transparent = false,
-			dim_inactive = true,
-			hide_inactive_statusline = false,
-			styles = {
-				comments = { italic = false },
-				keywords = { italic = false, bold = true },
-				functions = { italic = false, bold = true },
-				variables = {},
-			},
-		},
-	},
-	{
-		"bluz71/vim-moonfly-colors",
-		name = "moonfly",
-		lazy = true,
-		priority = 1000,
-		config = function()
-			vim.g.moonflyCursorColor = false
-			vim.g.moonflyItalics = false
-			vim.g.moonflyNormalFloat = true
-			vim.g.moonflyTerminalColors = true
-			vim.g.moonflyTransparent = false
-			vim.g.moonflyUndercurls = true
-			vim.g.moonflyUnderlineMatchParen = true
-			vim.g.moonflyVirtualTextColor = true
-			vim.g.moonflyWinSeparator = 0
-		end,
-	},
-	{
 		"olivercederborg/poimandres.nvim",
 		lazy = true,
 		priority = 1000,
@@ -580,5 +545,5 @@ require("lazy").setup({
 		end,
 	},
 })
--- gruber-darker, no-clown-fiesta, oxocarbon, vscode, poimandres, cyberdream, moonfly, modus
-vim.cmd.colorscheme("modus")
+-- gruber-darker, no-clown-fiesta, oxocarbon, vscode, poimandres, cyberdream
+vim.cmd.colorscheme("gruber-darker")
