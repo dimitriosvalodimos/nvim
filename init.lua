@@ -139,17 +139,24 @@ require("lazy").setup({
 	{ "nvim-tree/nvim-web-devicons", opts = {} },
 	{ "nyoom-engineering/oxocarbon.nvim", lazy = true, priority = 1000 },
 	{ "aktersnurra/no-clown-fiesta.nvim", lazy = true, priority = 1000, opts = {} },
-	{ "Mofiqul/vscode.nvim", lazy = true, priority = 1000, opts = { transparent = false, italic_comments = false } },
 	{
-		"olivercederborg/poimandres.nvim",
+		"rose-pine/neovim",
+		name = "rose-pine",
 		lazy = true,
 		priority = 1000,
 		opts = {
-			bold_vert_split = false,
-			dim_nc_background = false,
-			disable_background = false,
-			disable_float_background = false,
-			disable_italics = true,
+			variant = "auto",
+			dark_variant = "main", -- main, moon
+			enable = {
+				terminal = true,
+				legacy_highlights = true,
+				migrations = true,
+			},
+			styles = {
+				bold = true,
+				italic = false,
+				transparency = false,
+			},
 		},
 	},
 	{
@@ -174,29 +181,21 @@ require("lazy").setup({
 		},
 	},
 	{
-		"scottmckendry/cyberdream.nvim",
+		"mellow-theme/mellow.nvim",
 		lazy = true,
 		priority = 1000,
-		opts = {
-			transparent = false,
-			italic_comments = false,
-			hide_fillchars = false,
-			borderless_telescope = true,
-			terminal_colors = true,
-			cache = false,
-			theme = { variant = "default" },
-			extensions = {
-				cmp = true,
-				gitsigns = true,
-				grugfar = true,
-				lazy = true,
-				markdown = true,
-				notify = true,
-				telescope = true,
-				treesitter = true,
-				whichkey = true,
-			},
-		},
+		config = function()
+			vim.g.mellow_italic_comments = false
+			vim.g.mellow_bold_keywords = true
+			vim.g.mellow_bold_booleans = true
+			vim.g.mellow_bold_functions = true
+		end,
+	},
+	{
+		"olivercederborg/poimandres.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = { bold_vert_split = true, disable_italics = true },
 	},
 	{
 		"lewis6991/gitsigns.nvim",
@@ -213,55 +212,18 @@ require("lazy").setup({
 		},
 	},
 	{
-		"folke/lazydev.nvim",
-		ft = "lua",
-		dependencies = { { "Bilal2453/luvit-meta", lazy = true } },
-		opts = { library = { { path = "luvit-meta/library", words = { "vim%.uv" } } } },
-	},
-	{
-		"hrsh7th/nvim-cmp",
-		dependencies = {
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-cmdline",
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-nvim-lsp-signature-help",
+		"saghen/blink.cmp",
+		version = "v0.*",
+		opts = {
+			highlight = { use_nvim_cmp_as_default = true },
+			windows = {
+				autocomplete = { auto_show = true, border = "rounded" },
+				documentation = { auto_show = true, border = "rounded" },
+				signature_help = { border = "rounded" },
+			},
+			trigger = { signature_help = { enabled = true, show_on_insert_on_trigger_character = true } },
+			keymap = { accept = "<C-y>" },
 		},
-		config = function()
-			local cmp = require("cmp")
-			cmp.setup({
-				snippet = {
-					expand = function(args)
-						vim.snippet.expand(args.body)
-					end,
-				},
-				mapping = cmp.mapping.preset.insert({
-					["<C-n>"] = cmp.mapping.select_next_item(),
-					["<C-p>"] = cmp.mapping.select_prev_item(),
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<C-y>"] = cmp.mapping.confirm({ select = true }),
-					["<C-Space>"] = cmp.mapping.complete({}),
-				}),
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "nvim_lsp_signature_help" },
-					{ name = "lazydev", group_index = 0 },
-					{ name = "buffer" },
-				}),
-			})
-			cmp.setup.cmdline(":", {
-				view = {
-					entries = { name = "wildmenu", separator = " | " },
-				},
-				mapping = cmp.mapping.preset.cmdline(),
-				sources = cmp.config.sources({
-					{ name = "path" },
-					{ name = "cmdline" },
-				}),
-				matching = { disallow_symbol_nonprefix_matching = false },
-			})
-		end,
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -355,14 +317,7 @@ require("lazy").setup({
 		dependencies = {
 			"williamboman/mason-lspconfig.nvim",
 			"neovim/nvim-lspconfig",
-			"hrsh7th/cmp-nvim-lsp",
-			{
-				"j-hui/fidget.nvim",
-				opts = {
-					progress = { ignore_done_already = true, ignore_empty_message = true },
-					notification = { window = { winblend = 0 } },
-				},
-			},
+			-- "hrsh7th/cmp-nvim-lsp",
 		},
 		config = function()
 			local servers = {
@@ -417,45 +372,24 @@ require("lazy").setup({
 						javascript = {},
 					},
 				},
-				tinymist = {
-					settings = {
-						exportPdf = "onType",
-						preview = {
-							refresh = "onType",
-							invertColors = "always",
-							cursorIndicator = true,
-							showExportFileIn = "Orion.app",
-						},
-					},
-					filetypes = { "typst" },
-				},
-				typst_lsp = {
-					settings = { exportPdf = "onType" }, -- onSave
-					filetypes = { "typst" },
-				},
 			}
-			local capabilities = vim.tbl_deep_extend(
-				"force",
-				vim.lsp.protocol.make_client_capabilities(),
-				require("cmp_nvim_lsp").default_capabilities(),
-				{
-					textDocument = {
-						completion = {
-							completionItem = {
-								documentationFormat = { "markdown", "plaintext" },
-								snippetSupport = true,
-								preselectSupport = true,
-								insertReplaceSupport = true,
-								labelDetailsSupport = true,
-								deprecatedSupport = true,
-								commitCharactersSupport = true,
-								tagSupport = { valueSet = { 1 } },
-								resolveSupport = { properties = { "documentation", "detail", "additionalTextEdits" } },
-							},
+			local capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), {
+				textDocument = {
+					completion = {
+						completionItem = {
+							documentationFormat = { "markdown", "plaintext" },
+							snippetSupport = true,
+							preselectSupport = true,
+							insertReplaceSupport = true,
+							labelDetailsSupport = true,
+							deprecatedSupport = true,
+							commitCharactersSupport = true,
+							tagSupport = { valueSet = { 1 } },
+							resolveSupport = { properties = { "documentation", "detail", "additionalTextEdits" } },
 						},
 					},
-				}
-			)
+				},
+			})
 			local lspconfig = require("lspconfig")
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("config-lsp-attach", { clear = true }),
@@ -547,23 +481,6 @@ require("lazy").setup({
 		},
 	},
 	{ "MagicDuck/grug-far.nvim", opts = {}, keys = { { ",", "<cmd>GrugFar<cr>", desc = "Search/Replace" } } },
-	{
-		"chomosuke/typst-preview.nvim",
-		ft = "typst",
-		cmd = {
-			"TypstPreviewUpdate",
-			"TypstPreview",
-			"TypstPreviewStop",
-			"TypstPreviewToggle",
-			"TypstPreviewFollowCursor",
-			"TypstPreviewNoFollowCursor",
-			"TypstPreviewFollowCursorToggle",
-		},
-		version = "1.*",
-		build = function()
-			require("typst-preview").update()
-		end,
-	},
 })
--- gruber-darker, no-clown-fiesta, oxocarbon, vscode, poimandres, cyberdream
-vim.cmd.colorscheme("cyberdream")
+-- gruber-darker, no-clown-fiesta, oxocarbon, rose-pine, poimandres, mellow
+vim.cmd.colorscheme("mellow")
