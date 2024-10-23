@@ -213,6 +213,9 @@ require("lazy").setup({
 				ensure_installed = {
 					"css",
 					"diff",
+					"go",
+					"gomod",
+					"gosum",
 					"html",
 					"http",
 					"javascript",
@@ -324,6 +327,7 @@ require("lazy").setup({
 					},
 					settings = {},
 				},
+				gopls = { filetypes = { "go", "gomod", "gowork", "gotmpl" }, settings = {} },
 				html = { filetypes = { "html" }, settings = {} },
 				lua_ls = {
 					filetypes = { "lua" },
