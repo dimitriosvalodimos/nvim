@@ -137,28 +137,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	{ "nvim-tree/nvim-web-devicons", opts = {} },
-	{ "nyoom-engineering/oxocarbon.nvim", lazy = true, priority = 1000 },
 	{ "aktersnurra/no-clown-fiesta.nvim", lazy = true, priority = 1000, opts = {} },
-	{
-		"rose-pine/neovim",
-		name = "rose-pine",
-		lazy = true,
-		priority = 1000,
-		opts = {
-			variant = "auto",
-			dark_variant = "main", -- main, moon
-			enable = {
-				terminal = true,
-				legacy_highlights = true,
-				migrations = true,
-			},
-			styles = {
-				bold = true,
-				italic = false,
-				transparency = false,
-			},
-		},
-	},
 	{
 		"blazkowolf/gruber-darker.nvim",
 		lazy = true,
@@ -213,16 +192,15 @@ require("lazy").setup({
 	},
 	{
 		"saghen/blink.cmp",
+		event = { "LspAttach", "InsertCharPre" },
 		version = "v0.*",
 		opts = {
-			highlight = { use_nvim_cmp_as_default = true },
-			windows = {
-				autocomplete = { auto_show = true, border = "rounded" },
-				documentation = { auto_show = true, border = "rounded" },
-				signature_help = { border = "rounded" },
-			},
-			trigger = { signature_help = { enabled = true, show_on_insert_on_trigger_character = true } },
+			nerd_font_variant = "mono",
 			keymap = { accept = "<C-y>" },
+			highlight = { use_nvim_cmp_as_default = true },
+			accept = { auto_brackets = { enabled = true } },
+			windows = { autocomplete = { auto_show = true }, documentation = { auto_show = true } },
+			trigger = { signature_help = { enabled = true, show_on_insert_on_trigger_character = true } },
 		},
 	},
 	{
@@ -316,8 +294,9 @@ require("lazy").setup({
 		"williamboman/mason.nvim",
 		dependencies = {
 			"williamboman/mason-lspconfig.nvim",
+			"nvim-telescope/telescope.nvim",
 			"neovim/nvim-lspconfig",
-			-- "hrsh7th/cmp-nvim-lsp",
+			"nvim-lua/plenary.nvim",
 		},
 		config = function()
 			local servers = {
@@ -380,7 +359,7 @@ require("lazy").setup({
 							documentationFormat = { "markdown", "plaintext" },
 							snippetSupport = true,
 							preselectSupport = true,
-							insertReplaceSupport = true,
+							insertReplaceSupport = false, -- could/should be true
 							labelDetailsSupport = true,
 							deprecatedSupport = true,
 							commitCharactersSupport = true,
@@ -438,21 +417,10 @@ require("lazy").setup({
 		"rachartier/tiny-inline-diagnostic.nvim",
 		event = "LspAttach",
 		opts = {
-			signs = {
-				left = "",
-				right = "",
-				diag = "●",
-				arrow = "    ",
-				up_arrow = "    ",
-				vertical = " │",
-				vertical_end = " └",
-			},
+			signs = { left = "", right = "" },
 			options = {
 				show_source = true,
-				throttle = 100,
-				softwrap = 15,
 				multiple_diag_under_cursor = true,
-				multilines = false,
 				show_all_diags_on_cursorline = true,
 			},
 		},
@@ -482,5 +450,5 @@ require("lazy").setup({
 	},
 	{ "MagicDuck/grug-far.nvim", opts = {}, keys = { { ",", "<cmd>GrugFar<cr>", desc = "Search/Replace" } } },
 })
--- gruber-darker, no-clown-fiesta, oxocarbon, rose-pine, poimandres, mellow
+-- gruber-darker, no-clown-fiesta, poimandres, mellow
 vim.cmd.colorscheme("mellow")
