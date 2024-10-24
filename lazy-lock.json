@@ -1,6 +1,9 @@
 {
   "Comment.nvim": { "branch": "master", "commit": "e30b7f2008e52442154b66f7c519bfd2f1e32acb" },
-  "blink.cmp": { "branch": "main", "commit": "af68874f1b2e628e0c72ec27f5225d0c6b2d6820" },
+  "cmp-async-path": { "branch": "main", "commit": "d6d1ffa2075039632a2d71e8fa139818e15ac757" },
+  "cmp-buffer": { "branch": "main", "commit": "b607dc022aed441a28f8af5f7515559bd6c14d9e" },
+  "cmp-cmdline": { "branch": "main", "commit": "1e54d45131f9e1f0e088f676461838f65cbc42c0" },
+  "cmp-nvim-lsp": { "branch": "main", "commit": "ea68443cc78f1a752080d10bdfe1ce5d94bb4050" },
   "conform.nvim": { "branch": "master", "commit": "f5bd8419f8a29451e20bdb1061a54fe13d5c8de3" },
   "gitsigns.nvim": { "branch": "main", "commit": "863903631e676b33e8be2acb17512fdc1b80b4fb" },
   "gruber-darker.nvim": { "branch": "main", "commit": "a2dda61d9c1225e16951a51d6b89795b0ac35cd6" },
@@ -11,6 +14,7 @@
   "mason.nvim": { "branch": "main", "commit": "e2f7f9044ec30067bc11800a9e266664b88cda22" },
   "mellow.nvim": { "branch": "main", "commit": "434a02d5f7637a24824569426176f37473205053" },
   "no-clown-fiesta.nvim": { "branch": "master", "commit": "6fda94cc0748a57e7057ce1e68ae4a3480ff4b78" },
+  "nvim-cmp": { "branch": "main", "commit": "c1e62697f650c68b19deffd952aa6c9d901a5cd6" },
   "nvim-lspconfig": { "branch": "master", "commit": "b58d56c0c7b3dfb1c71797013ad7b4aca5e6b898" },
   "nvim-treesitter": { "branch": "master", "commit": "a3ca2e60563064cea008555d0b7d031430305b09" },
   "nvim-web-devicons": { "branch": "master", "commit": "19d257cf889f79f4022163c3fbb5e08639077bd8" },

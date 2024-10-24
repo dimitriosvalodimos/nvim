@@ -191,17 +191,37 @@ require("lazy").setup({
 		},
 	},
 	{
-		"saghen/blink.cmp",
-		event = { "LspAttach", "InsertCharPre" },
-		version = "v0.*",
-		opts = {
-			nerd_font_variant = "mono",
-			keymap = { accept = "<C-y>" },
-			highlight = { use_nvim_cmp_as_default = true },
-			accept = { auto_brackets = { enabled = true } },
-			windows = { autocomplete = { auto_show = true }, documentation = { auto_show = true } },
-			trigger = { signature_help = { enabled = true, show_on_insert_on_trigger_character = true } },
+		"iguanacucumber/magazine.nvim",
+		name = "nvim-cmp",
+		dependencies = {
+			"https://codeberg.org/FelipeLema/cmp-async-path",
+			{ "iguanacucumber/mag-buffer", name = "cmp-buffer" },
+			{ "iguanacucumber/mag-cmdline", name = "cmp-cmdline" },
+			{ "iguanacucumber/mag-nvim-lsp", name = "cmp-nvim-lsp", opts = {} },
 		},
+		config = function()
+			local cmp = require("cmp")
+			cmp.setup({
+				mapping = cmp.mapping.preset.insert({
+					["<C-n>"] = cmp.mapping.select_next_item(),
+					["<C-p>"] = cmp.mapping.select_prev_item(),
+					["<C-b>"] = cmp.mapping.scroll_docs(-4),
+					["<C-f>"] = cmp.mapping.scroll_docs(4),
+					["<C-y>"] = cmp.mapping.confirm({ select = true }),
+					["<C-Space>"] = cmp.mapping.complete({}),
+				}),
+				sources = cmp.config.sources({ { name = "nvim_lsp" }, { name = "buffer" } }),
+			})
+			cmp.setup.cmdline(":", {
+				view = { entries = { name = "wildmenu", separator = " | " } },
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = cmp.config.sources({
+					{ name = "async_path" },
+					{ name = "cmdline" },
+				}),
+				matching = { disallow_symbol_nonprefix_matching = false },
+			})
+		end,
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -296,6 +316,7 @@ require("lazy").setup({
 	{
 		"williamboman/mason.nvim",
 		dependencies = {
+			{ "iguanacucumber/mag-nvim-lsp", name = "cmp-nvim-lsp", opts = {} },
 			"williamboman/mason-lspconfig.nvim",
 			"nvim-telescope/telescope.nvim",
 			"neovim/nvim-lspconfig",
@@ -356,23 +377,28 @@ require("lazy").setup({
 					},
 				},
 			}
-			local capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), {
-				textDocument = {
-					completion = {
-						completionItem = {
-							documentationFormat = { "markdown", "plaintext" },
-							snippetSupport = true,
-							preselectSupport = true,
-							insertReplaceSupport = false, -- could/should be true
-							labelDetailsSupport = true,
-							deprecatedSupport = true,
-							commitCharactersSupport = true,
-							tagSupport = { valueSet = { 1 } },
-							resolveSupport = { properties = { "documentation", "detail", "additionalTextEdits" } },
+			local capabilities = vim.tbl_deep_extend(
+				"force",
+				vim.lsp.protocol.make_client_capabilities(),
+				require("cmp_nvim_lsp").default_capabilities(),
+				{
+					textDocument = {
+						completion = {
+							completionItem = {
+								documentationFormat = { "markdown", "plaintext" },
+								snippetSupport = true,
+								preselectSupport = true,
+								insertReplaceSupport = true,
+								labelDetailsSupport = true,
+								deprecatedSupport = true,
+								commitCharactersSupport = true,
+								tagSupport = { valueSet = { 1 } },
+								resolveSupport = { properties = { "documentation", "detail", "additionalTextEdits" } },
+							},
 						},
 					},
-				},
-			})
+				}
+			)
 			local lspconfig = require("lspconfig")
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("config-lsp-attach", { clear = true }),
