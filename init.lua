@@ -459,24 +459,37 @@ require("lazy").setup({
 	{
 		"stevearc/conform.nvim",
 		event = "VeryLazy",
-		opts = {
-			notify_on_error = false,
-			format_on_save = {
-				timeout_ms = 500,
-				lsp_format = "fallback",
-			},
-			formatters_by_ft = {
-				css = { "prettier", "biome-check", "biome", stop_after_first = true },
-				go = { "goimports", "golines", "gofumpt" },
-				html = { "prettier", "biome-check", "biome", stop_after_first = true },
-				javascript = { "prettier", "biome-check", "biome", stop_after_first = true },
-				javascriptreact = { "prettier", "biome-check", "biome", stop_after_first = true },
-				json = { "prettier", "biome-check", "biome", stop_after_first = true },
-				lua = { "stylua" },
-				typescript = { "prettier", "biome-check", "biome", stop_after_first = true },
-				typescriptreact = { "prettier", "biome-check", "biome", stop_after_first = true },
-			},
-		},
+		config = function()
+			local conform = require("conform")
+			local biomeCheck = function()
+				return function(bufnr)
+					if conform.get_formatter_info("biome", bufnr).available then
+						return { "biome-check", "biome" }
+					else
+						return { "prettier" }
+					end
+				end
+			end
+
+			conform.setup({
+				notify_on_error = false,
+				format_on_save = {
+					timeout_ms = 500,
+					lsp_format = "fallback",
+				},
+				formatters_by_ft = {
+					css = { "prettier" },
+					go = { "goimports", "golines", "gofumpt" },
+					html = { "prettier" },
+					javascript = biomeCheck(),
+					javascriptreact = biomeCheck(),
+					json = biomeCheck(),
+					lua = { "stylua" },
+					typescript = biomeCheck(),
+					typescriptreact = biomeCheck(),
+				},
+			})
+		end,
 	},
 	{ "MagicDuck/grug-far.nvim", opts = {}, keys = { { ",", "<cmd>GrugFar<cr>", desc = "Search/Replace" } } },
 })
