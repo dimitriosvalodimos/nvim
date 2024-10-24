@@ -1,34 +1,21 @@
 local g = vim.g
 local opt = vim.opt
-
 g.mapleader = " "
 g.maplocalleader = ","
-
-opt.background = "dark"
-opt.backupcopy = "yes"
 opt.breakindent = true
 opt.clipboard = "unnamedplus"
-opt.completeopt = { "menu", "menuone", "noselect", "noinsert", "popup" }
-opt.conceallevel = 0
 opt.confirm = true
 opt.copyindent = true
 opt.cursorline = true
 opt.cursorlineopt = "number"
 opt.diffopt = vim.list_extend(vim.opt.diffopt:get(), { "algorithm:histogram", "linematch:60" })
 opt.expandtab = true
-opt.foldcolumn = "1"
-opt.foldenable = true
-opt.foldlevel = 99
-opt.foldlevelstart = 99
-opt.hlsearch = true
 opt.ignorecase = true
-opt.inccommand = "nosplit"
 opt.infercase = true
 opt.laststatus = 3
 opt.number = true
 opt.numberwidth = 4
 opt.preserveindent = true
-opt.pumblend = 0
 opt.pumheight = 10
 opt.scrolloff = 5
 opt.shiftround = true
@@ -37,62 +24,10 @@ opt.sidescrolloff = 5
 opt.signcolumn = "yes"
 opt.smartcase = true
 opt.smartindent = true
-opt.splitbelow = true
-opt.splitkeep = "screen"
-opt.splitright = true
-opt.tabstop = 2
 opt.termguicolors = true
-opt.timeoutlen = 300
-opt.timeout = true
-opt.title = true
-opt.undofile = true
-opt.undolevels = 10000
-opt.updatetime = 300
+opt.tabstop = 2
 opt.virtualedit = "block"
-opt.wildmode = { "longest:full", "full" }
-opt.winblend = 0
 opt.wrap = false
-
-if vim.fn.has("nvim-0.10") == 1 then
-	opt.smoothscroll = true
-	opt.foldmethod = "expr"
-	opt.foldtext = ""
-end
-
-local disabled_plugins = {
-	"2html_plugin",
-	"bugreport",
-	"compiler",
-	"ftplugin",
-	"getscript",
-	"getscriptPlugin",
-	"gzip",
-	"logipat",
-	"matchit",
-	"netrw",
-	"netrwFileHandlers",
-	"netrwPlugin",
-	"netrwSettings",
-	"optwin",
-	"rplugin",
-	"rrhelper",
-	"spellfile_plugin",
-	"synmenu",
-	"syntax",
-	"tar",
-	"tarPlugin",
-	"tohtml",
-	"tutor",
-	"vimball",
-	"vimballPlugin",
-	"zip",
-	"zipPlugin",
-}
-
-for i = 1, #disabled_plugins do
-	g["loaded_" .. disabled_plugins[i]] = true
-end
-
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("highlight_yank", {}),
 	desc = "Highlight selection on yank",
@@ -101,11 +36,9 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 300 })
 	end,
 })
-
 local function map(mode, lhs, rhs, opts)
 	vim.keymap.set(mode, lhs, rhs, opts or {})
 end
-
 map("n", "<c-h>", "<c-w><c-h>", { desc = "Move focus to the left window" })
 map("n", "<c-l>", "<c-w><c-l>", { desc = "Move focus to the right window" })
 map("n", "<c-j>", "<c-w><c-j>", { desc = "Move focus to the lower window" })
@@ -142,53 +75,30 @@ require("lazy").setup({
 		"blazkowolf/gruber-darker.nvim",
 		lazy = true,
 		priority = 1000,
+		opts = { italic = { strings = false, comments = false, operators = false, folds = false } },
+	},
+	{
+		"killitar/obscure.nvim",
+		lazy = true,
+		priority = 1000,
 		opts = {
-			bold = true,
-			invert = {
-				signs = false,
-				tabline = false,
-				visual = false,
+			styles = {
+				keywords = { italic = false, bold = true },
+				functions = { bold = true },
+				booleans = { bold = true },
+				comments = { italic = false },
 			},
-			italic = {
-				strings = false,
-				comments = false,
-				operators = false,
-				folds = false,
-			},
-			undercurl = true,
-			underline = true,
 		},
-	},
-	{
-		"mellow-theme/mellow.nvim",
-		lazy = true,
-		priority = 1000,
-		config = function()
-			vim.g.mellow_italic_comments = false
-			vim.g.mellow_bold_keywords = true
-			vim.g.mellow_bold_booleans = true
-			vim.g.mellow_bold_functions = true
-		end,
-	},
-	{
-		"olivercederborg/poimandres.nvim",
-		lazy = true,
-		priority = 1000,
-		opts = { bold_vert_split = true, disable_italics = true },
 	},
 	{
 		"lewis6991/gitsigns.nvim",
-		config = function()
-			require("gitsigns").setup({})
-			map("n", "<leader>gs", "<cmd>Gitsigns toggle_current_line_blame<cr>", { desc = "toggle git blame" })
-		end,
+		opts = {},
+		event = "BufEnter",
+		keys = { { "<leader>gs", "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "toggle git blame" } },
 	},
 	{
 		"nvim-lualine/lualine.nvim",
-		opts = {
-			options = { theme = "auto" },
-			tabline = { lualine_a = { "buffers" }, lualine_z = { "tabs" } },
-		},
+		opts = { options = { theme = "auto" }, tabline = { lualine_a = { "buffers" }, lualine_z = { "tabs" } } },
 	},
 	{
 		"iguanacucumber/magazine.nvim",
@@ -212,15 +122,6 @@ require("lazy").setup({
 				}),
 				sources = cmp.config.sources({ { name = "nvim_lsp" }, { name = "buffer" } }),
 			})
-			cmp.setup.cmdline(":", {
-				view = { entries = { name = "wildmenu", separator = " | " } },
-				mapping = cmp.mapping.preset.cmdline(),
-				sources = cmp.config.sources({
-					{ name = "async_path" },
-					{ name = "cmdline" },
-				}),
-				matching = { disallow_symbol_nonprefix_matching = false },
-			})
 		end,
 	},
 	{
@@ -237,7 +138,6 @@ require("lazy").setup({
 					"gomod",
 					"gosum",
 					"html",
-					"http",
 					"javascript",
 					"jsdoc",
 					"json",
@@ -324,30 +224,7 @@ require("lazy").setup({
 		},
 		config = function()
 			local servers = {
-				biome = {
-					filetypes = {
-						"javascript",
-						"javascriptreact",
-						"json",
-						"jsonc",
-						"typescript",
-						"typescript.tsx",
-						"typescriptreact",
-						"css",
-					},
-				},
 				cssls = { filetypes = { "css" }, settings = {} },
-				eslint = {
-					filetypes = {
-						"javascript",
-						"javascriptreact",
-						"javascript.jsx",
-						"typescript",
-						"typescriptreact",
-						"typescript.tsx",
-					},
-					settings = {},
-				},
 				gopls = { filetypes = { "go", "gomod", "gowork", "gotmpl" }, settings = {} },
 				html = { filetypes = { "html" }, settings = {} },
 				lua_ls = {
@@ -380,24 +257,7 @@ require("lazy").setup({
 			local capabilities = vim.tbl_deep_extend(
 				"force",
 				vim.lsp.protocol.make_client_capabilities(),
-				require("cmp_nvim_lsp").default_capabilities(),
-				{
-					textDocument = {
-						completion = {
-							completionItem = {
-								documentationFormat = { "markdown", "plaintext" },
-								snippetSupport = true,
-								preselectSupport = true,
-								insertReplaceSupport = true,
-								labelDetailsSupport = true,
-								deprecatedSupport = true,
-								commitCharactersSupport = true,
-								tagSupport = { valueSet = { 1 } },
-								resolveSupport = { properties = { "documentation", "detail", "additionalTextEdits" } },
-							},
-						},
-					},
-				}
+				require("cmp_nvim_lsp").default_capabilities()
 			)
 			local lspconfig = require("lspconfig")
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -405,7 +265,6 @@ require("lazy").setup({
 				callback = function(event)
 					local buffer = event.buf
 					local builtin = require("telescope.builtin")
-					map("n", "K", vim.lsp.buf.hover, { buffer = buffer, desc = "hover" })
 					map("n", "gd", builtin.lsp_definitions, { buffer = buffer, desc = "goto definition" })
 					map("n", "gr", builtin.lsp_references, { buffer = buffer, desc = "goto references" })
 					map("n", "gI", builtin.lsp_implementations, { buffer = buffer, desc = "goto implementation" })
@@ -417,12 +276,7 @@ require("lazy").setup({
 					)
 					map("n", "gD", vim.lsp.buf.declaration, { buffer = buffer, desc = "goto declaration" })
 					map("n", "<leader>rn", vim.lsp.buf.rename, { buffer = buffer, desc = "rename" })
-					map(
-						{ "v", "n" },
-						"<leader>ca",
-						vim.lsp.buf.code_action,
-						{ buffer = buffer, desc = "LSP: code action" }
-					)
+					map("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = buffer, desc = "LSP: code action" })
 					map("n", "<leader>k", vim.diagnostic.open_float, { buffer = buffer, desc = "open float" })
 				end,
 			})
@@ -440,58 +294,32 @@ require("lazy").setup({
 					})
 				end,
 			})
-			vim.diagnostic.config({ virtual_text = false })
 		end,
 	},
-	{
-		"rachartier/tiny-inline-diagnostic.nvim",
-		event = "LspAttach",
-		opts = {
-			signs = { left = "", right = "" },
-			options = {
-				show_source = true,
-				multiple_diag_under_cursor = true,
-				show_all_diags_on_cursorline = true,
-			},
-		},
-	},
 	{ "stevearc/oil.nvim", opts = {}, keys = { { "-", "<cmd>Oil<cr>", desc = "open parent dir" } } },
+	{ "MagicDuck/grug-far.nvim", opts = {}, keys = { { ",", "<cmd>GrugFar<cr>", desc = "Search/Replace" } } },
 	{
 		"stevearc/conform.nvim",
 		event = "VeryLazy",
-		config = function()
-			local conform = require("conform")
-			local biomeCheck = function()
-				return function(bufnr)
-					if conform.get_formatter_info("biome", bufnr).available then
-						return { "biome-check", "biome" }
-					else
-						return { "prettier" }
-					end
-				end
-			end
-
-			conform.setup({
-				notify_on_error = false,
-				format_on_save = {
-					timeout_ms = 500,
-					lsp_format = "fallback",
-				},
-				formatters_by_ft = {
-					css = { "prettier" },
-					go = { "goimports", "golines", "gofumpt" },
-					html = { "prettier" },
-					javascript = biomeCheck(),
-					javascriptreact = biomeCheck(),
-					json = biomeCheck(),
-					lua = { "stylua" },
-					typescript = biomeCheck(),
-					typescriptreact = biomeCheck(),
-				},
-			})
-		end,
+		opts = {
+			notify_on_error = false,
+			format_on_save = {
+				timeout_ms = 500,
+				lsp_format = "fallback",
+			},
+			formatters_by_ft = {
+				css = { "prettier" },
+				go = { "goimports", "golines", "gofumpt" },
+				html = { "prettier" },
+				javascript = { "biome-check", "biome", "prettier", stop_after_first = true },
+				javascriptreact = { "biome-check", "biome", "prettier", stop_after_first = true },
+				json = { "biome-check", "biome", "prettier", stop_after_first = true },
+				lua = { "stylua" },
+				typescript = { "biome-check", "biome", "prettier", stop_after_first = true },
+				typescriptreact = { "biome-check", "biome", "prettier", stop_after_first = true },
+			},
+		},
 	},
-	{ "MagicDuck/grug-far.nvim", opts = {}, keys = { { ",", "<cmd>GrugFar<cr>", desc = "Search/Replace" } } },
 })
--- gruber-darker, no-clown-fiesta, poimandres, mellow
-vim.cmd.colorscheme("poimandres")
+-- gruber-darker, no-clown-fiesta, obscure
+vim.cmd.colorscheme("obscure")
