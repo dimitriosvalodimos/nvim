@@ -71,6 +71,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	{ "nvim-tree/nvim-web-devicons", opts = {} },
 	{ "aktersnurra/no-clown-fiesta.nvim", lazy = true, priority = 1000, opts = {} },
+	{ "mrjones2014/lighthaus.nvim", lazy = true, priority = 1000, opts = {} },
 	{
 		"blazkowolf/gruber-darker.nvim",
 		lazy = true,
@@ -321,5 +322,5 @@ require("lazy").setup({
 		},
 	},
 })
--- gruber-darker, no-clown-fiesta, obscure
-vim.cmd.colorscheme("obscure")
+-- gruber-darker, no-clown-fiesta, obscure, lighthaus
+vim.cmd.colorscheme("lighthaus")
