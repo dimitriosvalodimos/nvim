@@ -481,4 +481,4 @@ require("lazy").setup({
 	{ "MagicDuck/grug-far.nvim", opts = {}, keys = { { ",", "<cmd>GrugFar<cr>", desc = "Search/Replace" } } },
 })
 -- gruber-darker, no-clown-fiesta, poimandres, mellow
-vim.cmd.colorscheme("mellow")
+vim.cmd.colorscheme("poimandres")
