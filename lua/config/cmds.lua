@@ -1,4 +1,5 @@
-vim.api.nvim_create_autocmd("TextYankPost", {
+local utils = require("config.utils")
+utils.autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("highlight_yank", {}),
 	desc = "Highlight selection on yank",
 	pattern = "*",
@@ -6,7 +7,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 300 })
 	end,
 })
-vim.api.nvim_create_autocmd("LspProgress", {
+utils.autocmd("LspProgress", {
 	callback = function(ev)
 		vim.notify(vim.lsp.status(), nil, {
 			id = "lsp_progress",
