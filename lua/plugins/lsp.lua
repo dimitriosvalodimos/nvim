@@ -1,3 +1,4 @@
+local map = require("config.utils").map
 local servers = {
 	cssls = { filetypes = { "css" }, settings = {} },
 	gopls = { filetypes = { "go", "gomod", "gowork", "gotmpl" }, settings = {} },
@@ -39,9 +40,7 @@ return {
 	ft = lsp_filetypes,
 	dependencies = {
 		"williamboman/mason-lspconfig.nvim",
-		"nvim-telescope/telescope.nvim",
 		"neovim/nvim-lspconfig",
-		"nvim-lua/plenary.nvim",
 		"hrsh7th/cmp-nvim-lsp",
 	},
 	config = function()
@@ -55,30 +54,14 @@ return {
 			group = vim.api.nvim_create_augroup("config-lsp-attach", { clear = true }),
 			callback = function(event)
 				local buffer = event.buf
-				local builtin = require("telescope.builtin")
-				vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = buffer, desc = "goto definition" })
-				vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = buffer, desc = "goto references" })
-				vim.keymap.set(
-					"n",
-					"gI",
-					builtin.lsp_implementations,
-					{ buffer = buffer, desc = "goto implementation" }
-				)
-				vim.keymap.set(
-					"n",
-					"<leader>gD",
-					builtin.lsp_type_definitions,
-					{ buffer = buffer, desc = "goto type definition" }
-				)
-				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = buffer, desc = "goto declaration" })
-				vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { buffer = buffer, desc = "rename" })
-				vim.keymap.set(
-					"n",
-					"<leader>ca",
-					vim.lsp.buf.code_action,
-					{ buffer = buffer, desc = "LSP: code action" }
-				)
-				vim.keymap.set("n", "<leader>k", vim.diagnostic.open_float, { buffer = buffer, desc = "open float" })
+				map("n", "gd", vim.lsp.buf.definition, { buffer = buffer, desc = "goto definition" })
+				map("n", "gr", vim.lsp.buf.references, { buffer = buffer, desc = "goto references" })
+				map("n", "gI", vim.lsp.buf.implementation, { buffer = buffer, desc = "goto implementation" })
+				map("n", "<leader>gD", vim.lsp.buf.type_definition, { buffer = buffer, desc = "goto type definition" })
+				map("n", "gD", vim.lsp.buf.declaration, { buffer = buffer, desc = "goto declaration" })
+				map("n", "<leader>rn", vim.lsp.buf.rename, { buffer = buffer, desc = "rename" })
+				map("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = buffer, desc = "LSP: code action" })
+				map("n", "<leader>k", vim.diagnostic.open_float, { buffer = buffer, desc = "open float" })
 			end,
 		})
 		require("mason").setup()
