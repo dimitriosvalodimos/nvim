@@ -40,6 +40,8 @@ return {
 	ft = lsp_filetypes,
 	dependencies = {
 		"williamboman/mason-lspconfig.nvim",
+		"nvim-telescope/telescope.nvim",
+		"nvim-lua/plenary.nvim",
 		"neovim/nvim-lspconfig",
 		"hrsh7th/cmp-nvim-lsp",
 	},
@@ -50,18 +52,19 @@ return {
 			require("cmp_nvim_lsp").default_capabilities()
 		)
 		local lspconfig = require("lspconfig")
+		local builtin = require("telescope.builtin")
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("config-lsp-attach", { clear = true }),
 			callback = function(event)
 				local buffer = event.buf
-				map("n", "gd", vim.lsp.buf.definition, { buffer = buffer, desc = "goto definition" })
-				map("n", "gr", vim.lsp.buf.references, { buffer = buffer, desc = "goto references" })
-				map("n", "gI", vim.lsp.buf.implementation, { buffer = buffer, desc = "goto implementation" })
-				map("n", "<leader>gD", vim.lsp.buf.type_definition, { buffer = buffer, desc = "goto type definition" })
+				map("n", "gd", builtin.lsp_definitions, { buffer = buffer, desc = "goto definition" })
+				map("n", "gr", builtin.lsp_references, { buffer = buffer, desc = "goto references" })
+				map("n", "gI", builtin.lsp_implementations, { buffer = buffer, desc = "goto implementation" })
+				map("n", "<leader>gD", builtin.lsp_type_definitions, { buffer = buffer, desc = "goto type definition" })
 				map("n", "gD", vim.lsp.buf.declaration, { buffer = buffer, desc = "goto declaration" })
 				map("n", "<leader>rn", vim.lsp.buf.rename, { buffer = buffer, desc = "rename" })
 				map("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = buffer, desc = "LSP: code action" })
-				map("n", "<leader>k", vim.diagnostic.open_float, { buffer = buffer, desc = "open float" })
+				map("n", "<leader>k", builtin.diagnostics, { buffer = buffer, desc = "diagnostics" })
 			end,
 		})
 		require("mason").setup()
