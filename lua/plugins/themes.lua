@@ -6,4 +6,15 @@ return {
 		priority = 1000,
 		opts = { italic = { strings = false, comments = false, operators = false, folds = false } },
 	},
+	{ "nyoom-engineering/oxocarbon.nvim", lazy = true, priority = 1000 },
+	{ "Mofiqul/vscode.nvim", lazy = true, priority = 1000, opts = { transparent = false, italic_comments = false } },
+	{ "olivercederborg/poimandres.nvim", lazy = true, priority = 1000, opts = { disable_italics = true } },
+	{
+		"killitar/obscure.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = { styles = { keywords = { italic = false, bold = true }, functions = { bold = true }, booleans = {
+			bold = true,
+		} } },
+	},
 }

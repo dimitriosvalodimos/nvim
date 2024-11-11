@@ -8,7 +8,6 @@ opt.clipboard = "unnamedplus"
 opt.confirm = true
 opt.copyindent = true
 opt.cursorline = true
-opt.cursorlineopt = "number"
 opt.expandtab = true
 opt.ignorecase = true
 opt.infercase = true
