@@ -7,7 +7,6 @@ return {
 		opts = { italic = { strings = false, comments = false, operators = false, folds = false } },
 	},
 	{ "Mofiqul/vscode.nvim", lazy = true, priority = 1000, opts = { transparent = false, italic_comments = false } },
-	{ "olivercederborg/poimandres.nvim", lazy = true, priority = 1000, opts = { disable_italics = true } },
 	{
 		"killitar/obscure.nvim",
 		lazy = true,
