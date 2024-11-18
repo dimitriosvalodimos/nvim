@@ -8,6 +8,7 @@ return {
 			"hrsh7th/cmp-nvim-lsp-signature-help",
 		},
 		config = function()
+			local confirmMapping = vim.fn.has("macunix") and "<C-y>" or "<C-z>"
 			local cmp = require("cmp")
 			cmp.setup({
 				snippet = {
@@ -20,7 +21,7 @@ return {
 					["<C-p>"] = cmp.mapping.select_prev_item(),
 					["<C-b>"] = cmp.mapping.scroll_docs(-4),
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<C-y>"] = cmp.mapping.confirm({ select = true }),
+					[confirmMapping] = cmp.mapping.confirm({ select = true }),
 					["<C-Space>"] = cmp.mapping.complete({}),
 				}),
 				sources = cmp.config.sources({
