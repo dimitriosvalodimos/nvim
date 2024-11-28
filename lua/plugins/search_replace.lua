@@ -1,1 +1,8 @@
-return { { "MagicDuck/grug-far.nvim", opts = {}, keys = { { ",", "<cmd>GrugFar<cr>", desc = "Search/Replace" } } } }
+return {
+	{
+		"cshuaimin/ssr.nvim",
+		module = "ssr",
+		opts = {},
+		keys = { { ",", ":lua require('ssr').open()<cr>", desc = "Search/Replace" } },
+	},
+}

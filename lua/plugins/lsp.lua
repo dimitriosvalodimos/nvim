@@ -39,38 +39,25 @@ return {
 	{
 		"williamboman/mason.nvim",
 		ft = lsp_filetypes,
-		dependencies = {
-			"williamboman/mason-lspconfig.nvim",
-			"nvim-telescope/telescope.nvim",
-			"nvim-lua/plenary.nvim",
-			"neovim/nvim-lspconfig",
-			"hrsh7th/cmp-nvim-lsp",
-		},
+		dependencies = { "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig" },
 		config = function()
-			local capabilities = vim.tbl_deep_extend(
-				"force",
-				vim.lsp.protocol.make_client_capabilities(),
-				require("cmp_nvim_lsp").default_capabilities()
-			)
 			local lspconfig = require("lspconfig")
-			local builtin = require("telescope.builtin")
+			local scope = function(name)
+				return string.format(":Pick lsp scope='%s'<cr>", name)
+			end
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("config-lsp-attach", { clear = true }),
 				callback = function(event)
 					local buffer = event.buf
-					map("n", "gd", builtin.lsp_definitions, { buffer = buffer, desc = "goto definition" })
-					map("n", "gr", builtin.lsp_references, { buffer = buffer, desc = "goto references" })
-					map("n", "gI", builtin.lsp_implementations, { buffer = buffer, desc = "goto implementation" })
-					map(
-						"n",
-						"<leader>gD",
-						builtin.lsp_type_definitions,
-						{ buffer = buffer, desc = "goto type definition" }
-					)
-					map("n", "gD", vim.lsp.buf.declaration, { buffer = buffer, desc = "goto declaration" })
+					map("n", "gd", scope("definition"), { buffer = buffer, desc = "goto definition" })
+					map("n", "gr", scope("references"), { buffer = buffer, desc = "goto references" })
+					map("n", "gI", scope("implementation"), { buffer = buffer, desc = "goto implementation" })
+					map("n", "<leader>gD", scope("type_definition"), { buffer = buffer, desc = "goto type definition" })
+					map("n", "gD", scope("declaration"), { buffer = buffer, desc = "goto declaration" })
 					map("n", "<leader>rn", vim.lsp.buf.rename, { buffer = buffer, desc = "rename" })
 					map("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = buffer, desc = "LSP: code action" })
-					map("n", "<leader>k", builtin.diagnostics, { buffer = buffer, desc = "diagnostics" })
+					map("n", "<leader>k", vim.diagnostic.open_float, { buffer = buffer, desc = "diagnostics" })
+					map("n", "<leader>xx", ":Pick diagnostic<cr>", { buffer = buffer, desc = "all diagnostics" })
 				end,
 			})
 			require("mason").setup()
@@ -80,7 +67,7 @@ return {
 				function(server_name)
 					local config = servers[server_name] or {}
 					lspconfig[server_name].setup({
-						capabilities = capabilities,
+						capabilities = vim.lsp.protocol.make_client_capabilities(),
 						filetypes = config.filetypes or {},
 						flags = { debounce_text_changes = 150 },
 						settings = config.settings or {},
