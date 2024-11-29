@@ -14,6 +14,7 @@ local languages = {
 	"markdown_inline",
 	"regex",
 	"sql",
+	"vimdoc",
 	"tsx",
 	"typescript",
 }
@@ -34,4 +35,5 @@ return {
 			})
 		end,
 	},
+	{ "OXY2DEV/helpview.nvim", opts = {} },
 }
