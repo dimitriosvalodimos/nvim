@@ -15,7 +15,10 @@ map("n", "<C-d>", "<C-d>zz", "center next page")
 map("n", "<C-u>", "<C-u>zz", "center previous page")
 map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>", "uuid")
 map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>", "uuid")
+
 map("i", "<Tab>", [[pumvisible() ? "\<C-n>\<C-y>" : "\<Tab>"]], { expr = true })
+
+map("n", "<leader>fe", ":Pick explorer<cr>", "file explorer")
 map("n", "<leader>ff", ":Pick files<cr>", "find files")
 map("n", "<leader>fh", ":Pick help<cr>", "find helptag")
 map("n", "<leader>fb", ":Pick buffers<cr>", "find buffer")
