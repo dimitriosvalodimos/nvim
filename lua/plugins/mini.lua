@@ -20,7 +20,6 @@ return {
     require("mini.git").setup()
     require("mini.icons").setup()
     require("mini.move").setup()
-    require("mini.pairs").setup()
     require("mini.pick").setup({ window = { config = drawer } })
     require("mini.statusline").setup()
     require("mini.tabline").setup()
