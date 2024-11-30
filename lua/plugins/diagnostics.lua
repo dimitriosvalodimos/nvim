@@ -1,1 +1,1 @@
-return { { "rachartier/tiny-inline-diagnostic.nvim", opts = {} } }
+return { "rachartier/tiny-inline-diagnostic.nvim", opts = {} }
