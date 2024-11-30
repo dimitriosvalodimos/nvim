@@ -15,7 +15,7 @@ return {
 		end
 		require("mini.ai").setup()
 		require("mini.comment").setup()
-		require("mini.completion").setup({ delay = { completion = 10 ^ 7 } })
+		require("mini.completion").setup()
 		require("mini.extra").setup()
 		require("mini.git").setup()
 		require("mini.icons").setup()
