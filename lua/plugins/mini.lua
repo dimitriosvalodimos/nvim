@@ -14,7 +14,6 @@ return {
       }
     end
     require("mini.ai").setup()
-    require("mini.bufremove").setup()
     require("mini.comment").setup()
     require("mini.completion").setup()
     require("mini.extra").setup()
