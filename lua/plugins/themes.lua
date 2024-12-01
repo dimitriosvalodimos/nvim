@@ -11,10 +11,7 @@ return {
 		"blazkowolf/gruber-darker.nvim",
 		lazy = true,
 		priority = 1000,
-		opts = { invert = { signs = true, tabline = true, visual = true }, italic = {
-			strings = false,
-			comments = false,
-			folds = false,
-		} },
+		opts = { italic = { strings = false, comments = false, folds = false } },
 	},
+	{ "olivercederborg/poimandres.nvim", lazy = true, priority = 1000, opts = { disable_italics = true } },
 }

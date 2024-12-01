@@ -14,6 +14,7 @@
   "nvim-cmp": { "branch": "main", "commit": "ca4d3330d386e76967e53b85953c170658255ecb" },
   "nvim-lspconfig": { "branch": "master", "commit": "7b0a2f6b14485bb5a237fc1328a487ff3e4a08c5" },
   "nvim-treesitter": { "branch": "master", "commit": "454354e5998edb448111574e58d5f5f2d6a940bd" },
+  "poimandres.nvim": { "branch": "main", "commit": "a488957d803943a4201ac3b774913fcafa9e6b3a" },
   "ssr.nvim": { "branch": "main", "commit": "7c95cfa5836508f08ae833a4b31d2ed265560f64" },
   "tiny-inline-diagnostic.nvim": { "branch": "main", "commit": "cd8e56dd88709e05ecd0036ca2a821d265379bfa" },
   "vim-matchup": { "branch": "master", "commit": "5fb083de1e06fdd134c6ad8d007d4b5576b25ba7" }
