@@ -38,7 +38,7 @@ end
 return {
 	"williamboman/mason.nvim",
 	ft = lsp_filetypes,
-	dependencies = { "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig" },
+	dependencies = { "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "hrsh7th/cmp-nvim-lsp" },
 	config = function()
 		local lspconfig = require("lspconfig")
 		local scope = function(name)
@@ -62,11 +62,16 @@ return {
 		require("mason").setup()
 		local mason_lspconfig = require("mason-lspconfig")
 		mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(servers) })
+		local capabilities = vim.tbl_deep_extend(
+			"force",
+			vim.lsp.protocol.make_client_capabilities(),
+			require("cmp_nvim_lsp").default_capabilities()
+		)
 		mason_lspconfig.setup_handlers({
 			function(server_name)
 				local config = servers[server_name] or {}
 				lspconfig[server_name].setup({
-					capabilities = vim.lsp.protocol.make_client_capabilities(),
+					capabilities = capabilities,
 					filetypes = config.filetypes or {},
 					flags = { debounce_text_changes = 150 },
 					settings = config.settings or {},

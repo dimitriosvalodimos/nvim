@@ -5,6 +5,7 @@ g.maplocalleader = ";"
 opt.backupcopy = "yes"
 opt.breakindent = true
 opt.clipboard = "unnamedplus"
+opt.completeopt = "menuone,noselect,noinsert,popup"
 opt.confirm = true
 opt.copyindent = true
 opt.cursorline = true
