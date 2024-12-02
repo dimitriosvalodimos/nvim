@@ -41,14 +41,10 @@ return {
 	dependencies = { "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "hrsh7th/cmp-nvim-lsp" },
 	config = function()
 		local lspconfig = require("lspconfig")
-		local scope = function(name)
-			return string.format(":Pick lsp scope='%s'<cr>", name)
-		end
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("config-lsp-attach", { clear = true }),
 			callback = function(event)
 				local buffer = event.buf
-				map("n", "gd", scope("definition"), { buffer = buffer, desc = "goto definition" })
 				map("n", "gr", scope("references"), { buffer = buffer, desc = "goto references" })
 				map("n", "gI", scope("implementation"), { buffer = buffer, desc = "goto implementation" })
 				map("n", "<leader>gD", scope("type_definition"), { buffer = buffer, desc = "goto type definition" })
