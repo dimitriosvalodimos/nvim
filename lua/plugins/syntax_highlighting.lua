@@ -20,17 +20,20 @@ local languages = {
 }
 
 return {
-	"nvim-treesitter/nvim-treesitter",
-	build = ":TSUpdate",
-	ft = languages,
-	dependencies = { "andymass/vim-matchup" },
-	config = function()
-		require("nvim-treesitter.install").prefer_git = true
-		require("nvim-treesitter.configs").setup({
-			ensure_installed = languages,
-			auto_install = true,
-			matchup = { enable = true },
-			highlight = { enable = true, additional_vim_regex_highlighting = false },
-		})
-	end,
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		ft = languages,
+		dependencies = { "andymass/vim-matchup" },
+		config = function()
+			require("nvim-treesitter.install").prefer_git = true
+			require("nvim-treesitter.configs").setup({
+				ensure_installed = languages,
+				auto_install = true,
+				matchup = { enable = true },
+				highlight = { enable = true, additional_vim_regex_highlighting = false },
+			})
+		end,
+	},
+	{ "numToStr/Comment.nvim", opts = {} },
 }

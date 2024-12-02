@@ -1,56 +1,58 @@
 return {
-	"hrsh7th/nvim-cmp",
-	dependencies = {
-		"hrsh7th/cmp-nvim-lsp",
-		"hrsh7th/cmp-buffer",
-		"hrsh7th/cmp-path",
-		"hrsh7th/cmp-nvim-lsp-signature-help",
+	{
+		"windwp/nvim-autopairs",
+		opts = { enable_check_bracket_line = false, disable_filetype = { "TelescopePrompt", "spectre_panel", "vim" } },
 	},
-	config = function()
-		local cmp = require("cmp")
-		local has_words_before = function()
-			unpack = unpack or table.unpack
-			local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-			return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-		end
-		local should_complete = function(direction)
-			return function(fallback)
-				local select = (direction == "next" and cmp.select_next_item) or cmp.select_prev_item
-				if not select() then
-					if vim.bo.buftype ~= "prompt" and has_words_before() then
-						cmp.complete()
-					else
-						fallback()
-					end
-				end
-			end
-		end
-		cmp.setup({
-			snippet = {
-				expand = function(args)
-					vim.snippet.expand(args.body)
-				end,
-			},
-			mapping = cmp.mapping.preset.insert({
-				["<Tab>"] = should_complete("next"),
-				["<S-Tab>"] = should_complete("prev"),
-				["<CR>"] = cmp.mapping({
-					i = function(fallback)
-						if cmp.visible() and cmp.get_active_entry() then
-							cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+	{
+		"hrsh7th/nvim-cmp",
+		dependencies = {
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-path",
+			"hrsh7th/cmp-nvim-lsp-signature-help",
+		},
+		config = function()
+			local cmp = require("cmp")
+			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+			local select_opts = { behavior = cmp.SelectBehavior.Select }
+			cmp.setup({
+				snippet = {
+					expand = function(args)
+						vim.snippet.expand(args.body)
+					end,
+				},
+				mapping = cmp.mapping.preset.insert({
+					["<C-b>"] = cmp.mapping.scroll_docs(-4),
+					["<C-f>"] = cmp.mapping.scroll_docs(4),
+					["<C-Space>"] = cmp.mapping.complete(),
+					["<C-e>"] = cmp.mapping.abort(),
+					["<CR>"] = cmp.mapping.confirm({ select = false }),
+					["<Tab>"] = cmp.mapping(function(fallback)
+						local col = vim.fn.col(".") - 1
+						if cmp.visible() then
+							cmp.select_next_item(select_opts)
+						elseif col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
+							fallback()
+						else
+							cmp.complete()
+						end
+					end, { "i", "s" }),
+					["<S-Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_prev_item(select_opts)
 						else
 							fallback()
 						end
-					end,
-					s = cmp.mapping.confirm({ select = true }),
-					c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+					end, { "i", "s" }),
 				}),
-			}),
-			sources = cmp.config.sources({
-				{ name = "nvim_lsp" },
-				{ name = "nvim_lsp_signature_help" },
-				{ name = "buffer" },
-			}),
-		})
-	end,
+				sources = cmp.config.sources({
+					{ name = "nvim_lsp" },
+					{ name = "nvim_lsp_signature_help" },
+					{ name = "buffer" },
+					{ name = "path" },
+				}),
+			})
+		end,
+	},
 }
