@@ -6,6 +6,7 @@
   "cmp-nvim-lsp-signature-help": { "branch": "main", "commit": "031e6ba70b0ad5eee49fd2120ff7a2e325b17fa7" },
   "cmp-path": { "branch": "main", "commit": "91ff86cd9c29299a64f968ebb45846c485725f23" },
   "conform.nvim": { "branch": "master", "commit": "a203480a350b03092e473bf3001733d547160a73" },
+  "dropbar.nvim": { "branch": "master", "commit": "e94f33b5eba0be7e89b2a868d0d1770ba09eb17b" },
   "gitsigns.nvim": { "branch": "main", "commit": "5f808b5e4fef30bd8aca1b803b4e555da07fc412" },
   "gruber-darker.nvim": { "branch": "main", "commit": "a2dda61d9c1225e16951a51d6b89795b0ac35cd6" },
   "lazy.nvim": { "branch": "main", "commit": "56ead98e05bb37a4ec28930a54d836d033cf00f2" },
@@ -15,8 +16,9 @@
   "no-clown-fiesta.nvim": { "branch": "master", "commit": "e8f3c10720d633633fb766b370582eebae8d20f5" },
   "nvim-autopairs": { "branch": "master", "commit": "b464658e9b880f463b9f7e6ccddd93fb0013f559" },
   "nvim-cmp": { "branch": "main", "commit": "ca4d3330d386e76967e53b85953c170658255ecb" },
-  "nvim-lspconfig": { "branch": "master", "commit": "7b0a2f6b14485bb5a237fc1328a487ff3e4a08c5" },
-  "nvim-treesitter": { "branch": "master", "commit": "454354e5998edb448111574e58d5f5f2d6a940bd" },
+  "nvim-hlslens": { "branch": "main", "commit": "0bd7ddb0aecf095055e9cb6eef0c25c70fb69cfc" },
+  "nvim-lspconfig": { "branch": "master", "commit": "e8f9c46c99e1901167a92ab13e2357158e5aabdb" },
+  "nvim-treesitter": { "branch": "master", "commit": "4d035005d338e4b1eb71a175bd44974e2f64740f" },
   "nvim-web-devicons": { "branch": "master", "commit": "203da76ecfbb4b192cf830665b03eb651b635c94" },
   "oil.nvim": { "branch": "master", "commit": "3c2de37accead0240fbe812f5ccdedfe0b973557" },
   "plenary.nvim": { "branch": "master", "commit": "2d9b06177a975543726ce5c73fca176cedbffe9d" },
@@ -24,6 +26,6 @@
   "ssr.nvim": { "branch": "main", "commit": "7c95cfa5836508f08ae833a4b31d2ed265560f64" },
   "telescope-fzf-native.nvim": { "branch": "main", "commit": "cf48d4dfce44e0b9a2e19a008d6ec6ea6f01a83b" },
   "telescope.nvim": { "branch": "master", "commit": "a0bbec21143c7bc5f8bb02e0005fa0b982edc026" },
-  "tiny-inline-diagnostic.nvim": { "branch": "main", "commit": "cd8e56dd88709e05ecd0036ca2a821d265379bfa" },
+  "tiny-inline-diagnostic.nvim": { "branch": "main", "commit": "c39c4af4e6500effb17eeaaa2306dd0bb75afd62" },
   "vim-matchup": { "branch": "master", "commit": "5fb083de1e06fdd134c6ad8d007d4b5576b25ba7" }
 }
