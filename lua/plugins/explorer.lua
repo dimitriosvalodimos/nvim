@@ -1,5 +1,5 @@
 return {
 	"stevearc/oil.nvim",
-	opts = { columns = { "icon", "permissions", "size", "mtime" } },
+	opts = { columns = { "permissions", "size", "mtime", "icon" } },
 	keys = { { "-", ":Oil<cr>", desc = "file explorer" } },
 }
