@@ -27,10 +27,10 @@ local servers = {
 		init_options = { hostInfo = "neovim" },
 	},
 }
-local server_names = vim.tbl_keys(servers)
+
 local lsp_filetypes = {}
-for _, server in ipairs(server_names) do
-	for _, ft in ipairs(servers[server].filetypes) do
+for _, config in pairs(servers) do
+	for _, ft in ipairs(config.filetypes or {}) do
 		table.insert(lsp_filetypes, ft)
 	end
 end
