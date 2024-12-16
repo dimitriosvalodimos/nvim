@@ -39,7 +39,7 @@ return {
 	"williamboman/mason.nvim",
 	ft = lsp_filetypes,
 	dependencies = {
-		"hrsh7th/cmp-nvim-lsp",
+		"saghen/blink.cmp",
 		"neovim/nvim-lspconfig",
 		"nvim-telescope/telescope.nvim",
 		"williamboman/mason-lspconfig.nvim",
@@ -65,11 +65,7 @@ return {
 		require("mason").setup()
 		local mason_lspconfig = require("mason-lspconfig")
 		mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(servers) })
-		local capabilities = vim.tbl_deep_extend(
-			"force",
-			vim.lsp.protocol.make_client_capabilities(),
-			require("cmp_nvim_lsp").default_capabilities()
-		)
+		local capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
 		mason_lspconfig.setup_handlers({
 			function(server_name)
 				local config = servers[server_name] or {}
