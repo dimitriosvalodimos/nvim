@@ -13,5 +13,4 @@ return {
 		priority = 1000,
 		opts = { italic = { strings = false, comments = false, folds = false } },
 	},
-	{ "olivercederborg/poimandres.nvim", lazy = true, priority = 1000, opts = { disable_italics = true } },
 }

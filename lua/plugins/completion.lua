@@ -1,7 +1,7 @@
 return {
 	{
 		"windwp/nvim-autopairs",
-		opts = { enable_check_bracket_line = false, disable_filetype = { "TelescopePrompt", "spectre_panel", "vim" } },
+		opts = { enable_check_bracket_line = false, disable_filetype = { "spectre_panel", "vim" } },
 	},
 	{
 		"saghen/blink.cmp",
