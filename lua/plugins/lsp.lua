@@ -15,6 +15,7 @@ local servers = {
 			},
 		},
 	},
+	rust_analyzer = { filetypes = { "rust" }, settings = {} },
 	ts_ls = {
 		filetypes = {
 			"javascript",
