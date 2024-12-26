@@ -12,6 +12,7 @@ local languages = {
 	"luadoc",
 	"markdown",
 	"markdown_inline",
+	"python",
 	"regex",
 	"sql",
 	"vimdoc",

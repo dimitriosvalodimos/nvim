@@ -11,6 +11,7 @@ return {
 			javascriptreact = { "biome-check", "biome", "prettier", stop_after_first = true },
 			json = { "biome-check", "biome", "prettier", stop_after_first = true },
 			lua = { "stylua" },
+			python = { "isort" },
 			typescript = { "biome-check", "biome", "prettier", stop_after_first = true },
 			typescriptreact = { "biome-check", "biome", "prettier", stop_after_first = true },
 		},
