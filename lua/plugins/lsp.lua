@@ -15,17 +15,7 @@ local servers = {
 			},
 		},
 	},
-	pylyzer = {
-		filetypes = { "python" },
-		settings = {
-			python = {
-				checkOnType = false,
-				diagnostics = true,
-				inlayHints = true,
-				smartCompletion = true,
-			},
-		},
-	},
+	pylsp = { filetypes = { "python" }, settings = {} },
 	rust_analyzer = { filetypes = { "rust" }, settings = {} },
 	ts_ls = {
 		filetypes = {

@@ -2,6 +2,7 @@ local g = vim.g
 local opt = vim.opt
 g.mapleader = " "
 g.maplocalleader = ";"
+opt.background = "dark"
 opt.backupcopy = "yes"
 opt.breakindent = true
 opt.clipboard = "unnamedplus"

@@ -14,4 +14,5 @@ return {
 		opts = { italic = { strings = false, comments = false, folds = false } },
 	},
 	{ "wnkz/monoglow.nvim", lazy = true, priority = 1000, opts = {} },
+	{ "ficcdaf/ashen.nvim", lazy = true, priority = 1000, opts = {} },
 }

@@ -12,6 +12,7 @@ return {
 			json = { "biome-check", "biome", "prettier", stop_after_first = true },
 			lua = { "stylua" },
 			python = { "isort" },
+			rust = { "rustfmt" },
 			typescript = { "biome-check", "biome", "prettier", stop_after_first = true },
 			typescriptreact = { "biome-check", "biome", "prettier", stop_after_first = true },
 		},
