@@ -5,8 +5,4 @@ return {
 		event = "BufEnter",
 		keys = { { "<leader>gs", "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "toggle git blame" } },
 	},
-	{
-		"tpope/vim-fugitive",
-		cmd = { "Git", "G" },
-	},
 }
