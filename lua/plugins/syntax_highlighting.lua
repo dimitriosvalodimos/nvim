@@ -12,7 +12,6 @@ local languages = {
 	"luadoc",
 	"markdown",
 	"markdown_inline",
-	"python",
 	"regex",
 	"sql",
 	"vimdoc",
@@ -45,5 +44,4 @@ return {
 			})
 		end,
 	},
-	-- { "numToStr/Comment.nvim", opts = {} },
 }
