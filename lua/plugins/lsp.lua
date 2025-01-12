@@ -25,6 +25,7 @@ local servers = {
 		},
 		init_options = { hostInfo = "neovim" },
 	},
+	zls = { filetypes = { "zig", "zir" } },
 }
 
 local lsp_filetypes = {}

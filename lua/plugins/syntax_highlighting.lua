@@ -17,6 +17,7 @@ local languages = {
 	"vimdoc",
 	"tsx",
 	"typescript",
+	"zig",
 }
 
 return {
