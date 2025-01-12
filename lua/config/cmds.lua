@@ -7,6 +7,3 @@ utils.autocmd("TextYankPost", {
 		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 300 })
 	end,
 })
-vim.api.nvim_create_user_command("Term", function()
-	require("snacks").terminal.toggle()
-end, {})
