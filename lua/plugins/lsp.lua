@@ -69,7 +69,7 @@ return {
 		})
 		require("mason").setup()
 		require("mason-tool-installer").setup({
-			ensure_installed = { "stylua", "prettier", "biome" },
+			ensure_installed = { "stylua", "prettier" },
 			auto_update = true,
 			run_on_start = true,
 		})
