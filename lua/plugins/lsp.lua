@@ -14,6 +14,7 @@ local servers = {
 			},
 		},
 	},
+	gopls = { filetypes = { "go", "gomod", "gowork", "gotmpl" } },
 	ts_ls = {
 		filetypes = {
 			"javascript",
@@ -28,16 +29,8 @@ local servers = {
 	zls = { filetypes = { "zig", "zir" } },
 }
 
-local lsp_filetypes = {}
-for _, config in pairs(servers) do
-	for _, ft in ipairs(config.filetypes or {}) do
-		table.insert(lsp_filetypes, ft)
-	end
-end
-
 return {
 	"williamboman/mason.nvim",
-	ft = lsp_filetypes,
 	dependencies = {
 		"saghen/blink.cmp",
 		"ibhagwan/fzf-lua",
@@ -69,7 +62,7 @@ return {
 		})
 		require("mason").setup()
 		require("mason-tool-installer").setup({
-			ensure_installed = { "stylua", "prettier" },
+			ensure_installed = { "stylua", "prettier", "gofumpt", "golines", "goimports" },
 			auto_update = true,
 			run_on_start = true,
 		})
