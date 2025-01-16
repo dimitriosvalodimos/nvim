@@ -14,7 +14,7 @@ local servers = {
 			},
 		},
 	},
-	gopls = { filetypes = { "go", "gomod", "gowork", "gotmpl" } },
+	gopls = { filetypes = { "go", "gomod", "gowork", "gotmpl" }, settings = {} },
 	ts_ls = {
 		filetypes = {
 			"javascript",
