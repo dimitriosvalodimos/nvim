@@ -15,6 +15,7 @@ return {
 			rust = { "rustfmt" },
 			typescript = { "biome-check", "biome", "prettier", stop_after_first = true },
 			typescriptreact = { "biome-check", "biome", "prettier", stop_after_first = true },
+			zig = { "zigfmt" },
 		},
 	},
 }
