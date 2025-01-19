@@ -15,7 +15,15 @@ local servers = {
 		},
 	},
 	gopls = { filetypes = { "go", "gomod", "gowork", "gotmpl" }, settings = {} },
-	ols = { filetypes = { "odin" } },
+	ols = {
+		filetypes = { "odin" },
+		init_options = {
+			checker_args = "-strict-style",
+			collections = {
+				{ name = "shared", path = vim.fn.expand("$HOME/odin-lib") },
+			},
+		},
+	},
 	ts_ls = {
 		filetypes = {
 			"javascript",
