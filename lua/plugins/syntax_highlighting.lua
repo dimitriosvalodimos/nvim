@@ -26,15 +26,6 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		ft = languages,
-		dependencies = {
-			{
-				"andymass/vim-matchup",
-				opts = {},
-				init = function()
-					vim.g.matchup_matchparen_offscreen = { method = "popup" }
-				end,
-			},
-		},
 		config = function()
 			require("nvim-treesitter.install").prefer_git = true
 			require("nvim-treesitter.configs").setup({

@@ -45,7 +45,6 @@ return {
 		"ibhagwan/fzf-lua",
 		"neovim/nvim-lspconfig",
 		"williamboman/mason-lspconfig.nvim",
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
 	},
 	config = function()
 		local lspconfig = require("lspconfig")
@@ -70,11 +69,6 @@ return {
 			end,
 		})
 		require("mason").setup()
-		require("mason-tool-installer").setup({
-			ensure_installed = { "stylua", "prettier", "gofumpt", "golines", "goimports" },
-			auto_update = true,
-			run_on_start = true,
-		})
 		local mason_lspconfig = require("mason-lspconfig")
 		mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(servers) })
 		local capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
