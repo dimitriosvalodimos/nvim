@@ -24,6 +24,10 @@ local servers = {
 			},
 		},
 	},
+	rust_analyzer = {
+		filetypes = { "rust" },
+		settings = { ["rust-analyzer"] = { diagnostics = { enable = false } } },
+	},
 	ts_ls = {
 		filetypes = {
 			"javascript",
