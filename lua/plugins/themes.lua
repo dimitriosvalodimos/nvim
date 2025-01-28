@@ -5,6 +5,7 @@ return {
 		priority = 1000,
 		opts = { italic = { strings = false, comments = false, folds = false } },
 	},
+	{ "aktersnurra/no-clown-fiesta.nvim", lazy = true, priority = 1000, opts = {} },
 	{ "gmr458/cold.nvim", lazy = true, priority = 1000 },
 	{
 		"wnkz/monoglow.nvim",
