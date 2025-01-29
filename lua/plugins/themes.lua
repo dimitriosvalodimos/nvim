@@ -6,14 +6,6 @@ return {
 		opts = { italic = { strings = false, comments = false, folds = false } },
 	},
 	{ "aktersnurra/no-clown-fiesta.nvim", lazy = true, priority = 1000, opts = {} },
-	{
-		"wnkz/monoglow.nvim",
-		lazy = true,
-		priority = 1000,
-		opts = {
-			on_colors = function(colors)
-				colors.glow = "#00E676"
-			end,
-		},
-	},
+	{ "dgox16/oldworld.nvim", lazy = true, priority = 1000 },
+	{ "slugbyte/lackluster.nvim", lazy = true, priority = 1000 },
 }
