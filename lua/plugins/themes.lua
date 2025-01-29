@@ -6,7 +6,6 @@ return {
 		opts = { italic = { strings = false, comments = false, folds = false } },
 	},
 	{ "aktersnurra/no-clown-fiesta.nvim", lazy = true, priority = 1000, opts = {} },
-	{ "gmr458/cold.nvim", lazy = true, priority = 1000 },
 	{
 		"wnkz/monoglow.nvim",
 		lazy = true,
@@ -16,11 +15,5 @@ return {
 				colors.glow = "#00E676"
 			end,
 		},
-	},
-	{
-		"idr4n/github-monochrome.nvim",
-		lazy = true,
-		priority = 1000,
-		opts = { style = "dark", styles = { comments = { italic = false } } },
 	},
 }
