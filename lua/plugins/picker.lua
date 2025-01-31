@@ -1,4 +1,5 @@
 local map = require("config.utils").map
+
 return {
 	"ibhagwan/fzf-lua",
 	opts = {
