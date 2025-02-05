@@ -23,6 +23,7 @@ local servers = {
 		},
 	},
 	ts_ls = {},
+	zls = {},
 }
 
 return {

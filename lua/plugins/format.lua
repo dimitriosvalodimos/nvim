@@ -2,7 +2,7 @@ return {
 	"stevearc/conform.nvim",
 	event = "VeryLazy",
 	opts = {
-		format_on_save = { timeout_ms = 500, lsp_format = "fallback" },
+		format_on_save = { timeout_ms = 200, lsp_format = true },
 		formatters_by_ft = {
 			css = { "prettier" },
 			html = { "prettier" },
@@ -12,6 +12,7 @@ return {
 			lua = { "stylua" },
 			typescript = { "biome-check", "biome", "prettier", stop_after_first = true },
 			typescriptreact = { "biome-check", "biome", "prettier", stop_after_first = true },
+			zig = { "zigfmt" },
 		},
 	},
 }
