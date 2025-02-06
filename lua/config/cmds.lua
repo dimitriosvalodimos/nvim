@@ -7,7 +7,6 @@ utils.autocmd("TextYankPost", {
 		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 300 })
 	end,
 })
--- Show cursorline only on active windows
 vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
 	callback = function()
 		if vim.w.auto_cursorline then

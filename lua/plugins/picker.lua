@@ -1,12 +1,7 @@
 local map = require("config.utils").map
-
 return {
 	"ibhagwan/fzf-lua",
-	opts = {
-		previewers = {
-			syntax_limit_b = 1024 * 100, -- 100KB
-		},
-	},
+	opts = { previewers = { syntax_limit_b = 1024 * 100 } },
 	config = function(_, opts)
 		local fzf = require("fzf-lua")
 		fzf.setup(opts)

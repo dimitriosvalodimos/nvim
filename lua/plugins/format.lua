@@ -1,6 +1,5 @@
 return {
 	"stevearc/conform.nvim",
-	event = "VeryLazy",
 	opts = {
 		format_on_save = { timeout_ms = 200, lsp_format = true },
 		formatters_by_ft = {

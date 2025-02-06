@@ -10,10 +10,7 @@
   "markview.nvim": { "branch": "main", "commit": "a39d03f8445971c4a250396a44b23fa9c6fd8921" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "f75e877f5266e87523eb5a18fcde2081820d087b" },
   "mason.nvim": { "branch": "main", "commit": "e2f7f9044ec30067bc11800a9e266664b88cda22" },
-  "mellow.nvim": { "branch": "main", "commit": "434a02d5f7637a24824569426176f37473205053" },
-  "no-clown-fiesta.nvim": { "branch": "master", "commit": "2f57d1115e246b62a1a81bba806fe79aaa53b610" },
   "nvim-lspconfig": { "branch": "master", "commit": "f98fa715acc975c2dd5fb5ba7ceddeb1cc725ad2" },
   "nvim-treesitter": { "branch": "master", "commit": "73b68cb943cd6718bdee318a70874620070255d4" },
-  "oil.nvim": { "branch": "master", "commit": "add50252b5e9147c0a09d36480d418c7e2737472" },
-  "vague.nvim": { "branch": "main", "commit": "8a33468ca4fc73adc1b111b19f89b7663fdfd137" }
+  "oil.nvim": { "branch": "master", "commit": "add50252b5e9147c0a09d36480d418c7e2737472" }
 }

@@ -1,5 +1,4 @@
 local map = require("config.utils").map
-
 local servers = {
 	cssls = {},
 	html = {},
@@ -25,7 +24,6 @@ local servers = {
 	ts_ls = {},
 	zls = {},
 }
-
 return {
 	"williamboman/mason.nvim",
 	dependencies = {
@@ -42,18 +40,15 @@ return {
 		map("i", "<TAB>", function()
 			return vim.fn.pumvisible() == 1 and "<C-y>" or "<TAB>"
 		end, { silent = true, expr = true })
-
 		local lspconfig = require("lspconfig")
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("config-lsp-attach", { clear = true }),
 			callback = function(event)
 				local buffer = event.buf
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
-
 				if client ~= nil and client:supports_method("textDocument/completion") then
 					vim.lsp.completion.enable(true, client.id, buffer, { autotrigger = true })
 				end
-
 				map("n", "gd", vim.lsp.buf.definition, { buffer = buffer, desc = "goto definition" })
 				map("n", "gr", vim.lsp.buf.references, { buffer = buffer, desc = "goto reference" })
 				map("n", "gI", vim.lsp.buf.implementation, { buffer = buffer, desc = "goto implementation" })
@@ -67,16 +62,12 @@ return {
 		})
 		require("mason").setup()
 		local mason_lspconfig = require("mason-lspconfig")
-
 		mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(servers) })
-
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
 		capabilities.textDocument.completion.completionItem.snippetSupport = true
-
 		mason_lspconfig.setup_handlers({
 			function(server_name)
 				local config = servers[server_name] or {}
-
 				lspconfig[server_name].setup({
 					capabilities = capabilities,
 					flags = { debounce_text_changes = 150 },

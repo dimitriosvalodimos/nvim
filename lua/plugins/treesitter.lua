@@ -16,7 +16,6 @@ local languages = {
 	"tsx",
 	"typescript",
 }
-
 return {
 	"nvim-treesitter/nvim-treesitter",
 	build = ":TSUpdate",
