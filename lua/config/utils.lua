@@ -24,4 +24,5 @@ end
 local user_command = function(name, command, opts)
 	vim.api.nvim_create_user_command(name, command, opts)
 end
+
 return { map = map, autocmd = autocmd, user_command = user_command }
