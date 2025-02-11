@@ -1,7 +1,7 @@
 return {
 	"stevearc/conform.nvim",
 	opts = {
-		format_on_save = { timeout_ms = 200, lsp_format = true },
+		format_on_save = { timeout_ms = 200, lsp_format = true, async = false },
 		formatters_by_ft = {
 			css = { "prettier" },
 			html = { "prettier" },

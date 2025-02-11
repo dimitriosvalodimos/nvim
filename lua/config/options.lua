@@ -5,7 +5,7 @@ g.maplocalleader = ";"
 opt.background = "dark"
 opt.backupcopy = "yes"
 opt.breakindent = true
-opt.clipboard = "unnamedplus"
+opt.clipboard:append("unnamedplus")
 opt.completeopt = { "menuone", "popup", "noselect", "noinsert" }
 opt.confirm = true
 opt.copyindent = true
@@ -13,6 +13,7 @@ opt.cursorline = true
 opt.expandtab = true
 opt.ignorecase = true
 opt.infercase = true
+opt.iskeyword:append("-")
 opt.laststatus = 3
 opt.number = true
 opt.numberwidth = 4
@@ -21,6 +22,7 @@ opt.pumheight = 10
 opt.scrolloff = 5
 opt.shiftround = true
 opt.shiftwidth = 2
+opt.showmode = false
 opt.sidescrolloff = 5
 opt.signcolumn = "yes"
 opt.smartcase = true
