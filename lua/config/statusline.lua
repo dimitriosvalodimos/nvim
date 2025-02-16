@@ -10,14 +10,14 @@ local mode_colors = {
 }
 
 local mode_names = {
-	n = "NORMAL",
-	i = "INSERT",
-	v = "VISUAL",
-	[""] = "V-BLOCK",
-	V = "V-LINE",
-	c = "COMMAND",
-	R = "REPLACE",
-	t = "TERMINAL",
+	n = "[N]",
+	i = "[I]",
+	v = "[V]",
+	[""] = "[V-B]",
+	V = "[V-L]",
+	c = "[C]",
+	R = "[R]",
+	t = "[T]",
 }
 
 local function get_mode()

@@ -1,2 +1,2 @@
 require("config")
-vim.cmd.colorscheme("poimandres") -- gruber-darker, poimandres, retrobox
+vim.cmd.colorscheme("vscode") -- gruber-darker, vscode

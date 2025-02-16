@@ -14,7 +14,7 @@ opt.expandtab = true
 opt.ignorecase = true
 opt.infercase = true
 opt.iskeyword:append("-")
-opt.laststatus = 3
+opt.laststatus = 2
 opt.number = true
 opt.numberwidth = 4
 opt.preserveindent = true
