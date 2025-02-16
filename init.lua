@@ -1,2 +1,2 @@
 require("config")
-vim.cmd.colorscheme("makurai") -- gruber-darker, makurai, poimandres, retrobox, unokai
+vim.cmd.colorscheme("poimandres") -- gruber-darker, poimandres, retrobox

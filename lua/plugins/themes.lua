@@ -5,7 +5,6 @@ return {
 		priority = 1000,
 		opts = { italic = { strings = false, comments = false, folds = false } },
 	},
-	{ "Skardyy/makurai-nvim", lazy = true, priority = 1000 },
 	{
 		"olivercederborg/poimandres.nvim",
 		lazy = false,
