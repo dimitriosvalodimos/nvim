@@ -1,2 +1,2 @@
 require("config")
-vim.cmd.colorscheme("vscode") -- gruber-darker, vscode
+vim.cmd.colorscheme("tokyonight") -- gruber-darker, tokyonight

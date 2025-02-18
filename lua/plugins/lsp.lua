@@ -27,6 +27,7 @@ return {
 		"saghen/blink.cmp",
 		"neovim/nvim-lspconfig",
 		"williamboman/mason-lspconfig.nvim",
+		"folke/snacks.nvim",
 		{ "j-hui/fidget.nvim", opts = {} },
 	},
 	config = function()
@@ -35,14 +36,16 @@ return {
 			group = vim.api.nvim_create_augroup("config-lsp-attach", { clear = true }),
 			callback = function(event)
 				local buffer = event.buf
-				map("n", "gd", vim.lsp.buf.definition, { buffer = buffer, desc = "goto definition" })
-				map("n", "gr", vim.lsp.buf.references, { buffer = buffer, desc = "goto reference" })
-				map("n", "gI", vim.lsp.buf.implementation, { buffer = buffer, desc = "goto implementation" })
-				map("n", "gD", vim.lsp.buf.type_definition, { buffer = buffer, desc = "goto type definition" })
-				map("n", "<leader>gD", vim.lsp.buf.declaration, { buffer = buffer, desc = "goto declaration" })
+				local picker = require("snacks").picker
+				map("n", "gd", picker.lsp_definitions, { buffer = buffer, desc = "goto definition" })
+				map("n", "gr", picker.lsp_references, { buffer = buffer, desc = "goto reference" })
+				map("n", "gI", picker.lsp_implementations, { buffer = buffer, desc = "goto implementation" })
+				map("n", "gD", picker.lsp_type_definitions, { buffer = buffer, desc = "goto type definition" })
+				map("n", "<leader>gD", picker.lsp_declarations, { buffer = buffer, desc = "goto declaration" })
 				map("n", "<leader>rn", vim.lsp.buf.rename, { buffer = buffer, desc = "rename" })
 				map("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = buffer, desc = "LSP: code action" })
-				map("n", "<leader>k", vim.diagnostic.open_float, { buffer = buffer, desc = "diagnostics" })
+				map("n", "<leader>k", picker.diagnostics, { buffer = buffer, desc = "diagnostics" })
+				map("n", "<leader>K", picker.diagnostics_buffer, { buffer = buffer, desc = "buffer diagnostics" })
 			end,
 		})
 		require("mason").setup()
