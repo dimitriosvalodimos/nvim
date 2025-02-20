@@ -1,2 +1,2 @@
 require("config")
-vim.cmd.colorscheme("tokyonight") -- gruber-darker, tokyonight
+vim.cmd.colorscheme("vague") -- gruber-darker, rose-pine, mellow, vague

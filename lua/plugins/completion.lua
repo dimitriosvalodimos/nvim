@@ -12,10 +12,10 @@ return {
 		completion = {
 			documentation = { auto_show = true },
 			menu = {
+				draw = { treesitter = { "lsp" } },
 				auto_show = function(ctx)
 					return ctx.mode ~= "cmdline"
 				end,
-				draw = { treesitter = { "lsp" } },
 			},
 		},
 		signature = { enabled = true },
