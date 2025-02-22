@@ -16,7 +16,7 @@ return {
 		{ "<leader>fb", ":lua require('snacks').picker.buffers()<cr>", desc = "buffer search" },
 		{ "<leader>fw", ":lua require('snacks').picker.grep_word()<cr>", desc = "word/selection search" },
 		{ "<leader>fh", ":lua require('snacks').picker.help()<cr>", desc = "helptag search" },
-		{ "<leader>fh", ":lua require('snacks').picker.keymaps()<cr>", desc = "keymap search" },
+		{ "<leader>fk", ":lua require('snacks').picker.keymaps()<cr>", desc = "keymap search" },
 		{ "<leader>/", ":lua require('snacks').picker.grep_buffers()<cr>", desc = "active buffer search" },
 		{ "<leader>e", ":lua require('snacks').picker.explorer()<cr>", desc = "file explorer" },
 	},
