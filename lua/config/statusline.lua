@@ -50,7 +50,7 @@ vim.o.statusline = table.concat({
 	"%#StatusLineFileType#",
 	" %{&filetype} ",
 	"%#StatusLinePosition#",
-	" %l/%L:%c ",
+	" %l:%c ",
 })
 
 return {
