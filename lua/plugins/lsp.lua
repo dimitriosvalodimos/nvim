@@ -42,6 +42,7 @@ return {
 				map("n", "gI", picker.lsp_implementations, { buffer = buffer, desc = "goto implementation" })
 				map("n", "gD", picker.lsp_type_definitions, { buffer = buffer, desc = "goto type definition" })
 				map("n", "<leader>gD", picker.lsp_declarations, { buffer = buffer, desc = "goto declaration" })
+				map("n", "<leader>ws", picker.lsp_workspace_symbols, { buffer = buffer, desc = "goto declaration" })
 				map("n", "<leader>rn", vim.lsp.buf.rename, { buffer = buffer, desc = "rename" })
 				map("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = buffer, desc = "LSP: code action" })
 				map("n", "<leader>k", picker.diagnostics, { buffer = buffer, desc = "diagnostics" })
