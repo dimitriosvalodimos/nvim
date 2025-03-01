@@ -9,7 +9,7 @@ map("i", "<CR>", function()
 	return pumvisible() and "<C-y>" or "<cr>"
 end, { expr = true })
 map("i", "<Esc>", function()
-	return pumvisible() and "<C-e>" or "<Esc>"
+	return pumvisible() and "<C-e><Esc>" or "<Esc>"
 end, { expr = true })
 map("i", "<C-Space>", function()
 	return not pumvisible() and vim.lsp.completion.trigger()
