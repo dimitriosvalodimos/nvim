@@ -7,16 +7,14 @@ local function pumvisible()
 end
 map("i", "<CR>", function()
 	return pumvisible() and "<C-y>" or "<cr>"
-end, { expr = true })
+end, { expr = true, silent = true })
 map("i", "<Esc>", function()
 	return pumvisible() and "<C-e><Esc>" or "<Esc>"
-end, { expr = true })
+end, { expr = true, silent = true })
 map("i", "<C-Space>", function()
 	return not pumvisible() and vim.lsp.completion.trigger()
 end, "trigger completion")
 map("i", "<C-u>", "<C-x><C-n>", { desc = "Buffer completions" }) -- buffer completion
--- Use <Tab> to navigate between snippet tabstops, or select the next completion.
--- Do something similar with <S-Tab>.
 map({ "i", "s" }, "<Tab>", function()
 	if pumvisible() then
 		feedkeys("<C-n>")
@@ -35,4 +33,4 @@ map({ "i", "s" }, "<S-Tab>", function()
 		feedkeys("<S-Tab>")
 	end
 end, {})
-map("s", "<BS>", "<C-o>s", {})
+map("s", "<BS>", "<C-o>s", "last snippet placeholder")
