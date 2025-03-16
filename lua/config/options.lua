@@ -22,6 +22,7 @@ opt.pumheight = 10
 opt.scrolloff = 5
 opt.shiftround = true
 opt.shiftwidth = 2
+opt.shortmess = "c"
 opt.showmode = false
 opt.sidescrolloff = 5
 opt.signcolumn = "yes"
