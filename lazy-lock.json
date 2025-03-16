@@ -1,4 +1,5 @@
 {
+  "arctic.nvim": { "branch": "v2", "commit": "9052ab87b1d6e9b746ab8dde6576e2876ffda4c7" },
   "conform.nvim": { "branch": "master", "commit": "a6f5bdb78caa305496357d17e962bbc4c0b392e2" },
   "fzf-lua": { "branch": "main", "commit": "ae9378a48fcf07475d93b3dc7775c2aab0b9fa7b" },
   "gitsigns.nvim": { "branch": "main", "commit": "4c40357994f386e72be92a46f41fc1664c84c87d" },
@@ -6,6 +7,7 @@
   "helpview.nvim": { "branch": "main", "commit": "2bc021a2cf1e6ce103f95ceffc172cfefbbf9cfc" },
   "hlargs.nvim": { "branch": "main", "commit": "a5a7fdacc0ac2f7ca9d241e0e059cb85f0e733bc" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
+  "lush.nvim": { "branch": "main", "commit": "45a79ec4acb5af783a6a29673a999ce37f00497e" },
   "markview.nvim": { "branch": "main", "commit": "386a98e88e021a79df7f0494d8eb4145a78f59ae" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "1a31f824b9cd5bc6f342fc29e9a53b60d74af245" },
   "mason.nvim": { "branch": "main", "commit": "fc98833b6da5de5a9c5b1446ac541577059555be" },

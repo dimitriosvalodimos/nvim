@@ -13,6 +13,7 @@ local languages = {
 	"nim",
 	"odin",
 	"regex",
+	"rust",
 	"sql",
 	"vimdoc",
 	"tsx",
