@@ -13,6 +13,5 @@
   "mason.nvim": { "branch": "main", "commit": "fc98833b6da5de5a9c5b1446ac541577059555be" },
   "nvim-lspconfig": { "branch": "master", "commit": "8a1529e46eef5efc86c34c8d9bdd313abc2ecba0" },
   "nvim-treesitter": { "branch": "master", "commit": "da88ea477c67c7f7ebab6d1e662d0cdebfcb57f0" },
-  "oil.nvim": { "branch": "master", "commit": "548587d68b55e632d8a69c92cefd981f360634fa" },
-  "vesper.nvim": { "branch": "main", "commit": "4e96a753a964192b5904598e64366a93eef5449d" }
+  "oil.nvim": { "branch": "master", "commit": "548587d68b55e632d8a69c92cefd981f360634fa" }
 }

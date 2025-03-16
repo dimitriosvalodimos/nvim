@@ -1,2 +1,2 @@
 require("config")
-vim.cmd.colorscheme("vesper") -- arctic, gruber-darker, vesper
+vim.cmd.colorscheme("arctic") -- arctic, gruber-darker, vesper
