@@ -33,7 +33,7 @@ return {
 				local buffer = event.buf
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
 				local methods = vim.lsp.protocol.Methods
-				if client and client.supports_method(methods.textDocument_completion, buffer) then
+				if client and client:supports_method(methods.textDocument_completion, buffer) then
 					vim.lsp.completion.enable(true, client.id, buffer, { autotrigger = true })
 				end
 				map("n", "gd", fzf.lsp_definitions, { buffer = buffer, desc = "goto definition" })
