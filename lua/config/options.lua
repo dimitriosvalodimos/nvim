@@ -11,6 +11,8 @@ opt.confirm = true
 opt.copyindent = true
 opt.cursorline = true
 opt.expandtab = true
+opt.grepprg = "rg --vimgrep -S "
+opt.grepformat = "%f:%l:%m"
 opt.ignorecase = true
 opt.infercase = true
 opt.iskeyword:append("-")

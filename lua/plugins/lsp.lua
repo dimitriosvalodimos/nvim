@@ -25,8 +25,6 @@ local handlers = {
 	["textDocument/implementation"] = { "gI", "goto implementation" },
 	["textDocument/codeAction"] = { "<leader>ca", "code action" },
 	["textDocument/typeDefinition*"] = { "<leader>gD", "goto type definition" },
-	["callHierarchy/incomingCalls"] = { "<leader>ic", "show incoming calls" },
-	["callHierarchy/outgoingCalls"] = { "<leader>oc", "show outgoing calls" },
 }
 ---@param client vim.lsp.Client
 ---@param buf integer
@@ -38,7 +36,7 @@ local register_lsp_handlers = function(client, buf)
 			map("n", conf[1], lbuf[snake(func)], { buffer = buf, desc = conf[2] })
 		end
 	end
-	map("n", "<leader>XX", vim.diagnostic.setqflist, "show diagnotics")
+	map("n", "<leader>xx", vim.diagnostic.setqflist, "show workspace diagnostics")
 end
 return {
 	"williamboman/mason.nvim",

@@ -1,3 +1,9 @@
+local map = require("config.utils").map
+map("n", "<leader>fg", function()
+	vim.ui.input({ prompt = "Live Grep: " }, function(input)
+		vim.api.nvim_exec2(string.format("silent grep! %s | copen", vim.fn.shellescape(input)), {})
+	end)
+end, "grep pattern")
 return {
 	"ibhagwan/fzf-lua",
 	opts = {},
@@ -6,7 +12,7 @@ return {
 		{ "<leader>fr", ":lua require('fzf-lua').resume()<cr>", { desc = "resume search" } },
 		{ "<leader>fR", ":lua require('fzf-lua').registers()<cr>", { desc = "find register" } },
 		{ "<leader>fb", ":lua require('fzf-lua').buffers()<cr>", { desc = "find buffer" } },
-		{ "<leader>fg", ":lua require('fzf-lua').live_grep()<cr>", { desc = "find word" } },
+		-- { "<leader>fg", ":lua require('fzf-lua').live_grep()<cr>", { desc = "find word" } },
 		{ "<leader>fw", ":lua require('fzf-lua').grep_cword()<cr>", { desc = "find word under cursor" } },
 		{ "<leader>fh", ":lua require('fzf-lua').helptags()<cr>", { desc = "find helptag" } },
 		{ "<leader>fk", ":lua require('fzf-lua').keymaps()<cr>", { desc = "find keymap" } },
