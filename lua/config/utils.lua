@@ -24,5 +24,8 @@ end
 local user_command = function(name, command, opts)
 	vim.api.nvim_create_user_command(name, command, opts)
 end
-
-return { map = map, autocmd = autocmd, user_command = user_command }
+---@param str string
+local snake = function(str)
+	return str:gsub("([a-z])([A-Z])", "%1_%2"):lower()
+end
+return { map = map, autocmd = autocmd, user_command = user_command, snake = snake }

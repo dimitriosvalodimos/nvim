@@ -1,4 +1,5 @@
 local map = require("config.utils").map
+local snake = require("config.utils").snake
 local servers = {
 	cssls = {},
 	html = {},
@@ -16,49 +17,59 @@ local servers = {
 	rust_analyzer = {},
 	ts_ls = {},
 }
+local handlers = {
+	["textDocument/rename"] = { "<leader>rn", "rename" },
+	["textDocument/definition"] = { "gd", "goto definiton" },
+	["textDocument/references"] = { "gr", "goto reference" },
+	["textDocument/declaration"] = { "gD", "goto declaration" },
+	["textDocument/implementation"] = { "gI", "goto implementation" },
+	["textDocument/codeAction"] = { "<leader>ca", "code action" },
+	["textDocument/typeDefinition*"] = { "<leader>gD", "goto type definition" },
+	["callHierarchy/incomingCalls"] = { "<leader>ic", "show incoming calls" },
+	["callHierarchy/outgoingCalls"] = { "<leader>oc", "show outgoing calls" },
+}
+---@param client vim.lsp.Client
+---@param buf integer
+local register_lsp_handlers = function(client, buf)
+	local lbuf = vim.lsp.buf
+	for method, conf in pairs(handlers) do
+		local func = method:gmatch("%w+/(%w+)")()
+		if client:supports_method(method, buf) then
+			map("n", conf[1], lbuf[snake(func)], { buffer = buf, desc = conf[2] })
+		end
+	end
+	map("n", "<leader>XX", vim.diagnostic.setqflist, "show diagnotics")
+end
 return {
 	"williamboman/mason.nvim",
-	dependencies = { "ibhagwan/fzf-lua", "neovim/nvim-lspconfig", "williamboman/mason-lspconfig.nvim" },
+	dependencies = { "neovim/nvim-lspconfig" },
 	config = function()
 		local lspconfig = require("lspconfig")
-		local fzf = require("fzf-lua")
 		require("mason").setup()
-		local mason_lspconfig = require("mason-lspconfig")
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
-		capabilities.textDocument.completion.completionItem.snippetSupport = true
+		capabilities.textDocument.completion.completionItem.snippetSupport = false
+		capabilities.textDocument.semanticTokens.multilineTokenSupport = true
 		vim.diagnostic.config({ severity_sort = true, virtual_text = { source = "if_many" } })
+		for server, config in pairs(servers) do
+			lspconfig[server].setup({
+				capabilities = capabilities,
+				flags = { debounce_text_changes = 150 },
+				settings = config.settings or {},
+				init_options = config.init_options or {},
+			})
+		end
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("config-lsp-attach", { clear = true }),
 			callback = function(event)
-				local buffer = event.buf
+				local buf = event.buf
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
-				local methods = vim.lsp.protocol.Methods
-				if client and client:supports_method(methods.textDocument_completion, buffer) then
-					vim.lsp.completion.enable(true, client.id, buffer, { autotrigger = true })
+				if not client then
+					return
 				end
-				map("n", "gd", fzf.lsp_definitions, { buffer = buffer, desc = "goto definition" })
-				map("n", "gr", fzf.lsp_references, { buffer = buffer, desc = "goto reference" })
-				map("n", "gI", fzf.lsp_implementations, { buffer = buffer, desc = "goto implementation" })
-				map("n", "gD", fzf.lsp_typedefs, { buffer = buffer, desc = "goto type definition" })
-				map("n", "<leader>gD", fzf.lsp_declarations, { buffer = buffer, desc = "goto declaration" })
-				map("n", "<leader>ws", fzf.lsp_live_workspace_symbols, { buffer = buffer, desc = "goto symbols" })
-				map("n", "<leader>gf", fzf.lsp_finder, { buffer = buffer, desc = "LSP: finder" })
-				map("n", "<leader>rn", vim.lsp.buf.rename, { buffer = buffer, desc = "rename" })
-				map("n", "<leader>ca", fzf.lsp_code_actions, { buffer = buffer, desc = "LSP: code action" })
-				map("n", "<leader>xx", fzf.diagnostics_document, { buffer = buffer, desc = "goto diagnostics" })
-				map("n", "<leader>XX", fzf.diagnostics_workspace, { buffer = buffer, desc = "goto diagnostics" })
-			end,
-		})
-		mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(servers) })
-		mason_lspconfig.setup_handlers({
-			function(server_name)
-				local config = servers[server_name] or {}
-				lspconfig[server_name].setup({
-					capabilities = capabilities,
-					flags = { debounce_text_changes = 150 },
-					settings = config.settings or {},
-					init_options = config.init_options or {},
-				})
+				if client:supports_method("textDocument/completion", buf) then
+					vim.lsp.completion.enable(true, client.id, buf, { autotrigger = true })
+				end
+				register_lsp_handlers(client, buf)
 			end,
 		})
 	end,

@@ -19,7 +19,6 @@ local languages = {
 return {
 	"nvim-treesitter/nvim-treesitter",
 	build = ":TSUpdate",
-	dependencies = { "m-demare/hlargs.nvim", lazy = true, event = "VeryLazy", opts = {} },
 	config = function()
 		require("nvim-treesitter.install").prefer_git = true
 		require("nvim-treesitter.configs").setup({
