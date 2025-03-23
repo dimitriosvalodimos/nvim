@@ -1,7 +1,6 @@
 local languages = {
 	"css",
 	"diff",
-	"gleam",
 	"html",
 	"javascript",
 	"jsdoc",
@@ -10,8 +9,6 @@ local languages = {
 	"luadoc",
 	"markdown",
 	"markdown_inline",
-	"nim",
-	"odin",
 	"regex",
 	"rust",
 	"sql",
