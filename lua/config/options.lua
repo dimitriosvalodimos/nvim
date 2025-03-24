@@ -15,7 +15,6 @@ opt.grepprg = "rg --vimgrep -S "
 opt.grepformat = "%f:%l:%m"
 opt.ignorecase = true
 opt.infercase = true
-opt.iskeyword:append("-")
 opt.laststatus = 2
 opt.number = true
 opt.numberwidth = 4

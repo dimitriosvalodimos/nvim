@@ -40,13 +40,11 @@ local register_lsp_handlers = function(client, buf)
 end
 return {
 	"williamboman/mason.nvim",
-	dependencies = { "neovim/nvim-lspconfig" },
+	dependencies = { "neovim/nvim-lspconfig", "saghen/blink.cmp" },
 	config = function()
 		local lspconfig = require("lspconfig")
 		require("mason").setup()
-		local capabilities = vim.lsp.protocol.make_client_capabilities()
-		capabilities.textDocument.completion.completionItem.snippetSupport = false
-		capabilities.textDocument.semanticTokens.multilineTokenSupport = true
+		local capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
 		vim.diagnostic.config({ severity_sort = true, virtual_text = { source = "if_many" } })
 		for server, config in pairs(servers) do
 			lspconfig[server].setup({
@@ -63,9 +61,6 @@ return {
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
 				if not client then
 					return
-				end
-				if client:supports_method("textDocument/completion", buf) then
-					vim.lsp.completion.enable(true, client.id, buf, { autotrigger = true })
 				end
 				register_lsp_handlers(client, buf)
 			end,

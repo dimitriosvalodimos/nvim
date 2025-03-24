@@ -19,7 +19,7 @@ autocmd("DiagnosticChanged", {
 		if timer then
 			timer:close()
 		end
-		timer = vim.defer_fn(update, 5000)
+		timer = vim.defer_fn(update, 2000)
 	end,
 })
 vim.o.statusline = table.concat({
