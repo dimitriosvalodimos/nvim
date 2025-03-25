@@ -2,15 +2,17 @@ local map = require("config.utils").map
 return {
 	"ibhagwan/fzf-lua",
 	opts = {},
-	keys = {
-		{ "<leader>ff", ":lua require('fzf-lua').files()<cr>", { desc = "find file" } },
-		{ "<leader>fr", ":lua require('fzf-lua').resume()<cr>", { desc = "resume search" } },
-		{ "<leader>fR", ":lua require('fzf-lua').registers()<cr>", { desc = "find register" } },
-		{ "<leader>fb", ":lua require('fzf-lua').buffers()<cr>", { desc = "find buffer" } },
-		{ "<leader>fg", ":lua require('fzf-lua').live_grep()<cr>", { desc = "find word" } },
-		{ "<leader>fw", ":lua require('fzf-lua').grep_cword()<cr>", { desc = "find word under cursor" } },
-		{ "<leader>fh", ":lua require('fzf-lua').helptags()<cr>", { desc = "find helptag" } },
-		{ "<leader>fk", ":lua require('fzf-lua').keymaps()<cr>", { desc = "find keymap" } },
-		{ "<leader>/", ":lua require('fzf-lua').lgrep_curbuf()<cr>", { desc = "find in buffer" } },
-	},
+	config = function(_, opts)
+		local fzf = require("fzf-lua")
+		fzf.setup(opts)
+		map("n", "<leader>ff", fzf.files, "find files")
+		map("n", "<leader>fr", fzf.resume, "resume search")
+		map("n", "<leader>fR", fzf.registers, "find register")
+		map("n", "<leader>fb", fzf.buffers, "find buffer")
+		map("n", "<leader>fg", fzf.live_grep, "find word")
+		map("n", "<leader>fw", fzf.grep_cword, "find current word")
+		map("n", "<leader>fh", fzf.helptags, "find helptag")
+		map("n", "<leader>fk", fzf.keymaps, "find keymap")
+		map("n", "<leader>/", fzf.lgrep_curbuf, "find in buffer")
+	end,
 }
