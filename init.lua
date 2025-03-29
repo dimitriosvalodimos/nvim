@@ -7,7 +7,7 @@ opt.background = "dark" -- dark, light
 opt.backupcopy = "yes"
 opt.breakindent = true
 opt.clipboard:append("unnamedplus")
-opt.completeopt = { "menuone", "popup", "noselect", "noinsert" }
+opt.completeopt = { "menu", "menuone", "noselect" }
 opt.expandtab = true
 opt.grepformat = "%f:%l:%m"
 opt.grepprg = "rg --vimgrep -S "
@@ -44,14 +44,7 @@ map("v", ">", ">gv", "indent")
 map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>", "uuid")
 map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>", "uuid")
 map("n", "-", ":Explore %:p:h<cr>", "open file manager")
--- grr = rename
--- gra = code_action
--- grr = references
--- gri = implementation
--- Ctrl-S = signature_help
--- K = hover
--- [d, ]d = diagnostic prev/next
--- <Ctrl-W>d = open float
+-- grr = rename | gra = code_action | grr = references | gri = implementation | Ctrl-S = signature_help | K = hover | [d, ]d = diagnostic prev/next | Ctrl-W d = open float
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -162,7 +155,7 @@ require("lazy").setup({
 	},
 	{
 		"ibhagwan/fzf-lua",
-		opts = { { "ivy" } },
+		opts = { { "ivy", "borderless" } },
 		keys = {
 			{ "<leader>ff", ":silent FzfLua files<cr>", desc = "find files" },
 			{ "<leader>fr", ":silent FzfLua resume<cr>", desc = "resume search" },
