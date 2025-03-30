@@ -155,7 +155,7 @@ require("lazy").setup({
 	},
 	{
 		"ibhagwan/fzf-lua",
-		opts = { { "ivy", "borderless" } },
+		opts = { { "ivy" }, winopts = { border = "none", preview = { border = "none" } } },
 		keys = {
 			{ "<leader>ff", ":silent FzfLua files<cr>", desc = "find files" },
 			{ "<leader>fr", ":silent FzfLua resume<cr>", desc = "resume search" },
@@ -168,8 +168,9 @@ require("lazy").setup({
 	},
 	{
 		"williamboman/mason.nvim",
-		dependencies = { "neovim/nvim-lspconfig" },
+		dependencies = { "neovim/nvim-lspconfig", "ibhagwan/fzf-lua" },
 		config = function()
+			local fzf = require("fzf-lua")
 			local lspconfig = require("lspconfig")
 			require("mason").setup()
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -188,6 +189,7 @@ require("lazy").setup({
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("config-lsp-attach", { clear = true }),
 				callback = function(event)
+					local buf = event.buf
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 					if not client or not client:supports_method("textDocument/completion") then
 						return
@@ -197,8 +199,15 @@ require("lazy").setup({
 						table.insert(chars, string.char(i))
 					end
 					client.server_capabilities.completionProvider.triggerCharacters = chars
-					vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
-					map("n", "<leader>xx", vim.diagnostic.setqflist, "show workspace diagnostics")
+					vim.lsp.completion.enable(true, client.id, buf, { autotrigger = true })
+					map("n", "<leader>rn", vim.lsp.buf.rename, { buffer = buf })
+					map("n", "<leader>gr", fzf.lsp_references, { buffer = buf })
+					map("n", "<leader>gd", fzf.lsp_definitions, { buffer = buf })
+					map("n", "<leader>gD", fzf.lsp_typedefs, { buffer = buf })
+					map("n", "<leader>gI", fzf.lsp_implementations, { buffer = buf })
+					map("n", "<leader>ca", fzf.lsp_code_actions, { buffer = buf })
+					map("n", "<leader>xx", fzf.diagnostics_document, { buffer = buf })
+					map("n", "<leader>XX", fzf.diagnostics_workspace, { buffer = buf })
 				end,
 			})
 		end,
