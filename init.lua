@@ -44,7 +44,6 @@ map("v", ">", ">gv", "indent")
 map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>", "uuid")
 map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>", "uuid")
 map("n", "-", ":Explore %:p:h<cr>", "open file manager")
--- grr = rename | gra = code_action | grr = references | gri = implementation | Ctrl-S = signature_help | K = hover | [d, ]d = diagnostic prev/next | Ctrl-W d = open float
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -98,7 +97,7 @@ end, "Trigger/select next completion")
 
 map("i", "<c-space>", function()
 	if next(vim.lsp.get_clients({ bufnr = 0 })) then
-		vim.lsp.completion.trigger()
+		vim.lsp.completion.get()
 	else
 		if vim.bo.omnifunc == "" then
 			feedkeys("<C-x><C-n>")
