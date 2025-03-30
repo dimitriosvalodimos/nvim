@@ -127,6 +127,18 @@ map({ "i", "s" }, "<S-Tab>", function()
 	end
 end, {})
 
+local diagnostic_config = { severity_sort = true, virtual_lines = false, virtual_text = true }
+map("n", "<leader>k", function()
+	vim.diagnostic.config({ virtual_lines = { current_line = true }, virtual_text = false })
+	vim.api.nvim_create_autocmd("CursorMoved", {
+		group = vim.api.nvim_create_augroup("line-diagnostics", { clear = true }),
+		callback = function()
+			vim.diagnostic.config(diagnostic_config)
+			return true
+		end,
+	})
+end)
+
 require("lazy").setup({
 	{ "Mofiqul/vscode.nvim", lazy = true, priority = 1000, opts = { italic_comments = false } },
 	{
