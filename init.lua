@@ -213,12 +213,6 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"olimorris/codecompanion.nvim",
-		dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
-		opts = { strategies = { chat = { adapter = "ollama" }, inline = { adapter = "ollama" } } },
-		keys = { { "<leader>a", "<cmd>CodeCompanionChat Toggle<cr>", desc = "toggle llm" } },
-	},
-	{
 		"stevearc/conform.nvim",
 		opts = {
 			format_on_save = { lsp_format = true, async = false },
