@@ -1,5 +1,4 @@
 {
-  "codecompanion.nvim": { "branch": "main", "commit": "51fe5a782dbbd5cad8189420cb8d38fd7c245684" },
   "conform.nvim": { "branch": "master", "commit": "f9ef25a7ef00267b7d13bfc00b0dea22d78702d5" },
   "fzf-lua": { "branch": "main", "commit": "89ff12300e9a768f4890a8e02bb6a3f5d97f9a65" },
   "gitsigns.nvim": { "branch": "main", "commit": "7010000889bfb6c26065e0b0f7f1e6aa9163edd9" },
@@ -8,6 +7,5 @@
   "nvim-autopairs": { "branch": "master", "commit": "6522027785b305269fa17088395dfc0f456cedd2" },
   "nvim-lspconfig": { "branch": "master", "commit": "85e0dd26b710e834a105d679200d01e326a3d2b0" },
   "nvim-treesitter": { "branch": "master", "commit": "aece1062335a9e856636f5da12d8a06c7615ce8a" },
-  "plenary.nvim": { "branch": "master", "commit": "857c5ac632080dba10aae49dba902ce3abf91b35" },
   "vscode.nvim": { "branch": "main", "commit": "49d6014ba151fc6cc585b8d5f057ca7839077bf8" }
 }

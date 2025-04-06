@@ -3,11 +3,12 @@ local opt = vim.opt
 
 g.mapleader = " "
 g.maplocalleader = ";"
-opt.background = "dark" -- dark, light
+opt.background = "light" -- dark, light
 opt.backupcopy = "yes"
 opt.breakindent = true
 opt.clipboard:append("unnamedplus")
 opt.completeopt = { "menu", "menuone", "noselect" }
+opt.cursorline = true
 opt.expandtab = true
 opt.grepformat = "%f:%l:%m"
 opt.grepprg = "rg --vimgrep -S "
