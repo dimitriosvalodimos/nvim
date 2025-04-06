@@ -65,6 +65,7 @@ vim.opt.rtp:prepend(lazypath)
 
 local servers = {
 	cssls = {},
+	eslint = {},
 	html = {},
 	lua_ls = {
 		settings = {
@@ -202,3 +203,4 @@ require("lazy").setup({
 })
 
 vim.cmd.colorscheme("vscode") -- default, vscode
+-- MasonInstall eslint-lsp css-lsp html-lsp typescript-language-server lua-language-server stylua prettier rustfmt
