@@ -30,6 +30,7 @@ opt.splitbelow = true
 opt.splitright = true
 opt.tabstop = 2
 opt.termguicolors = true
+opt.winborder = "single"
 opt.wrap = false
 
 local function map(mode, lhs, rhs, opts)
@@ -80,54 +81,6 @@ local servers = {
 	ts_ls = {},
 }
 
-local function feedkeys(keys)
-	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, false, true), "n", true)
-end
-
-local function pumvisible()
-	return tonumber(vim.fn.pumvisible()) ~= 0
-end
-
-map("i", "<cr>", function()
-	return pumvisible() and "<C-y>" or "<cr>"
-end, { expr = true })
-
-map("i", "<C-n>", function()
-	return pumvisible() and feedkeys("<C-n>")
-end, "Trigger/select next completion")
-
-map("i", "<c-space>", function()
-	if next(vim.lsp.get_clients({ bufnr = 0 })) then
-		vim.lsp.completion.get()
-	else
-		if vim.bo.omnifunc == "" then
-			feedkeys("<C-x><C-n>")
-		else
-			feedkeys("<C-x><C-o>")
-		end
-	end
-end, "trigger completion")
-
-map({ "i", "s" }, "<Tab>", function()
-	if pumvisible() then
-		feedkeys("<C-n>")
-	elseif vim.snippet.active({ direction = 1 }) then
-		vim.snippet.jump(1)
-	else
-		feedkeys("<Tab>")
-	end
-end, {})
-
-map({ "i", "s" }, "<S-Tab>", function()
-	if pumvisible() then
-		feedkeys("<C-p>")
-	elseif vim.snippet.active({ direction = -1 }) then
-		vim.snippet.jump(-1)
-	else
-		feedkeys("<S-Tab>")
-	end
-end, {})
-
 local diagnostic_config = { severity_sort = true, virtual_lines = false, virtual_text = true }
 map("n", "<leader>k", function()
 	vim.diagnostic.config({ virtual_lines = { current_line = true }, virtual_text = false })
@@ -152,6 +105,22 @@ require("lazy").setup({
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
 		opts = { disable_filetype = { "TelescopePrompt", "vim" }, map_cr = true, enable_check_bracket_line = false },
+	},
+	{
+		"saghen/blink.cmp",
+		dependencies = { "rafamadriz/friendly-snippets" },
+		version = "1.*",
+		opts = {
+			keymap = { preset = "enter" }, -- supertab, enter, none
+			completion = {
+				documentation = { auto_show = true },
+				menu = { draw = { columns = { { "label", "label_description", gap = 1 }, { "kind" } } } },
+			},
+			signature = { enabled = true },
+			sources = { default = { "lsp", "path", "snippets", "buffer" } },
+			fuzzy = { implementation = "prefer_rust_with_warning" },
+		},
+		opts_extend = { "sources.default" },
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -180,13 +149,12 @@ require("lazy").setup({
 	},
 	{
 		"williamboman/mason.nvim",
-		dependencies = { "neovim/nvim-lspconfig", "ibhagwan/fzf-lua" },
+		dependencies = { "neovim/nvim-lspconfig", "ibhagwan/fzf-lua", "saghen/blink.cmp" },
 		config = function()
 			local fzf = require("fzf-lua")
 			local lspconfig = require("lspconfig")
 			require("mason").setup()
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities.textDocument.semanticTokens.multilineTokenSupport = true
+			local capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
 			vim.diagnostic.config({ severity_sort = true, virtual_text = true })
 
 			for server, config in pairs(servers) do
@@ -202,16 +170,6 @@ require("lazy").setup({
 				group = vim.api.nvim_create_augroup("config-lsp-attach", { clear = true }),
 				callback = function(event)
 					local buf = event.buf
-					local client = vim.lsp.get_client_by_id(event.data.client_id)
-					if not client or not client:supports_method("textDocument/completion") then
-						return
-					end
-					local chars = {}
-					for i = 32, 126 do
-						table.insert(chars, string.char(i))
-					end
-					client.server_capabilities.completionProvider.triggerCharacters = chars
-					vim.lsp.completion.enable(true, client.id, buf, { autotrigger = true })
 					map("n", "<leader>rn", vim.lsp.buf.rename, { buffer = buf })
 					map("n", "<leader>gr", fzf.lsp_references, { buffer = buf })
 					map("n", "<leader>gd", fzf.lsp_definitions, { buffer = buf })
