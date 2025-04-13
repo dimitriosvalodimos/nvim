@@ -96,6 +96,7 @@ end)
 
 require("lazy").setup({
 	{ "Mofiqul/vscode.nvim", lazy = true, priority = 1000, opts = { italic_comments = false } },
+	{ "datsfilipe/vesper.nvim", lazy = true, priority = 1000, opts = { italics = {} } },
 	{
 		"lewis6991/gitsigns.nvim",
 		opts = {},
@@ -201,5 +202,5 @@ require("lazy").setup({
 	},
 })
 
-vim.cmd.colorscheme("vscode") -- default, vscode
+vim.cmd.colorscheme("vesper") -- default, vscode, vesper
 -- MasonInstall eslint-lsp css-lsp html-lsp typescript-language-server lua-language-server stylua prettier rustfmt
