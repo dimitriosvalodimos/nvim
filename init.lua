@@ -3,7 +3,7 @@ local opt = vim.opt
 
 g.mapleader = " "
 g.maplocalleader = ";"
-opt.background = "light" -- dark, light
+opt.background = "dark" -- dark, light
 opt.backupcopy = "yes"
 opt.breakindent = true
 opt.clipboard:append("unnamedplus")
@@ -178,7 +178,6 @@ require("lazy").setup({
 					map("n", "gI", fzf.lsp_implementations, { buffer = buf })
 					map("n", "<leader>ca", fzf.lsp_code_actions, { buffer = buf })
 					map("n", "<leader>xx", fzf.diagnostics_document, { buffer = buf })
-					map("n", "<leader>XX", fzf.diagnostics_workspace, { buffer = buf })
 				end,
 			})
 		end,
