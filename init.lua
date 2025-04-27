@@ -93,7 +93,12 @@ map("n", "<leader>k", function()
 end)
 
 require("lazy").setup({
-	{ "Mofiqul/vscode.nvim", lazy = true, priority = 1000, opts = { italic_comments = false } },
+	{
+		"blazkowolf/gruber-darker.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = { italic = { strings = false, comments = false, operators = false, folds = false } },
+	},
 	{
 		"lewis6991/gitsigns.nvim",
 		opts = {
@@ -161,11 +166,11 @@ require("lazy").setup({
 	},
 	{
 		"williamboman/mason.nvim",
-		dependencies = { "neovim/nvim-lspconfig", "ibhagwan/fzf-lua", "saghen/blink.cmp" },
+		dependencies = { "neovim/nvim-lspconfig", "saghen/blink.cmp", "smjonas/inc-rename.nvim" },
 		config = function()
-			local fzf = require("fzf-lua")
 			local lspconfig = require("lspconfig")
 			require("mason").setup()
+			require("inc_rename").setup()
 			local capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
 			vim.diagnostic.config({ severity_sort = true, virtual_text = true })
 
@@ -186,21 +191,25 @@ require("lazy").setup({
 					if client and client:supports_method("textDocument/documentColor") then
 						vim.lsp.document_color.enable(true, buf, { style = "virtual" })
 					end
-					map("n", "<leader>rn", vim.lsp.buf.rename, { buffer = buf })
-					map("n", "gr", fzf.lsp_references, { buffer = buf })
-					map("n", "gd", fzf.lsp_definitions, { buffer = buf })
-					map("n", "gD", fzf.lsp_typedefs, { buffer = buf })
-					map("n", "gI", fzf.lsp_implementations, { buffer = buf })
-					map("n", "<leader>ca", fzf.lsp_code_actions, { buffer = buf })
-					map("n", "<leader>xx", fzf.diagnostics_document, { buffer = buf })
+					map("n", "<leader>rn", function()
+						return ":IncRename " .. vim.fn.expand("<cword>")
+					end, { expr = true })
+					map("n", "gr", vim.lsp.buf.references, { buffer = buf })
+					map("n", "gd", vim.lsp.buf.definition, { buffer = buf })
+					map("n", "gD", vim.lsp.buf.type_definition, { buffer = buf })
+					map("n", "gI", vim.lsp.buf.implementation, { buffer = buf })
+					map("n", "gcI", vim.lsp.buf.incoming_calls, { buffer = buf })
+					map("n", "gcO", vim.lsp.buf.outgoing_calls, { buffer = buf })
+					map("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = buf })
 				end,
 			})
 		end,
 	},
+	{ "kevinhwang91/nvim-bqf", ft = "qf", dependencies = { "nvim-treesitter/nvim-treesitter" } },
 	{
 		"stevearc/conform.nvim",
 		opts = {
-			format_on_save = { lsp_format = true, async = true },
+			format_on_save = { lsp_format = true, async = false },
 			formatters_by_ft = {
 				css = { "prettier", lsp_format = "fallback" },
 				html = { "prettier", lsp_format = "fallback" },
@@ -217,5 +226,11 @@ require("lazy").setup({
 	},
 })
 
-vim.cmd.colorscheme("vscode") -- default, vscode
+vim.cmd.colorscheme("gruber-darker") -- default, gruber-darker
+vim.cmd([[
+  highlight Normal guibg=none
+  highlight NonText guibg=none
+  highlight Normal ctermbg=none
+  highlight NonText ctermbg=none
+]])
 -- MasonInstall eslint-lsp css-lsp html-lsp typescript-language-server lua-language-server stylua prettier rustfmt
