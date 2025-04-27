@@ -10,8 +10,6 @@ opt.clipboard:append("unnamedplus")
 opt.completeopt = { "menu", "menuone", "noselect" }
 opt.cursorline = true
 opt.expandtab = true
-opt.grepformat = "%f:%l:%m"
-opt.grepprg = "rg --vimgrep -S "
 opt.ignorecase = true
 opt.infercase = true
 opt.laststatus = 2
@@ -45,7 +43,6 @@ map("v", "<", "<gv", "dedent")
 map("v", ">", ">gv", "indent")
 map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>", "uuid")
 map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>", "uuid")
-map("n", "-", ":Explore %:p:h<cr>", "open file manager")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -99,9 +96,22 @@ require("lazy").setup({
 	{ "Mofiqul/vscode.nvim", lazy = true, priority = 1000, opts = { italic_comments = false } },
 	{
 		"lewis6991/gitsigns.nvim",
-		opts = {},
+		opts = {
+			signs = {
+				add = { text = "+" },
+				change = { text = "~" },
+				delete = { text = "_" },
+				topdelete = { text = "‾" },
+				changedelete = { text = "~" },
+			},
+		},
 		lazy = false,
 		keys = { { "<leader>gs", "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "toggle git blame" } },
+	},
+	{
+		"stevearc/oil.nvim",
+		opts = { "icon", "permissions", "size", "mtime" },
+		keys = { { "-", "<cmd>Oil<cr>", "open parent dir" } },
 	},
 	{
 		"windwp/nvim-autopairs",
@@ -113,7 +123,7 @@ require("lazy").setup({
 		dependencies = { "rafamadriz/friendly-snippets" },
 		version = "1.*",
 		opts = {
-			keymap = { preset = "enter" }, -- supertab, enter, none
+			keymap = { preset = "enter" },
 			completion = {
 				documentation = { auto_show = true },
 				menu = { draw = { columns = { { "label", "label_description", gap = 1 }, { "kind" } } } },
@@ -172,6 +182,10 @@ require("lazy").setup({
 				group = vim.api.nvim_create_augroup("config-lsp-attach", { clear = true }),
 				callback = function(event)
 					local buf = event.buf
+					local client = vim.lsp.get_client_by_id(event.data.client_id)
+					if client and client:supports_method("textDocument/documentColor") then
+						vim.lsp.document_color.enable(true, buf, { style = "virtual" })
+					end
 					map("n", "<leader>rn", vim.lsp.buf.rename, { buffer = buf })
 					map("n", "gr", fzf.lsp_references, { buffer = buf })
 					map("n", "gd", fzf.lsp_definitions, { buffer = buf })
@@ -186,7 +200,7 @@ require("lazy").setup({
 	{
 		"stevearc/conform.nvim",
 		opts = {
-			format_on_save = { lsp_format = true, async = false },
+			format_on_save = { lsp_format = true, async = true },
 			formatters_by_ft = {
 				css = { "prettier", lsp_format = "fallback" },
 				html = { "prettier", lsp_format = "fallback" },
