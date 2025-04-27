@@ -79,6 +79,7 @@ local servers = {
 		},
 	},
 	rust_analyzer = {},
+	svelte = {},
 	ts_ls = {},
 }
 
@@ -194,6 +195,7 @@ require("lazy").setup({
 				json = { "prettier", lsp_format = "fallback" },
 				lua = { "stylua", lsp_format = "fallback" },
 				rust = { "rustfmt", lsp_format = "fallback" },
+				svelte = { "prettier", lsp_format = "fallback" },
 				typescript = { "prettier", lsp_format = "fallback" },
 				typescriptreact = { "prettier", lsp_format = "fallback" },
 			},
