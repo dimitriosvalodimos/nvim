@@ -1,6 +1,5 @@
 local g = vim.g
 local opt = vim.opt
-
 g.mapleader = " "
 g.maplocalleader = ";"
 opt.background = "dark" -- dark, light
@@ -30,7 +29,6 @@ opt.tabstop = 2
 opt.termguicolors = true
 opt.winborder = "single"
 opt.wrap = false
-
 local function map(mode, lhs, rhs, opts)
 	if type(opts) == "string" then
 		vim.keymap.set(mode, lhs, rhs, { desc = opts })
@@ -38,12 +36,10 @@ local function map(mode, lhs, rhs, opts)
 		vim.keymap.set(mode, lhs, rhs, opts)
 	end
 end
-
 map("v", "<", "<gv", "dedent")
 map("v", ">", ">gv", "indent")
 map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>", "uuid")
 map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>", "uuid")
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -59,7 +55,6 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	end
 end
 vim.opt.rtp:prepend(lazypath)
-
 local servers = {
 	cssls = {},
 	eslint = {},
@@ -79,7 +74,6 @@ local servers = {
 	svelte = {},
 	ts_ls = {},
 }
-
 local diagnostic_config = { severity_sort = true, virtual_lines = false, virtual_text = true }
 map("n", "<leader>k", function()
 	vim.diagnostic.config({ virtual_lines = { current_line = true }, virtual_text = false })
@@ -91,14 +85,8 @@ map("n", "<leader>k", function()
 		end,
 	})
 end)
-
 require("lazy").setup({
-	{
-		"blazkowolf/gruber-darker.nvim",
-		lazy = true,
-		priority = 1000,
-		opts = { italic = { strings = false, comments = false, operators = false, folds = false } },
-	},
+	{ "Mofiqul/vscode.nvim", lazy = true, priority = 1000, opts = { transparent = false, italic_comments = false } },
 	{
 		"lewis6991/gitsigns.nvim",
 		opts = {
@@ -191,9 +179,7 @@ require("lazy").setup({
 					if client and client:supports_method("textDocument/documentColor") then
 						vim.lsp.document_color.enable(true, buf, { style = "virtual" })
 					end
-					map("n", "<leader>rn", function()
-						return ":IncRename " .. vim.fn.expand("<cword>")
-					end, { expr = true })
+					map("n", "<leader>rn", vim.lsp.buf.rename, { buffer = buf })
 					map("n", "gr", vim.lsp.buf.references, { buffer = buf })
 					map("n", "gd", vim.lsp.buf.definition, { buffer = buf })
 					map("n", "gD", vim.lsp.buf.type_definition, { buffer = buf })
@@ -225,12 +211,5 @@ require("lazy").setup({
 		},
 	},
 })
-
-vim.cmd.colorscheme("gruber-darker") -- default, gruber-darker
-vim.cmd([[
-  highlight Normal guibg=none
-  highlight NonText guibg=none
-  highlight Normal ctermbg=none
-  highlight NonText ctermbg=none
-]])
+vim.cmd.colorscheme("vscode") -- default, vscode
 -- MasonInstall eslint-lsp css-lsp html-lsp typescript-language-server lua-language-server stylua prettier rustfmt
