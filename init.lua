@@ -6,6 +6,7 @@ opt.background = "dark" -- dark, light
 opt.backupcopy = "yes"
 opt.breakindent = true
 opt.clipboard:append("unnamedplus")
+-- opt.cmdheight = 0
 opt.completeopt = { "menu", "menuone", "noselect" }
 opt.cursorline = true
 opt.expandtab = true
@@ -191,25 +192,24 @@ require("lazy").setup({
 			})
 		end,
 	},
+	{ "xemptuous/sqlua.nvim", lazy = true, cmd = "SQLua", opts = {} },
 	{ "kevinhwang91/nvim-bqf", ft = "qf", dependencies = { "nvim-treesitter/nvim-treesitter" } },
 	{
 		"stevearc/conform.nvim",
 		opts = {
 			format_on_save = { lsp_format = true, async = false },
 			formatters_by_ft = {
-				css = { "prettier", lsp_format = "fallback" },
-				html = { "prettier", lsp_format = "fallback" },
-				javascript = { "prettier", lsp_format = "fallback" },
-				javascriptreact = { "prettier", lsp_format = "fallback" },
-				json = { "prettier", lsp_format = "fallback" },
+				css = { "biome-check", "prettier", stop_after_first = true, lsp_format = "fallback" },
+				html = { "biome-check", "prettier", stop_after_first = true, lsp_format = "fallback" },
+				javascript = { "biome-check", "prettier", stop_after_first = true, lsp_format = "fallback" },
+				javascriptreact = { "biome-check", "prettier", stop_after_first = true, lsp_format = "fallback" },
+				json = { "biome-check", "prettier", stop_after_first = true, lsp_format = "fallback" },
 				lua = { "stylua", lsp_format = "fallback" },
-				rust = { "rustfmt", lsp_format = "fallback" },
-				svelte = { "prettier", lsp_format = "fallback" },
-				typescript = { "prettier", lsp_format = "fallback" },
-				typescriptreact = { "prettier", lsp_format = "fallback" },
+				typescript = { "biome-check", "prettier", stop_after_first = true, lsp_format = "fallback" },
+				typescriptreact = { "biome-check", "prettier", stop_after_first = true, lsp_format = "fallback" },
 			},
 		},
 	},
 })
 vim.cmd.colorscheme("vscode") -- default, vscode
--- MasonInstall eslint-lsp css-lsp html-lsp typescript-language-server lua-language-server stylua prettier rustfmt
+-- MasonInstall css-lsp html-lsp typescript-language-server lua-language-server stylua prettier
