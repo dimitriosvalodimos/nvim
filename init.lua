@@ -32,11 +32,9 @@ opt.laststatus = 2
 opt.number = true
 opt.preserveindent = true
 opt.pumheight = 10
-opt.scrolloff = 5
 opt.shiftround = true
 opt.shiftwidth = 2
 opt.shortmess = "c"
-opt.sidescrolloff = 5
 opt.signcolumn = "yes"
 opt.smartcase = true
 opt.smartindent = true
@@ -52,22 +50,6 @@ local function map(mode, lhs, rhs, opts)
 		vim.keymap.set(mode, lhs, rhs, opts)
 	end
 end
-local servers = {
-	cssls = {},
-	html = {},
-	lua_ls = {
-		settings = {
-			Lua = {
-				completion = { callSnippet = "Replace" },
-				diagnostics = { globals = { "vim" } },
-				runtime = { version = "LuaJIT" },
-				telemetry = { enable = false },
-				workspace = { checkThirdParty = false, library = { vim.env.VIMRUNTIME } },
-			},
-		},
-	},
-	ts_ls = {},
-}
 local diagnostic_config = { severity_sort = true, virtual_lines = false, virtual_text = true }
 map("v", "<", "<gv", "dedent")
 map("v", ">", ">gv", "indent")
@@ -135,36 +117,40 @@ require("lazy").setup({
 		},
 	},
 	{
-		"williamboman/mason.nvim",
-		dependencies = { "neovim/nvim-lspconfig", "saghen/blink.cmp" },
-		config = function()
-			local lspconfig = require("lspconfig")
-			require("mason").setup()
-			local capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
-			vim.diagnostic.config(diagnostic_config)
-			for server, config in pairs(servers) do
-				lspconfig[server].setup({ capabilities = capabilities, settings = config.settings or {} })
-			end
-		end,
-	},
-	{ "xemptuous/sqlua.nvim", lazy = true, cmd = "SQLua", opts = {} },
-	{ "kevinhwang91/nvim-bqf", ft = "qf", dependencies = { "nvim-treesitter/nvim-treesitter" } },
-	{
 		"stevearc/conform.nvim",
 		opts = {
 			format_on_save = { lsp_format = true, async = false, stop_after_first = true },
 			formatters_by_ft = {
-				css = { "biome-check", "prettier" },
-				html = { "biome-check", "prettier" },
-				javascript = { "biome-check", "prettier" },
-				javascriptreact = { "biome-check", "prettier" },
-				json = { "biome-check", "prettier" },
+				css = { "biome", "prettier" },
+				html = { "biome", "prettier" },
+				javascript = { "biome", "prettier" },
+				javascriptreact = { "biome", "prettier" },
+				json = { "biome", "prettier" },
 				lua = { "stylua" },
-				typescript = { "biome-check", "prettier" },
-				typescriptreact = { "biome-check", "prettier" },
+				typescript = { "biome", "prettier" },
+				typescriptreact = { "biome", "prettier" },
 			},
 		},
 	},
+	{
+		"mason-org/mason.nvim",
+		dependencies = {
+			"saghen/blink.cmp",
+			"neovim/nvim-lspconfig",
+			"zapling/mason-conform.nvim",
+			"mason-org/mason-lspconfig.nvim",
+		},
+		config = function()
+			local servers = { "cssls", "html", "lua_ls", "ts_ls" }
+			local cap = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
+			vim.lsp.config("*", { capabilities = cap })
+			vim.diagnostic.config(diagnostic_config)
+			require("mason").setup()
+			require("mason-lspconfig").setup({ ensure_installed = servers, automatic_enable = true })
+			require("mason-conform").setup({})
+		end,
+	},
+	{ "kevinhwang91/nvim-bqf", ft = "qf", dependencies = { "nvim-treesitter/nvim-treesitter" } },
 })
-vim.cmd.colorscheme("default") -- default, lunaperche, retrobox, slate, sorbet
+vim.cmd.colorscheme("lunaperche") -- default, lunaperche, retrobox, slate, sorbet
 -- MasonInstall css-lsp html-lsp typescript-language-server lua-language-server stylua prettier
