@@ -166,5 +166,5 @@ require("lazy").setup({
 		},
 	},
 })
-vim.cmd.colorscheme("lunaperche") -- default, lunaperche, retrobox, slate, sorbet
+vim.cmd.colorscheme("default") -- default, lunaperche, retrobox, slate, sorbet
 -- MasonInstall css-lsp html-lsp typescript-language-server lua-language-server stylua prettier
