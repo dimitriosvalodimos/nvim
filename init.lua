@@ -42,6 +42,7 @@ opt.splitbelow = true
 opt.splitright = true
 opt.tabstop = 2
 opt.termguicolors = true
+opt.updatetime = 500
 opt.wrap = false
 local function map(mode, lhs, rhs, opts)
 	if type(opts) == "string" then
@@ -55,21 +56,29 @@ map("v", "<", "<gv", "dedent")
 map("v", ">", ">gv", "indent")
 map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>", "uuid")
 map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>", "uuid")
-map("n", "<leader>k", function()
-	vim.diagnostic.config({ virtual_lines = { current_line = true }, virtual_text = false })
-	vim.api.nvim_create_autocmd("CursorMoved", {
-		group = vim.api.nvim_create_augroup("line-diagnostics", { clear = true }),
-		callback = function()
-			vim.diagnostic.config(diagnostic_config)
-			return true
-		end,
-	})
-end)
+-- map("n", "<leader>k", function()
+-- 	vim.diagnostic.config({ virtual_lines = { current_line = true }, virtual_text = false })
+-- 	vim.api.nvim_create_autocmd("CursorMoved", {
+-- 		group = vim.api.nvim_create_augroup("line-diagnostics", { clear = true }),
+-- 		callback = function()
+-- 			vim.diagnostic.config(diagnostic_config)
+-- 			return true
+-- 		end,
+-- 	})
+-- end)
 require("lazy").setup({
 	{
 		"lewis6991/gitsigns.nvim",
 		lazy = false,
-		opts = {},
+		opts = {
+			signs = {
+				add = { text = "+" },
+				change = { text = "~" },
+				delete = { text = "_" },
+				topdelete = { text = "‾" },
+				changedelete = { text = "~" },
+			},
+		},
 		keys = { { "<leader>gs", ":Gitsigns toggle_current_line_blame<cr>", desc = "git blame" } },
 	},
 	{
@@ -111,6 +120,7 @@ require("lazy").setup({
 		opts = {},
 		keys = {
 			{ "<leader>ff", ":silent FzfLua files<cr>", desc = "find files" },
+			{ "<leader>/", ":silent FzfLua grep_curbuf<cr>", desc = "in buffer" },
 			{ "<leader>fr", ":silent FzfLua resume<cr>", desc = "resume search" },
 			{ "<leader>fb", ":silent FzfLua buffers<cr>", desc = "find buffer" },
 			{ "<leader>fg", ":silent FzfLua live_grep<cr>", desc = "find word" },
@@ -148,9 +158,16 @@ require("lazy").setup({
 			require("mason").setup()
 			require("mason-lspconfig").setup({ ensure_installed = servers, automatic_enable = true })
 			require("mason-conform").setup({})
+			map("n", "gd", vim.lsp.buf.definition, {})
+			map("n", "gD", vim.lsp.buf.declaration, {})
 		end,
 	},
 	{ "kevinhwang91/nvim-bqf", ft = "qf", dependencies = { "nvim-treesitter/nvim-treesitter" } },
 })
 vim.cmd.colorscheme("lunaperche") -- default, lunaperche, retrobox, slate, sorbet
 -- MasonInstall css-lsp html-lsp typescript-language-server lua-language-server stylua prettier
+vim.api.nvim_create_autocmd("CursorHold", {
+	callback = function()
+		vim.diagnostic.open_float(nil, { focusable = true, source = "if_many" })
+	end,
+})
