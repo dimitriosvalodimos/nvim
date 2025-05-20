@@ -56,16 +56,7 @@ map("v", "<", "<gv", "dedent")
 map("v", ">", ">gv", "indent")
 map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>", "uuid")
 map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>", "uuid")
--- map("n", "<leader>k", function()
--- 	vim.diagnostic.config({ virtual_lines = { current_line = true }, virtual_text = false })
--- 	vim.api.nvim_create_autocmd("CursorMoved", {
--- 		group = vim.api.nvim_create_augroup("line-diagnostics", { clear = true }),
--- 		callback = function()
--- 			vim.diagnostic.config(diagnostic_config)
--- 			return true
--- 		end,
--- 	})
--- end)
+map("n", "K", vim.diagnostic.open_float, "diagnostics")
 require("lazy").setup({
 	{
 		"lewis6991/gitsigns.nvim",
@@ -164,10 +155,5 @@ require("lazy").setup({
 	},
 	{ "kevinhwang91/nvim-bqf", ft = "qf", dependencies = { "nvim-treesitter/nvim-treesitter" } },
 })
-vim.cmd.colorscheme("lunaperche") -- default, lunaperche, retrobox, slate, sorbet
+vim.cmd.colorscheme("default") -- default, lunaperche, retrobox, slate, sorbet
 -- MasonInstall css-lsp html-lsp typescript-language-server lua-language-server stylua prettier
-vim.api.nvim_create_autocmd("CursorHold", {
-	callback = function()
-		vim.diagnostic.open_float(nil, { focusable = true, source = "if_many" })
-	end,
-})
