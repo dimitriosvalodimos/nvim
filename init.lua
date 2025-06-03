@@ -56,7 +56,8 @@ map("v", "<", "<gv", "dedent")
 map("v", ">", ">gv", "indent")
 map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>", "uuid")
 map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>", "uuid")
-map("n", "K", vim.diagnostic.open_float, "diagnostics")
+map("n", "K", vim.lsp.buf.hover, "hover")
+map("n", "<leader>k", vim.diagnostic.open_float, "diagnostics")
 require("lazy").setup({
 	{
 		"lewis6991/gitsigns.nvim",
