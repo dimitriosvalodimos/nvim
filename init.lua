@@ -138,15 +138,21 @@ require("lazy").setup({
 		"mason-org/mason.nvim",
 		dependencies = {
 			"saghen/blink.cmp",
+			"nvim-lua/plenary.nvim",
 			"neovim/nvim-lspconfig",
 			"zapling/mason-conform.nvim",
+			"pmizio/typescript-tools.nvim",
 			"mason-org/mason-lspconfig.nvim",
 		},
 		config = function()
-			local servers = { "cssls", "html", "lua_ls", "ts_ls" }
+			local servers = { "cssls", "html", "lua_ls" }
 			local cap = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
 			vim.lsp.config("*", { capabilities = cap })
 			vim.diagnostic.config(diagnostic_config)
+			require("typescript-tools").setup({
+				complete_function_calls = true, -- npm i -g @styled/typescript-styled-plugin typescript-styled-plugin
+				settings = { tsserver_plugins = { "@styled/typescript-styled-plugin" } },
+			})
 			require("mason").setup()
 			require("mason-lspconfig").setup({ ensure_installed = servers, automatic_enable = true })
 			require("mason-conform").setup({})
