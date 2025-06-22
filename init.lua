@@ -109,14 +109,22 @@ require("lazy").setup({
 	},
 	{
 		"ibhagwan/fzf-lua",
-		opts = {},
-		keys = {
-			{ "<leader>ff", ":silent FzfLua files<cr>", desc = "find files" },
-			{ "<leader>/", ":silent FzfLua grep_curbuf<cr>", desc = "in buffer" },
-			{ "<leader>fr", ":silent FzfLua resume<cr>", desc = "resume search" },
-			{ "<leader>fb", ":silent FzfLua buffers<cr>", desc = "find buffer" },
-			{ "<leader>fg", ":silent FzfLua live_grep<cr>", desc = "find word" },
-		},
+		config = function()
+			local fzf = require("fzf-lua")
+
+			map("n", "grr", fzf.lsp_references, {})
+			map("n", "gd", fzf.lsp_definitions, {})
+			map("n", "gD", fzf.lsp_declarations, {})
+			map("n", "gca", fzf.lsp_code_actions, {})
+			map("n", "gca", fzf.lsp_code_actions, {})
+			map("n", "gri", fzf.lsp_implementations, {})
+			map("n", "<leader>ff", fzf.files, "find file")
+			map("n", "<leader>gd", fzf.git_diff, "git diff")
+			map("n", "<leader>fb", fzf.buffers, "find buffer")
+			map("n", "<leader>fg", fzf.live_grep, "find word")
+			map("n", "<leader>fr", fzf.resume, "resume search")
+			map("n", "<leader>/", fzf.grep_curbuf, "find word in buffer")
+		end,
 	},
 	{
 		"stevearc/conform.nvim",
@@ -156,11 +164,8 @@ require("lazy").setup({
 			require("mason").setup()
 			require("mason-lspconfig").setup({ ensure_installed = servers, automatic_enable = true })
 			require("mason-conform").setup({})
-			map("n", "gd", vim.lsp.buf.definition, {})
-			map("n", "gD", vim.lsp.buf.declaration, {})
 		end,
 	},
-	{ "kevinhwang91/nvim-bqf", ft = "qf", dependencies = { "nvim-treesitter/nvim-treesitter" } },
 })
 vim.cmd.colorscheme("default") -- default, lunaperche, retrobox, slate, sorbet
 -- MasonInstall css-lsp html-lsp typescript-language-server lua-language-server stylua prettier
