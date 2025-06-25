@@ -59,8 +59,21 @@ map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>", "uuid")
 map("n", "K", vim.lsp.buf.hover, "hover")
 map("n", "<leader>k", vim.diagnostic.open_float, "diagnostics")
 require("lazy").setup({
-	{ "blazkowolf/gruber-darker.nvim", lazy = true, priority = 1000, opts = {} },
+	{
+		"ellisonleao/gruvbox.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = { italic = { strings = false, comments = false } },
+	},
+	{
+		"blazkowolf/gruber-darker.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = { italic = { strings = false, comments = false } },
+	},
 	{ "Mofiqul/vscode.nvim", lazy = true, priority = 1000, opts = { italic_comments = false } },
+	{ "nvim-lualine/lualine.nvim", opts = {} },
+	{ "akinsho/bufferline.nvim", version = "*", opts = {} },
 	{
 		"lewis6991/gitsigns.nvim",
 		lazy = false,
@@ -168,6 +181,18 @@ require("lazy").setup({
 			require("mason-conform").setup({})
 		end,
 	},
+	{ "folke/todo-comments.nvim", dependencies = { "nvim-lua/plenary.nvim" }, opts = {} },
+	{
+		"folke/trouble.nvim",
+		opts = {},
+		cmd = "Trouble",
+		keys = {
+			{ "<leader>XX", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
+			{ "<leader>xx", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics (Trouble)" },
+		},
+	},
+	{ "Bekaboo/dropbar.nvim", opts = {} },
+	{ "lewis6991/satellite.nvim", opts = {} },
 })
-vim.cmd.colorscheme("vscode") -- default, lunaperche, gruber-darker, vscode
+vim.cmd.colorscheme("vscode") -- default, lunaperche, gruber-darker, vscode, gruvbox
 -- MasonInstall css-lsp html-lsp typescript-language-server lua-language-server stylua prettier
