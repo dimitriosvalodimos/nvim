@@ -59,6 +59,8 @@ map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>", "uuid")
 map("n", "K", vim.lsp.buf.hover, "hover")
 map("n", "<leader>k", vim.diagnostic.open_float, "diagnostics")
 require("lazy").setup({
+	{ "blazkowolf/gruber-darker.nvim", lazy = true, priority = 1000, opts = {} },
+	{ "Mofiqul/vscode.nvim", lazy = true, priority = 1000, opts = { italic_comments = false } },
 	{
 		"lewis6991/gitsigns.nvim",
 		lazy = false,
@@ -75,7 +77,7 @@ require("lazy").setup({
 	},
 	{
 		"stevearc/oil.nvim",
-		opts = { "icon", "permissions", "size", "mtime" },
+		opts = { columns = { "icon", "permissions", "size", "mtime" }, view_options = { show_hidden = true } },
 		keys = { { "-", "<cmd>Oil<cr>", "open parent dir" } },
 	},
 	{
@@ -89,10 +91,10 @@ require("lazy").setup({
 		version = "1.*",
 		opts = {
 			keymap = { preset = "enter" },
-			completion = { documentation = { auto_show = true } },
 			signature = { enabled = true },
-			sources = { default = { "lsp", "path", "snippets", "buffer" } },
+			completion = { documentation = { auto_show = true } },
 			fuzzy = { implementation = "prefer_rust_with_warning" },
+			sources = { default = { "lsp", "path", "snippets", "buffer" } },
 		},
 	},
 	{
@@ -102,8 +104,8 @@ require("lazy").setup({
 			require("nvim-treesitter.install").prefer_git = true
 			require("nvim-treesitter.configs").setup({
 				auto_install = true,
-				ensure_installed = { "diff", "lua", "luadoc", "markdown", "markdown_inline", "vimdoc" },
 				highlight = { enable = true, additional_vim_regex_highlighting = false },
+				ensure_installed = { "diff", "lua", "luadoc", "markdown", "markdown_inline", "vimdoc" },
 			})
 		end,
 	},
@@ -115,7 +117,6 @@ require("lazy").setup({
 			map("n", "grr", fzf.lsp_references, {})
 			map("n", "gd", fzf.lsp_definitions, {})
 			map("n", "gD", fzf.lsp_declarations, {})
-			map("n", "gca", fzf.lsp_code_actions, {})
 			map("n", "gca", fzf.lsp_code_actions, {})
 			map("n", "gri", fzf.lsp_implementations, {})
 			map("n", "<leader>ff", fzf.files, "find file")
@@ -132,6 +133,7 @@ require("lazy").setup({
 			format_on_save = { lsp_format = true, async = false, stop_after_first = true },
 			formatters_by_ft = {
 				css = { "prettier" },
+				go = { "goimports", "golines", "gofumpt", stop_after_first = false },
 				html = { "prettier" },
 				javascript = { "prettier" },
 				javascriptreact = { "prettier" },
@@ -153,7 +155,7 @@ require("lazy").setup({
 			"mason-org/mason-lspconfig.nvim",
 		},
 		config = function()
-			local servers = { "cssls", "html", "lua_ls" }
+			local servers = { "cssls", "html", "lua_ls", "gopls" }
 			local cap = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
 			vim.lsp.config("*", { capabilities = cap })
 			vim.diagnostic.config(diagnostic_config)
@@ -167,5 +169,5 @@ require("lazy").setup({
 		end,
 	},
 })
-vim.cmd.colorscheme("default") -- default, lunaperche, retrobox, slate, sorbet
+vim.cmd.colorscheme("vscode") -- default, lunaperche, gruber-darker, vscode
 -- MasonInstall css-lsp html-lsp typescript-language-server lua-language-server stylua prettier
