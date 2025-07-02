@@ -60,17 +60,12 @@ map("n", "K", vim.lsp.buf.hover, "hover")
 map("n", "<leader>k", vim.diagnostic.open_float, "diagnostics")
 require("lazy").setup({
 	{
-		"ellisonleao/gruvbox.nvim",
-		lazy = true,
-		priority = 1000,
-		opts = { italic = { strings = false, comments = false } },
-	},
-	{
 		"blazkowolf/gruber-darker.nvim",
 		lazy = true,
 		priority = 1000,
 		opts = { italic = { strings = false, comments = false } },
 	},
+	{ "nyoom-engineering/oxocarbon.nvim", lazy = true, priority = 1000 },
 	{ "Mofiqul/vscode.nvim", lazy = true, priority = 1000, opts = { italic_comments = false } },
 	{ "nvim-lualine/lualine.nvim", opts = {} },
 	{ "akinsho/bufferline.nvim", version = "*", opts = {} },
@@ -174,6 +169,9 @@ require("lazy").setup({
 			vim.diagnostic.config(diagnostic_config)
 			require("typescript-tools").setup({
 				complete_function_calls = true, -- npm i -g @styled/typescript-styled-plugin typescript-styled-plugin
+				expose_as_code_action = { "all" },
+				code_lens = "all",
+				disable_member_code_lens = false,
 				settings = { tsserver_plugins = { "@styled/typescript-styled-plugin" } },
 			})
 			require("mason").setup()
@@ -194,5 +192,5 @@ require("lazy").setup({
 	{ "Bekaboo/dropbar.nvim", opts = {} },
 	{ "lewis6991/satellite.nvim", opts = {} },
 })
-vim.cmd.colorscheme("vscode") -- default, lunaperche, gruber-darker, vscode, gruvbox
+vim.cmd.colorscheme("oxocarbon") -- default, lunaperche, gruber-darker, vscode, gruvbox, oxocarbon
 -- MasonInstall css-lsp html-lsp typescript-language-server lua-language-server stylua prettier
