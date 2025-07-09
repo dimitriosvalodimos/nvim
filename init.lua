@@ -121,6 +121,7 @@ require("lazy").setup({
 		"ibhagwan/fzf-lua",
 		config = function()
 			local fzf = require("fzf-lua")
+			fzf.setup({ fzf_bin = "sk" })
 
 			map("n", "grr", fzf.lsp_references, {})
 			map("n", "gd", fzf.lsp_definitions, {})
