@@ -40,30 +40,21 @@ opt.tabstop = 2
 opt.termguicolors = true
 opt.wrap = false
 local function map(mode, lhs, rhs, opts)
-	if type(opts) == "string" then
-		vim.keymap.set(mode, lhs, rhs, { desc = opts })
-	else
-		vim.keymap.set(mode, lhs, rhs, opts)
-	end
+	vim.keymap.set(mode, lhs, rhs, opts)
 end
-map("v", "<", "<gv", "dedent")
-map("v", ">", ">gv", "indent")
-map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>", "uuid")
-map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>", "uuid")
-map("n", "K", vim.lsp.buf.hover, "hover")
-map("n", "<leader>k", vim.diagnostic.open_float, "diagnostics")
+map("v", "<", "<gv")
+map("v", ">", ">gv")
+map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>")
+map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>")
+map("n", "K", vim.lsp.buf.hover)
+map("n", "<leader>k", vim.diagnostic.open_float)
 require("lazy").setup({
 	{ "nvim-lualine/lualine.nvim", opts = {} },
-	{ "akinsho/bufferline.nvim", version = "*", opts = {} },
-	{
-		"lewis6991/gitsigns.nvim",
-		opts = {},
-		lazy = false,
-		keys = { { "<leader>gs", ":Gitsigns toggle_current_line_blame<cr>", desc = "git blame" } },
-	},
+	{ "akinsho/bufferline.nvim", opts = {} },
+	{ "lewis6991/gitsigns.nvim", opts = {} },
 	{
 		"stevearc/oil.nvim",
-		opts = { columns = { "icon", "permissions", "size", "mtime" }, view_options = { show_hidden = true } },
+		opts = { columns = { "permissions", "size", "mtime" }, view_options = { show_hidden = true } },
 		keys = { { "-", "<cmd>Oil<cr>", "open parent dir" } },
 	},
 	{
@@ -95,15 +86,12 @@ require("lazy").setup({
 		config = function()
 			local fzf = require("fzf-lua")
 			fzf.setup({ fzf_bin = "sk" })
-			map("n", "grr", fzf.lsp_references, {})
-			map("n", "gd", fzf.lsp_definitions, {})
-			map("n", "gca", fzf.lsp_code_actions, {})
-			map("n", "<leader>ff", fzf.files, "find file")
-			map("n", "<leader>fb", fzf.buffers, "find buffer")
-			map("n", "<leader>fg", fzf.live_grep, "find word")
-			map("n", "<leader>fr", fzf.resume, "resume search")
-			map("n", "<leader>/", fzf.grep_curbuf, "find word in buffer")
-			map("n", "<leader>xx", fzf.diagnostics_document, "diagnostics")
+			map("n", "<leader>ff", fzf.files)
+			map("n", "<leader>fb", fzf.buffers)
+			map("n", "<leader>fg", fzf.live_grep)
+			map("n", "<leader>fr", fzf.resume)
+			map("n", "<leader>/", fzf.grep_curbuf)
+			map("n", "<leader>xx", fzf.diagnostics_document)
 		end,
 	},
 	{
