@@ -88,7 +88,7 @@ require("lazy").setup({
 		"ibhagwan/fzf-lua",
 		config = function()
 			local fzf = require("fzf-lua")
-			fzf.setup({ fzf_bin = "sk" })
+			fzf.setup({ { "skim", "max-perf", "ivy", "hide" } })
 			map("n", "<leader>ff", fzf.files)
 			map("n", "<leader>fb", fzf.buffers)
 			map("n", "<leader>fg", fzf.live_grep)
