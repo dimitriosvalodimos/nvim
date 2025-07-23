@@ -33,6 +33,28 @@ map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>")
 map("n", "K", vim.lsp.buf.hover)
 map("n", "<leader>k", vim.diagnostic.open_float)
 map("n", "-", "<cmd>Oil<cr>")
+map("i", "<CR>", function()
+	if vim.fn.complete_info()["selected"] ~= -1 then
+		return "<C-y>"
+	end
+	if vim.fn.pumvisible() ~= 0 then
+		return "<C-e><CR>"
+	end
+	return "<CR>"
+end, { expr = true })
+map("i", "<Tab>", function()
+	if vim.fn.pumvisible() ~= 0 then
+		return "<C-n>"
+	end
+	return "<Tab>"
+end, { expr = true })
+map("i", "<S-Tab>", function()
+	if vim.fn.pumvisible() ~= 0 then
+		return "<C-p>"
+	end
+	return "<S-Tab>"
+end, { expr = true })
+
 vim.pack.add({
 	"https://github.com/lewis6991/gitsigns.nvim",
 	"https://github.com/stevearc/oil.nvim",
