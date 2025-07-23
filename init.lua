@@ -108,4 +108,3 @@ require("conform").setup({
 		typescriptreact = { "prettier" },
 	},
 })
-vim.cmd.colorscheme("default")
