@@ -5,6 +5,7 @@ opt.backupcopy = "yes"
 opt.breakindent = true
 opt.clipboard:append("unnamedplus")
 opt.completeopt = { "menu", "menuone", "noselect" }
+opt.cursorline = true
 opt.expandtab = true
 opt.ignorecase = true
 opt.infercase = true
