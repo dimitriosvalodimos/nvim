@@ -57,6 +57,10 @@ map("i", "<S-Tab>", function()
 end, { expr = true })
 
 vim.pack.add({
+	"https://github.com/jaredgorski/SpaceCamp",
+	"https://github.com/no-clown-fiesta/no-clown-fiesta.nvim",
+	"https://github.com/blazkowolf/gruber-darker.nvim",
+	"https://github.com/kvrohit/rasmus.nvim",
 	"https://github.com/lewis6991/gitsigns.nvim",
 	"https://github.com/stevearc/oil.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
@@ -89,7 +93,7 @@ require("mason-lspconfig").setup({
 })
 require("mason-conform").setup({})
 local fzf = require("fzf-lua")
-fzf.setup({ { "skim", "max-perf", "ivy", "hide" } })
+fzf.setup({ { "skim", "ivy", "hide" } })
 map("n", "<leader>ff", fzf.files)
 map("n", "<leader>fb", fzf.buffers)
 map("n", "<leader>fg", fzf.live_grep)
@@ -109,3 +113,5 @@ require("conform").setup({
 		typescriptreact = { "prettier" },
 	},
 })
+-- require("gruber-darker").setup({ italic = { strings = false } })
+vim.cmd.colorscheme("spacecamp") -- gruber-darker, no-clown-fiesta, rasmus, spacecamp
