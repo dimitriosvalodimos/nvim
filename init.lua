@@ -57,10 +57,8 @@ map("i", "<S-Tab>", function()
 end, { expr = true })
 
 vim.pack.add({
-	"https://github.com/jaredgorski/SpaceCamp",
-	"https://github.com/no-clown-fiesta/no-clown-fiesta.nvim",
+	"https://github.com/arzg/vim-colors-xcode",
 	"https://github.com/blazkowolf/gruber-darker.nvim",
-	"https://github.com/kvrohit/rasmus.nvim",
 	"https://github.com/lewis6991/gitsigns.nvim",
 	"https://github.com/stevearc/oil.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
@@ -70,11 +68,8 @@ vim.pack.add({
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/zapling/mason-conform.nvim",
 	"https://github.com/mason-org/mason-lspconfig.nvim",
-	"https://github.com/echasnovski/mini.nvim",
+	"https://github.com/echasnovski/mini.completion",
 })
-require("mini.tabline").setup({})
-require("mini.statusline").setup({})
-require("mini.pairs").setup({})
 require("gitsigns").setup({ current_line_blame = true, current_line_blame_opts = { virt_text_pos = "right_align" } })
 require("nvim-treesitter.configs").setup({
 	auto_install = true,
@@ -88,18 +83,17 @@ vim.lsp.config("*", { capabilities = capabilities })
 vim.diagnostic.config({ severity_sort = true, virtual_lines = false, virtual_text = true })
 require("mason").setup()
 require("mason-lspconfig").setup({
-	ensure_installed = { "cssls", "html", "lua_ls", "gopls", "ts_ls" },
+	ensure_installed = { "cssls", "html", "lua_ls", "ts_ls" },
 	automatic_enable = true,
 })
 require("mason-conform").setup({})
-local fzf = require("fzf-lua")
-fzf.setup({ { "skim", "ivy", "hide" } })
-map("n", "<leader>ff", fzf.files)
-map("n", "<leader>fb", fzf.buffers)
-map("n", "<leader>fg", fzf.live_grep)
-map("n", "<leader>fr", fzf.resume)
-map("n", "<leader>/", fzf.grep_curbuf)
-map("n", "<leader>xx", fzf.diagnostics_document)
+require("fzf-lua").setup({ { "ivy", "hide" } })
+map("n", "<leader>ff", ":FzfLua files<cr>")
+map("n", "<leader>fb", ":FzfLua buffers<cr>")
+map("n", "<leader>fg", ":FzfLua live_grep<cr>")
+map("n", "<leader>fr", ":FzfLua resume<cr>")
+map("n", "<leader>/", ":FzfLua grep_curbuf<cr>")
+map("n", "<leader>xx", ":FzfLua diagnostics_document<cr>")
 require("conform").setup({
 	format_on_save = { lsp_format = true, async = false, stop_after_first = true },
 	formatters_by_ft = {
@@ -113,5 +107,5 @@ require("conform").setup({
 		typescriptreact = { "prettier" },
 	},
 })
--- require("gruber-darker").setup({ italic = { strings = false } })
-vim.cmd.colorscheme("spacecamp") -- gruber-darker, no-clown-fiesta, rasmus, spacecamp
+require("gruber-darker").setup({ italic = { strings = false, comments = false } })
+vim.cmd.colorscheme("xcodedark") -- gruber-darker, xcodedark, xcodedarkhc
