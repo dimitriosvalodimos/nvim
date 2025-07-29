@@ -1,3 +1,4 @@
+local map = vim.keymap.set
 local g = vim.g
 local opt = vim.opt
 g.mapleader = " "
@@ -24,9 +25,6 @@ opt.splitright = true
 opt.tabstop = 2
 opt.termguicolors = true
 opt.wrap = false
-local function map(mode, lhs, rhs, opts)
-	vim.keymap.set(mode, lhs, rhs, opts)
-end
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>")
@@ -34,29 +32,9 @@ map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>")
 map("n", "K", vim.lsp.buf.hover)
 map("n", "<leader>k", vim.diagnostic.open_float)
 map("n", "-", "<cmd>Oil<cr>")
-map("i", "<CR>", function()
-	if vim.fn.complete_info()["selected"] ~= -1 then
-		return "<C-y>"
-	end
-	if vim.fn.pumvisible() ~= 0 then
-		return "<C-e><CR>"
-	end
-	return "<CR>"
-end, { expr = true })
-map("i", "<Tab>", function()
-	if vim.fn.pumvisible() ~= 0 then
-		return "<C-n>"
-	end
-	return "<Tab>"
-end, { expr = true })
-map("i", "<S-Tab>", function()
-	if vim.fn.pumvisible() ~= 0 then
-		return "<C-p>"
-	end
-	return "<S-Tab>"
-end, { expr = true })
-
 vim.pack.add({
+	"https://github.com/rafamadriz/friendly-snippets",
+	{ src = "https://github.com/saghen/blink.cmp", version = "v1.6.0" },
 	"https://github.com/arzg/vim-colors-xcode",
 	"https://github.com/blazkowolf/gruber-darker.nvim",
 	"https://github.com/lewis6991/gitsigns.nvim",
@@ -68,7 +46,6 @@ vim.pack.add({
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/zapling/mason-conform.nvim",
 	"https://github.com/mason-org/mason-lspconfig.nvim",
-	"https://github.com/echasnovski/mini.completion",
 })
 require("gitsigns").setup({ current_line_blame = true, current_line_blame_opts = { virt_text_pos = "right_align" } })
 require("nvim-treesitter.configs").setup({
@@ -76,9 +53,17 @@ require("nvim-treesitter.configs").setup({
 	highlight = { enable = true, additional_vim_regex_highlighting = false },
 	ensure_installed = { "diff", "lua", "luadoc", "markdown", "markdown_inline", "vimdoc" },
 })
-require("mini.completion").setup({})
+local blink = require("blink.cmp")
+blink.setup({
+	signature = { enabled = true },
+	fuzzy = { implementation = "prefer_rust" },
+	appearance = { nerd_font_variant = "normal" },
+	completion = { documentation = { auto_show = true } },
+	sources = { default = { "lsp", "path", "snippets", "buffer" } },
+	keymap = { preset = "enter", ["<Tab>"] = { "select_next" }, ["<S-Tab>"] = { "select_prev" } },
+})
 require("oil").setup({ columns = { "permissions", "size", "mtime" }, view_options = { show_hidden = true } })
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = blink.get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
 vim.lsp.config("*", { capabilities = capabilities })
 vim.diagnostic.config({ severity_sort = true, virtual_lines = false, virtual_text = true })
 require("mason").setup()
@@ -108,4 +93,4 @@ require("conform").setup({
 	},
 })
 require("gruber-darker").setup({ italic = { strings = false, comments = false } })
-vim.cmd.colorscheme("xcodedark") -- gruber-darker, xcodedark, xcodedarkhc
+vim.cmd.colorscheme("gruber-darker") -- gruber-darker, xcodedark
