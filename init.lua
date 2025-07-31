@@ -54,6 +54,7 @@ require("lazy").setup({
 		priority = 1000,
 		opts = { italic = { strings = false, comments = false } },
 	},
+	{ "nvim-tree/nvim-web-devicons" },
 	{
 		"lewis6991/gitsigns.nvim",
 		lazy = false,
@@ -66,6 +67,7 @@ require("lazy").setup({
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
+		branch = "master",
 		build = ":TSUpdate",
 		config = function()
 			require("nvim-treesitter.configs").setup({
@@ -75,6 +77,7 @@ require("lazy").setup({
 			})
 		end,
 	},
+	{ "windwp/nvim-autopairs", event = "InsertEnter", config = true },
 	{
 		"saghen/blink.cmp",
 		version = "1.*",
@@ -124,6 +127,7 @@ require("lazy").setup({
 			{ "<leader>xx", ":FzfLua diagnostics_document<cr>" },
 		},
 	},
+	{ "sindrets/diffview.nvim", cmd = "DiffviewOpen", opts = {} },
 	{
 		"stevearc/conform.nvim",
 		opts = {
