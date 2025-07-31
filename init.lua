@@ -1,3 +1,18 @@
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+	if vim.v.shell_error ~= 0 then
+		vim.api.nvim_echo({
+			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+			{ out, "WarningMsg" },
+			{ "\nPress any key to exit..." },
+		}, true, {})
+		vim.fn.getchar()
+		os.exit(1)
+	end
+end
+vim.opt.rtp:prepend(lazypath)
 local map = vim.keymap.set
 local g = vim.g
 local opt = vim.opt
@@ -32,65 +47,99 @@ map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>")
 map("n", "K", vim.lsp.buf.hover)
 map("n", "<leader>k", vim.diagnostic.open_float)
 map("n", "-", "<cmd>Oil<cr>")
-vim.pack.add({
-	"https://github.com/rafamadriz/friendly-snippets",
-	{ src = "https://github.com/saghen/blink.cmp", version = "v1.6.0" },
-	"https://github.com/arzg/vim-colors-xcode",
-	"https://github.com/blazkowolf/gruber-darker.nvim",
-	"https://github.com/lewis6991/gitsigns.nvim",
-	"https://github.com/stevearc/oil.nvim",
-	"https://github.com/nvim-treesitter/nvim-treesitter",
-	"https://github.com/ibhagwan/fzf-lua",
-	"https://github.com/stevearc/conform.nvim",
-	"https://github.com/mason-org/mason.nvim",
-	"https://github.com/neovim/nvim-lspconfig",
-	"https://github.com/zapling/mason-conform.nvim",
-	"https://github.com/mason-org/mason-lspconfig.nvim",
-})
-require("gitsigns").setup({ current_line_blame = true, current_line_blame_opts = { virt_text_pos = "right_align" } })
-require("nvim-treesitter.configs").setup({
-	auto_install = true,
-	highlight = { enable = true, additional_vim_regex_highlighting = false },
-	ensure_installed = { "diff", "lua", "luadoc", "markdown", "markdown_inline", "vimdoc" },
-})
-local blink = require("blink.cmp")
-blink.setup({
-	signature = { enabled = true },
-	fuzzy = { implementation = "prefer_rust" },
-	appearance = { nerd_font_variant = "normal" },
-	completion = { documentation = { auto_show = true } },
-	sources = { default = { "lsp", "path", "snippets", "buffer" } },
-	keymap = { preset = "enter", ["<Tab>"] = { "select_next" }, ["<S-Tab>"] = { "select_prev" } },
-})
-require("oil").setup({ columns = { "permissions", "size", "mtime" }, view_options = { show_hidden = true } })
-local capabilities = blink.get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
-vim.lsp.config("*", { capabilities = capabilities })
-vim.diagnostic.config({ severity_sort = true, virtual_lines = false, virtual_text = true })
-require("mason").setup()
-require("mason-lspconfig").setup({
-	ensure_installed = { "cssls", "html", "lua_ls", "ts_ls" },
-	automatic_enable = true,
-})
-require("mason-conform").setup({})
-require("fzf-lua").setup({ { "ivy", "hide" } })
-map("n", "<leader>ff", ":FzfLua files<cr>")
-map("n", "<leader>fb", ":FzfLua buffers<cr>")
-map("n", "<leader>fg", ":FzfLua live_grep<cr>")
-map("n", "<leader>fr", ":FzfLua resume<cr>")
-map("n", "<leader>/", ":FzfLua grep_curbuf<cr>")
-map("n", "<leader>xx", ":FzfLua diagnostics_document<cr>")
-require("conform").setup({
-	format_on_save = { lsp_format = true, async = false, stop_after_first = true },
-	formatters_by_ft = {
-		css = { "prettier" },
-		html = { "prettier" },
-		javascript = { "prettier" },
-		javascriptreact = { "prettier" },
-		json = { "prettier" },
-		lua = { "stylua" },
-		typescript = { "prettier" },
-		typescriptreact = { "prettier" },
+require("lazy").setup({
+	{
+		"blazkowolf/gruber-darker.nvim",
+		lazy = true,
+		priority = 1000,
+		opts = { italic = { strings = false, comments = false } },
 	},
+	{
+		"lewis6991/gitsigns.nvim",
+		lazy = false,
+		opts = { current_line_blame = true, current_line_blame_opts = { virt_text_pos = "right_align" } },
+	},
+	{
+		"stevearc/oil.nvim",
+		opts = { columns = { "permissions", "size", "mtime" }, view_options = { show_hidden = true } },
+		keys = { { "-", ":Oil<cr>" } },
+	},
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				auto_install = true,
+				highlight = { enable = true, additional_vim_regex_highlighting = false },
+				ensure_installed = { "diff", "lua", "luadoc", "markdown", "markdown_inline", "vimdoc" },
+			})
+		end,
+	},
+	{
+		"saghen/blink.cmp",
+		version = "1.*",
+		event = "InsertEnter",
+		dependencies = { "rafamadriz/friendly-snippets" },
+		opts = {
+			signature = { enabled = true },
+			fuzzy = { implementation = "prefer_rust" },
+			appearance = { nerd_font_variant = "normal" },
+			completion = { documentation = { auto_show = true } },
+			sources = { default = { "lsp", "path", "snippets", "buffer" } },
+			keymap = {
+				preset = "enter",
+				["<Tab>"] = { "select_next", "fallback" },
+				["<S-Tab>"] = { "select_prev", "fallback" },
+			},
+		},
+	},
+	{
+		"mason-org/mason.nvim",
+		dependencies = {
+			"neovim/nvim-lspconfig",
+			"zapling/mason-conform.nvim",
+			"mason-org/mason-lspconfig.nvim",
+		},
+		config = function()
+			local capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
+			vim.lsp.config("*", { capabilities = capabilities })
+			vim.diagnostic.config({ severity_sort = true, virtual_lines = false, virtual_text = true })
+			require("mason").setup()
+			require("mason-lspconfig").setup({
+				ensure_installed = { "cssls", "html", "lua_ls", "ts_ls" },
+				automatic_enable = true,
+			})
+			require("mason-conform").setup({})
+		end,
+	},
+	{
+		"ibhagwan/fzf-lua",
+		opts = { { "ivy", "hide" } },
+		keys = {
+			{ "<leader>ff", ":FzfLua files<cr>" },
+			{ "<leader>fg", ":FzfLua live_grep<cr>" },
+			{ "<leader>fb", ":FzfLua buffers<cr>" },
+			{ "<leader>fr", ":FzfLua resume<cr>" },
+			{ "<leader>/", ":FzfLua grep_curbuf<cr>" },
+			{ "<leader>xx", ":FzfLua diagnostics_document<cr>" },
+		},
+	},
+	{
+		"stevearc/conform.nvim",
+		opts = {
+			format_on_save = { lsp_format = true, async = false, stop_after_first = true },
+			formatters_by_ft = {
+				css = { "prettier" },
+				html = { "prettier" },
+				javascript = { "prettier" },
+				javascriptreact = { "prettier" },
+				json = { "prettier" },
+				lua = { "stylua" },
+				typescript = { "prettier" },
+				typescriptreact = { "prettier" },
+			},
+		},
+	},
+	checker = { enabled = true },
 })
-require("gruber-darker").setup({ italic = { strings = false, comments = false } })
-vim.cmd.colorscheme("gruber-darker") -- gruber-darker, xcodedark
+vim.cmd.colorscheme("gruber-darker") -- gruber-darker, default
