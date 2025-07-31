@@ -54,11 +54,33 @@ require("lazy").setup({
 		priority = 1000,
 		opts = { italic = { strings = false, comments = false } },
 	},
-	{ "nvim-tree/nvim-web-devicons" },
+	{
+		"nvim-tree/nvim-web-devicons",
+		opts = { fast_wrap = {}, disable_filetype = { "TelescopePrompt", "vim" } },
+	},
+	{ "nvim-lualine/lualine.nvim", opts = {} },
 	{
 		"lewis6991/gitsigns.nvim",
 		lazy = false,
-		opts = { current_line_blame = true, current_line_blame_opts = { virt_text_pos = "right_align" } },
+		opts = {
+			current_line_blame = true,
+			current_line_blame_opts = { virt_text_pos = "right_align" },
+			signs = {
+				add = { text = "▎" },
+				change = { text = "▎" },
+				delete = { text = "" },
+				topdelete = { text = "" },
+				changedelete = { text = "▎" },
+				untracked = { text = "▎" },
+			},
+			signs_staged = {
+				add = { text = "▎" },
+				change = { text = "▎" },
+				delete = { text = "" },
+				topdelete = { text = "" },
+				changedelete = { text = "▎" },
+			},
+		},
 	},
 	{
 		"stevearc/oil.nvim",
@@ -72,12 +94,17 @@ require("lazy").setup({
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				auto_install = true,
-				highlight = { enable = true, additional_vim_regex_highlighting = false },
+				highlight = { enable = true, additional_vim_regex_highlighting = false, use_languagetree = true },
 				ensure_installed = { "diff", "lua", "luadoc", "markdown", "markdown_inline", "vimdoc" },
 			})
 		end,
 	},
 	{ "windwp/nvim-autopairs", event = "InsertEnter", config = true },
+	{
+		"folke/lazydev.nvim",
+		ft = "lua",
+		opts = { library = { { path = "${3rd}/luv/library", words = { "vim%.uv" } } } },
+	},
 	{
 		"saghen/blink.cmp",
 		version = "1.*",
@@ -88,7 +115,16 @@ require("lazy").setup({
 			fuzzy = { implementation = "prefer_rust" },
 			appearance = { nerd_font_variant = "normal" },
 			completion = { documentation = { auto_show = true } },
-			sources = { default = { "lsp", "path", "snippets", "buffer" } },
+			sources = {
+				default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+				providers = {
+					lazydev = {
+						name = "LazyDev",
+						module = "lazydev.integrations.blink",
+						score_offset = 100,
+					},
+				},
+			},
 			keymap = {
 				preset = "enter",
 				["<Tab>"] = { "select_next", "fallback" },
@@ -99,6 +135,7 @@ require("lazy").setup({
 	{
 		"mason-org/mason.nvim",
 		dependencies = {
+			"saghen/blink.cmp",
 			"neovim/nvim-lspconfig",
 			"zapling/mason-conform.nvim",
 			"mason-org/mason-lspconfig.nvim",
@@ -127,7 +164,14 @@ require("lazy").setup({
 			{ "<leader>xx", ":FzfLua diagnostics_document<cr>" },
 		},
 	},
-	{ "sindrets/diffview.nvim", cmd = "DiffviewOpen", opts = {} },
+	{
+		"NeogitOrg/neogit",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			{ "sindrets/diffview.nvim", cmd = "DiffviewOpen", opts = {} },
+			"ibhagwan/fzf-lua",
+		},
+	},
 	{
 		"stevearc/conform.nvim",
 		opts = {
