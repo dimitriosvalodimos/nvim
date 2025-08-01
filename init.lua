@@ -49,8 +49,14 @@ map("n", "<leader>k", vim.diagnostic.open_float)
 map("n", "-", "<cmd>Oil<cr>")
 require("lazy").setup({
 	{
+		"scottmckendry/cyberdream.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = { borderless_pickers = true },
+	},
+	{
 		"blazkowolf/gruber-darker.nvim",
-		lazy = true,
+		lazy = false,
 		priority = 1000,
 		opts = { italic = { strings = false, comments = false } },
 	},
@@ -190,4 +196,4 @@ require("lazy").setup({
 	},
 	checker = { enabled = true },
 })
-vim.cmd.colorscheme("gruber-darker") -- gruber-darker, default
+vim.cmd.colorscheme("cyberdream") -- gruber-darker, cyberdream, default
