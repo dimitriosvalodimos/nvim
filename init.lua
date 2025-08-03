@@ -107,11 +107,6 @@ require("lazy").setup({
 	},
 	{ "windwp/nvim-autopairs", event = "InsertEnter", config = true },
 	{
-		"folke/lazydev.nvim",
-		ft = "lua",
-		opts = { library = { { path = "${3rd}/luv/library", words = { "vim%.uv" } } } },
-	},
-	{
 		"saghen/blink.cmp",
 		version = "1.*",
 		event = "InsertEnter",
@@ -121,16 +116,7 @@ require("lazy").setup({
 			fuzzy = { implementation = "prefer_rust" },
 			appearance = { nerd_font_variant = "normal" },
 			completion = { documentation = { auto_show = true } },
-			sources = {
-				default = { "lazydev", "lsp", "path", "snippets", "buffer" },
-				providers = {
-					lazydev = {
-						name = "LazyDev",
-						module = "lazydev.integrations.blink",
-						score_offset = 100,
-					},
-				},
-			},
+			sources = { default = { "lsp", "path", "snippets", "buffer" } },
 			keymap = {
 				preset = "enter",
 				["<Tab>"] = { "select_next", "fallback" },
