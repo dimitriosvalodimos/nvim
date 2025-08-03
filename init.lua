@@ -48,50 +48,23 @@ map("n", "K", vim.lsp.buf.hover)
 map("n", "<leader>k", vim.diagnostic.open_float)
 map("n", "-", "<cmd>Oil<cr>")
 require("lazy").setup({
-	{
-		"scottmckendry/cyberdream.nvim",
-		lazy = false,
-		priority = 1000,
-		opts = { borderless_pickers = true },
-	},
-	{
-		"blazkowolf/gruber-darker.nvim",
-		lazy = false,
-		priority = 1000,
-		opts = { italic = { strings = false, comments = false } },
-	},
-	{
-		"nvim-tree/nvim-web-devicons",
-		opts = { fast_wrap = {}, disable_filetype = { "TelescopePrompt", "vim" } },
-	},
+	{ "scottmckendry/cyberdream.nvim", opts = { borderless_pickers = true } },
+	{ "blazkowolf/gruber-darker.nvim", opts = { italic = { strings = false, comments = false } } },
 	{ "nvim-lualine/lualine.nvim", opts = {} },
+	{ "nvim-tree/nvim-web-devicons", opts = {} },
+	{ "windwp/nvim-autopairs", opts = {} },
 	{
 		"lewis6991/gitsigns.nvim",
 		lazy = false,
 		opts = {
 			current_line_blame = true,
 			current_line_blame_opts = { virt_text_pos = "right_align" },
-			signs = {
-				add = { text = "▎" },
-				change = { text = "▎" },
-				delete = { text = "" },
-				topdelete = { text = "" },
-				changedelete = { text = "▎" },
-				untracked = { text = "▎" },
-			},
-			signs_staged = {
-				add = { text = "▎" },
-				change = { text = "▎" },
-				delete = { text = "" },
-				topdelete = { text = "" },
-				changedelete = { text = "▎" },
-			},
 		},
 	},
 	{
 		"stevearc/oil.nvim",
-		opts = { columns = { "permissions", "size", "mtime" }, view_options = { show_hidden = true } },
 		keys = { { "-", ":Oil<cr>" } },
+		opts = { columns = { "permissions", "size", "mtime" }, view_options = { show_hidden = true } },
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -105,12 +78,11 @@ require("lazy").setup({
 			})
 		end,
 	},
-	{ "windwp/nvim-autopairs", event = "InsertEnter", config = true },
 	{
 		"saghen/blink.cmp",
 		version = "1.*",
 		event = "InsertEnter",
-		dependencies = { "rafamadriz/friendly-snippets" },
+		dependencies = { "rafamadriz/friendly-snippets", "windwp/nvim-autopairs" },
 		opts = {
 			signature = { enabled = true },
 			fuzzy = { implementation = "prefer_rust" },
