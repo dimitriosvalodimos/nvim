@@ -48,7 +48,6 @@ map("n", "K", vim.lsp.buf.hover)
 map("n", "<leader>k", vim.diagnostic.open_float)
 map("n", "-", "<cmd>Oil<cr>")
 require("lazy").setup({
-	{ "scottmckendry/cyberdream.nvim", opts = { borderless_pickers = true } },
 	{ "blazkowolf/gruber-darker.nvim", opts = { italic = { strings = false, comments = false } } },
 	{ "nvim-lualine/lualine.nvim", opts = {} },
 	{ "nvim-tree/nvim-web-devicons", opts = {} },
@@ -154,4 +153,4 @@ require("lazy").setup({
 	},
 	checker = { enabled = true },
 })
-vim.cmd.colorscheme("cyberdream") -- gruber-darker, cyberdream, default
+vim.cmd.colorscheme("gruber-darker") -- gruber-darker, default
