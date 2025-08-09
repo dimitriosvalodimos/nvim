@@ -48,6 +48,7 @@ map("n", "K", vim.lsp.buf.hover)
 map("n", "<leader>k", vim.diagnostic.open_float)
 map("n", "-", "<cmd>Oil<cr>")
 require("lazy").setup({
+	{ "catppuccin/nvim", name = "catppuccin", opts = { term_colors = true, no_italic = true, flavour = "mocha" } }, -- latte, macchiato, mocha
 	{ "blazkowolf/gruber-darker.nvim", opts = { italic = { strings = false, comments = false } } },
 	{ "nvim-lualine/lualine.nvim", opts = {} },
 	{ "nvim-tree/nvim-web-devicons", opts = {} },
@@ -153,4 +154,4 @@ require("lazy").setup({
 	},
 	checker = { enabled = true },
 })
-vim.cmd.colorscheme("gruber-darker") -- gruber-darker, default
+vim.cmd.colorscheme("catppuccin") -- gruber-darker, default, catppuccin
