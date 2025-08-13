@@ -131,6 +131,7 @@ require("lazy").setup({
 			require("mason-conform").setup({})
 			map("n", "gca", fzf.lsp_code_actions, {})
 			map("n", "grr", fzf.lsp_references, {})
+			map("n", "grd", fzf.lsp_definitions, {})
 			map("n", "gri", fzf.lsp_implementations, {})
 			map("n", "grt", fzf.lsp_typedefs, {})
 			map("n", "gO", fzf.lsp_document_symbols, {})
