@@ -47,6 +47,16 @@ map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>")
 map("n", "K", vim.lsp.buf.hover)
 map("n", "<leader>k", vim.diagnostic.open_float)
 map("n", "-", "<cmd>Oil<cr>")
+map("i", "<C-b>", "<ESC>^i")
+map("i", "<C-e>", "<End>")
+map("n", "<Esc>", "<cmd>noh<CR>")
+map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>")
+vim.api.nvim_create_autocmd("TextYankPost", {
+	group = vim.api.nvim_create_augroup("config_highlight_yank", { clear = true }),
+	callback = function()
+		(vim.hl or vim.highlight).on_yank()
+	end,
+})
 require("lazy").setup({
 	{ "catppuccin/nvim", name = "catppuccin", opts = { term_colors = true, no_italic = true, flavour = "mocha" } }, -- latte, macchiato, mocha
 	{ "blazkowolf/gruber-darker.nvim", opts = { italic = { strings = false, comments = false } } },
@@ -73,6 +83,7 @@ require("lazy").setup({
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				auto_install = true,
+				indent = { enable = true },
 				highlight = { enable = true, additional_vim_regex_highlighting = false, use_languagetree = true },
 				ensure_installed = { "diff", "lua", "luadoc", "markdown", "markdown_inline", "vimdoc" },
 			})
@@ -131,7 +142,7 @@ require("lazy").setup({
 			require("mason-conform").setup({})
 			map("n", "gca", fzf.lsp_code_actions, {})
 			map("n", "grr", fzf.lsp_references, {})
-			map("n", "grd", fzf.lsp_definitions, {})
+			map("n", "gd", fzf.lsp_definitions, {})
 			map("n", "gri", fzf.lsp_implementations, {})
 			map("n", "grt", fzf.lsp_typedefs, {})
 			map("n", "gO", fzf.lsp_document_symbols, {})
