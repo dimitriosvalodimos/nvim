@@ -17,29 +17,56 @@ local map = vim.keymap.set
 local g = vim.g
 local opt = vim.opt
 g.mapleader = " "
+g.loaded_node_provider = 0
+g.loaded_perl_provider = 0
+g.loaded_ruby_provider = 0
 opt.backupcopy = "yes"
 opt.breakindent = true
+opt.breakindentopt = "list:-1"
 opt.clipboard:append("unnamedplus")
+opt.cmdwinheight = 30
+opt.colorcolumn = "+0"
 opt.completeopt = { "menu", "menuone", "noselect" }
-opt.cursorline = true
+opt.cursorlineopt = { "number" }
+opt.diffopt = { "filler", "indent-heuristic", "linematch:60", "vertical" }
+opt.equalalways = true
 opt.expandtab = true
+opt.hlsearch = true
 opt.ignorecase = true
+opt.inccommand = "split"
 opt.infercase = true
-opt.laststatus = 2
+opt.laststatus = 3
+opt.modeline = false
+opt.modelines = 0
 opt.number = true
+opt.numberwidth = 3
 opt.preserveindent = true
-opt.pumheight = 10
+opt.pumheight = 15
+opt.redrawtime = 150
+opt.ruler = false
 opt.shiftround = true
-opt.shiftwidth = 2
-opt.shortmess = "c"
-opt.signcolumn = "yes"
+opt.shiftwidth = 0
+opt.shortmess = "acstFOSW"
+opt.showtabline = 2
+opt.signcolumn = "yes:1"
 opt.smartcase = true
 opt.smartindent = true
+opt.softtabstop = -1
 opt.splitbelow = true
+opt.splitkeep = "screen"
 opt.splitright = true
 opt.tabstop = 2
 opt.termguicolors = true
+opt.title = true
+opt.titlestring = "nvim: %t"
+opt.undofile = true
+opt.wildignore = "*.o"
+opt.wildmode = "longest:full"
+opt.wildoptions = "pum"
+opt.winborder = "solid"
 opt.wrap = false
+opt.writebackup = false
+opt.tabline = "%!v:lua.require('tabline').render()"
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>")
@@ -51,6 +78,7 @@ map("i", "<C-b>", "<ESC>^i")
 map("i", "<C-e>", "<End>")
 map("n", "<Esc>", "<cmd>noh<CR>")
 map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>")
+-- require("vim._extui").enable({ enable = true, msg = { target = "cmd" } })
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("config_highlight_yank", { clear = true }),
 	callback = function()
@@ -60,7 +88,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 require("lazy").setup({
 	{ "catppuccin/nvim", name = "catppuccin", opts = { term_colors = true, no_italic = true, flavour = "mocha" } }, -- latte, macchiato, mocha
 	{ "blazkowolf/gruber-darker.nvim", opts = { italic = { strings = false, comments = false } } },
-	{ "nvim-lualine/lualine.nvim", opts = {} },
+	{ "mcauley-penney/techbase.nvim", opts = { italic_comments = false } },
+	{ "nvim-lualine/lualine.nvim", opts = { options = { section_separators = "", component_separators = "" } } },
 	{ "nvim-tree/nvim-web-devicons", opts = {} },
 	{ "windwp/nvim-autopairs", opts = {} },
 	{
@@ -149,14 +178,6 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"NeogitOrg/neogit",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			{ "sindrets/diffview.nvim", cmd = "DiffviewOpen", opts = {} },
-			"ibhagwan/fzf-lua",
-		},
-	},
-	{
 		"stevearc/conform.nvim",
 		opts = {
 			format_on_save = { lsp_format = true, async = false, stop_after_first = true },
@@ -172,6 +193,7 @@ require("lazy").setup({
 			},
 		},
 	},
+	{ "sphamba/smear-cursor.nvim", opts = { stiffness = 0.5, trailing_stiffness = 0.5, matrix_pixel_threshold = 0.5 } },
 	checker = { enabled = true },
 })
-vim.cmd.colorscheme("catppuccin") -- gruber-darker, default, catppuccin
+vim.cmd.colorscheme("techbase") -- gruber-darker, default, catppuccin, techbase
