@@ -1,0 +1,12 @@
+local map = vim.keymap.set
+map("v", "<", "<gv")
+map("v", ">", ">gv")
+map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>")
+map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>")
+map("n", "K", vim.lsp.buf.hover)
+map("n", "<leader>k", vim.diagnostic.open_float)
+map("n", "-", "<cmd>Oil<cr>")
+map("i", "<C-b>", "<ESC>^i")
+map("i", "<C-e>", "<End>")
+map("n", "<Esc>", "<cmd>noh<CR>")
+map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>")
