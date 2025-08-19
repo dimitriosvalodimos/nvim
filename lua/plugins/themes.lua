@@ -6,4 +6,5 @@ return {
 	},
 	{ "blazkowolf/gruber-darker.nvim", opts = { italic = { strings = false, comments = false } } },
 	{ "mcauley-penney/techbase.nvim", opts = { italic_comments = false } },
+	{ "scottmckendry/cyberdream.nvim", opts = { variant = "auto" } },
 }

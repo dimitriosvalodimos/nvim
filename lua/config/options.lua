@@ -1,4 +1,5 @@
 local opt = vim.opt
+opt.background = "dark"
 opt.backupcopy = "yes"
 opt.breakindent = true
 opt.breakindentopt = "list:-1"
@@ -45,4 +46,3 @@ opt.wildoptions = "pum"
 opt.winborder = "solid"
 opt.wrap = false
 opt.writebackup = false
-opt.tabline = "%!v:lua.require('tabline').render()"
