@@ -4,7 +4,6 @@ return {
 		"mason-org/mason.nvim",
 		dependencies = {
 			"saghen/blink.cmp",
-			"ibhagwan/fzf-lua",
 			"neovim/nvim-lspconfig",
 			"zapling/mason-conform.nvim",
 			"mason-org/mason-lspconfig.nvim",
@@ -15,7 +14,6 @@ return {
 				-- npm i -g @styled/typescript-styled-plugin typescript-styled-plugin
 				opts = {
 					settings = {
-						code_lens = "all",
 						complete_function_calls = true,
 						expose_as_code_action = { "all" },
 						tsserver_plugins = { "@styled/typescript-styled-plugin" },
@@ -25,8 +23,6 @@ return {
 			},
 		},
 		config = function()
-			local fzf = require("fzf-lua")
-			fzf.register_ui_select()
 			local capabilities = require("blink.cmp").get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
 			vim.lsp.config("*", { capabilities = capabilities })
 			vim.diagnostic.config({ severity_sort = true, virtual_lines = false, virtual_text = true })
@@ -36,12 +32,12 @@ return {
 				automatic_enable = true,
 			})
 			require("mason-conform").setup({})
-			map("n", "gca", fzf.lsp_code_actions, {})
-			map("n", "grr", fzf.lsp_references, {})
-			map("n", "gd", fzf.lsp_definitions, {})
-			map("n", "gri", fzf.lsp_implementations, {})
-			map("n", "grt", fzf.lsp_typedefs, {})
-			map("n", "gO", fzf.lsp_document_symbols, {})
+			map("n", "gca", ":FzfLua lsp_code_actions<cr>", {})
+			map("n", "grr", ":FzfLua lsp_references<cr>", {})
+			map("n", "gd", ":FzfLua lsp_definitions<cr>", {})
+			map("n", "gri", ":FzfLua lsp_implementations<cr>", {})
+			map("n", "grt", ":FzfLua lsp_typedefs<cr>", {})
+			map("n", "gO", ":FzfLua lsp_document_symbols<cr>", {})
 		end,
 	},
 }

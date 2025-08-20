@@ -1,6 +1,6 @@
 return {
 	"ibhagwan/fzf-lua",
-	opts = { { "hide" } },
+	opts = { { "max-perf", "border-fused", "hide" } },
 	keys = {
 		{ "<leader>ff", ":FzfLua files<cr>" },
 		{ "<leader>fg", ":FzfLua live_grep_native<cr>" },
