@@ -7,6 +7,7 @@ opt.clipboard:append("unnamedplus")
 opt.cmdwinheight = 30
 opt.colorcolumn = "+0"
 opt.completeopt = { "menu", "menuone", "noselect" }
+opt.cursorline = true
 opt.cursorlineopt = { "number" }
 opt.diffopt = { "filler", "indent-heuristic", "linematch:60", "vertical" }
 opt.equalalways = true

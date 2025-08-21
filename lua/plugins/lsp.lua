@@ -14,7 +14,6 @@ return {
 				-- npm i -g @styled/typescript-styled-plugin typescript-styled-plugin
 				opts = {
 					settings = {
-						complete_function_calls = true,
 						expose_as_code_action = { "all" },
 						tsserver_plugins = { "@styled/typescript-styled-plugin" },
 						jsx_close_tag = { enable = true, filetypes = { "javascriptreact", "typescriptreact" } },
