@@ -5,7 +5,6 @@ return {
 		dependencies = {
 			"saghen/blink.cmp",
 			"neovim/nvim-lspconfig",
-			"zapling/mason-conform.nvim",
 			"mason-org/mason-lspconfig.nvim",
 			{
 				"pmizio/typescript-tools.nvim",
@@ -30,13 +29,12 @@ return {
 				ensure_installed = { "cssls", "html", "lua_ls" },
 				automatic_enable = true,
 			})
-			require("mason-conform").setup({})
-			map("n", "gca", ":FzfLua lsp_code_actions<cr>", {})
-			map("n", "grr", ":FzfLua lsp_references<cr>", {})
-			map("n", "gd", ":FzfLua lsp_definitions<cr>", {})
-			map("n", "gri", ":FzfLua lsp_implementations<cr>", {})
-			map("n", "grt", ":FzfLua lsp_typedefs<cr>", {})
-			map("n", "gO", ":FzfLua lsp_document_symbols<cr>", {})
+			map("n", "gca", ":FzfLua lsp_code_actions<cr>", { silent = true })
+			map("n", "grr", ":FzfLua lsp_references<cr>", { silent = true })
+			map("n", "gd", ":FzfLua lsp_definitions<cr>", { silent = true })
+			map("n", "gri", ":FzfLua lsp_implementations<cr>", { silent = true })
+			map("n", "grt", ":FzfLua lsp_typedefs<cr>", { silent = true })
+			map("n", "gO", ":FzfLua lsp_document_symbols<cr>", { silent = true })
 		end,
 	},
 }
