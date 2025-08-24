@@ -1,8 +1,9 @@
 return {
 	"ibhagwan/fzf-lua",
-	config = function()
+	opts = { { "max-perf", "border-fused", "hide" } },
+	config = function(_, opts)
 		local fzf = require("fzf-lua")
-		fzf.setup({ { "max-perf", "border-fused", "hide" } })
+		fzf.setup(opts)
 		fzf.register_ui_select()
 	end,
 	keys = {

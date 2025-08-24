@@ -1,10 +1,13 @@
 return {
-	{ "windwp/nvim-autopairs", opts = {} },
 	{
 		"saghen/blink.cmp",
 		version = "1.*",
 		event = "InsertEnter",
-		dependencies = { "rafamadriz/friendly-snippets", "windwp/nvim-autopairs" },
+		dependencies = {
+			"rafamadriz/friendly-snippets",
+			{ "saghen/blink.indent", opts = {} },
+			{ "saghen/blink.pairs", version = "*", dependencies = "saghen/blink.download", opts = {} },
+		},
 		opts = {
 			signature = { enabled = true },
 			fuzzy = { implementation = "prefer_rust" },

@@ -2,6 +2,12 @@ return {
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		opts = { term_colors = true, no_italic = true, flavour = "mocha" },
+		opts = {
+			auto_integrations = true,
+			default_integrations = true,
+			flavour = "mocha",
+			no_italic = true,
+			term_colors = true,
+		},
 	},
 }
