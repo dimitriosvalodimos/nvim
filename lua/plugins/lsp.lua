@@ -1,10 +1,21 @@
 local servers = { "cssls", "html", "lua_ls", "ts_ls" }
 local lspconfig = require("lspconfig")
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-vim.lsp.config("*", { capabilities = capabilities })
+local chars = {}
+for i = 32, 126 do
+	table.insert(chars, string.char(i))
+end
+local on_attach = function(client, bufnr)
+	if client:supports_method("textDocument/completion") then
+		client.server_capabilities.completionProvider.triggerCharacters = chars
+		vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
+	end
+end
+
+vim.lsp.config("*", {
+	capabilities = { textDocument = { completion = { completionItem = { snippetSupport = true } } } },
+})
 for _, server in ipairs(servers) do
-	lspconfig[server].setup({})
+	lspconfig[server].setup({ on_attach = on_attach })
 end
 vim.diagnostic.config({ severity_sort = true, virtual_lines = false, virtual_text = { virt_text_pos = "right_align" } })
 vim.lsp.enable(servers)

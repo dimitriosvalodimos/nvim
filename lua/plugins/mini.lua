@@ -3,10 +3,6 @@ require("mini.tabline").setup()
 require("mini.statusline").setup()
 require("mini.diff").setup()
 require("mini.pairs").setup()
-require("mini.completion").setup({
-	delay = { completion = nil, info = 150 },
-	window = { info = { border = "none" }, signature = { border = "none" } },
-})
 require("mini.extra").setup()
 local pick_config = function()
 	local h, w = vim.o.lines, vim.o.columns

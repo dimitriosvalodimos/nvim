@@ -1,1 +1,1 @@
-require("render-markdown").setup({ completions = { blink = { enabled = true } } })
+require("render-markdown").setup({ completions = { lsp = { enabled = true } } })

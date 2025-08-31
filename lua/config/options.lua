@@ -11,7 +11,7 @@ opt.breakindentopt = "list:-1"
 opt.clipboard:append("unnamedplus")
 opt.cmdwinheight = 30
 opt.colorcolumn = "+0"
-opt.completeopt = { "menu", "menuone", "noselect" }
+opt.completeopt = { "menu", "menuone", "noinsert" }
 opt.cursorline = true
 opt.diffopt = { "internal", "filler", "closeoff", "inline:word", "linematch:40" }
 opt.equalalways = true

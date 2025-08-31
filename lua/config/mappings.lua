@@ -24,6 +24,25 @@ map("n", "gd", ":Pick lsp scope='definition'<cr>", { silent = true })
 map("n", "gri", ":Pick lsp scope='implementation'<cr>", { silent = true })
 map("n", "grt", ":Pick lsp scope='type_definition'<cr>", { silent = true })
 map("n", "gO", ":Pick lsp scope='document_symbol'<cr>", { silent = true })
+map("i", "<cr>", function()
+	if is_visible() then
+		return "<C-y>"
+	else
+		return "<cr>"
+	end
+end, { expr = true, silent = true })
+map("i", "<C-Space>", function()
+	if next(vim.lsp.get_clients({ bufnr = 0 })) then
+		vim.lsp.completion.get()
+	end
+end, { expr = true, silent = true })
+map("i", "<Esc>", function()
+	if is_visible() then
+		return "<C-e><Esc>"
+	else
+		return "<Esc>"
+	end
+end, { expr = true, silent = true })
 map("i", "<Tab>", function()
 	if is_visible() then
 		return "<C-n>"
