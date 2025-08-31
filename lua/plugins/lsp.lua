@@ -1,8 +1,6 @@
-local blink = require("plugins.completion").blink
-
 local servers = { "cssls", "html", "lua_ls", "ts_ls" }
 local lspconfig = require("lspconfig")
-local capabilities = blink.get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 vim.lsp.config("*", { capabilities = capabilities })
 for _, server in ipairs(servers) do
