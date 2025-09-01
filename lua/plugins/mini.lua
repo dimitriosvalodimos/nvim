@@ -20,13 +20,13 @@ end
 require("mini.pick").setup({ window = { config = pick_config } })
 require("mini.move").setup({
 	mappings = {
-		left = "<S-left>",
-		right = "<S-right>",
-		down = "<S-down>",
-		up = "<S-up>",
-		line_left = "<S-left>",
-		line_right = "<S-right>",
-		line_down = "<S-down>",
-		line_up = "<S-up>",
+		left = "<A-left>",
+		right = "<A-right>",
+		down = "<A-down>",
+		up = "<A-up>",
+		line_left = "<A-left>",
+		line_right = "<A-right>",
+		line_down = "<A-down>",
+		line_up = "<A-up>",
 	},
 })
