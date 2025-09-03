@@ -1,4 +1,5 @@
 vim.pack.add({
+	"https://github.com/mcauley-penney/techbase.nvim",
 	"https://github.com/MeanderingProgrammer/render-markdown.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-mini/mini.nvim",
