@@ -1,4 +1,5 @@
 local servers = { "cssls", "html", "lua_ls", "ts_ls" }
+require("tiny-inline-diagnostic").setup({})
 local lspconfig = require("lspconfig")
 local chars = {}
 for i = 32, 126 do
@@ -17,5 +18,5 @@ vim.lsp.config("*", {
 for _, server in ipairs(servers) do
 	lspconfig[server].setup({ on_attach = on_attach })
 end
-vim.diagnostic.config({ severity_sort = true, virtual_lines = false, virtual_text = true })
+vim.diagnostic.config({ severity_sort = true, virtual_lines = false, virtual_text = false })
 vim.lsp.enable(servers)
