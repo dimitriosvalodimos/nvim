@@ -1,0 +1,22 @@
+local map = vim.keymap.set
+
+local fzf = require("fzf-lua")
+fzf.setup({ "ivy", "border-fused", "fzf-native", "hide" })
+fzf.register_ui_select()
+
+map("n", "<leader>ff", ":FzfLua files<cr>")
+map("n", "<leader>fb", ":FzfLua buffers<cr>")
+map("n", "<leader>fo", ":FzfLua oldfiles<cr>")
+map("n", "<leader>fg", ":FzfLua live_grep_native<cr>")
+map("n", "<leader>f/", ":FzfLua grep_curbuf<cr>")
+map("n", "<leader>fr", ":FzfLua resume<cr>")
+map("n", "<leader>fR", ":FzfLua registers<cr>")
+map("n", "<leader>xx", ":FzfLua diagnostics_document<cr>")
+map("n", "<leader>XX", ":FzfLua diagnostics_workspace<cr>")
+map("n", "<leader>fh", ":FzfLua helptags<cr>")
+map("n", "gca", ":FzfLua lsp_code_actions<cr>")
+map("n", "grr", ":FzfLua lsp_references<cr>")
+map("n", "gd", ":FzfLua lsp_definitions<cr>")
+map("n", "gri", ":FzfLua lsp_implementations<cr>")
+map("n", "grt", ":FzfLua lsp_typedefs<cr>")
+map("n", "gO", ":FzfLua lsp_document_symbols<cr>")
