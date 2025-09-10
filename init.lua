@@ -43,7 +43,6 @@ require("mini.icons").setup()
 require("mini.tabline").setup()
 require("mini.statusline").setup()
 require("mini.diff").setup()
-require("mini.cursorword").setup()
 require("nvim-treesitter.configs").setup({
 	auto_install = true,
 	highlight = { enable = true, additional_vim_regex_highlighting = false, use_languagetree = true },
@@ -132,6 +131,18 @@ map("n", "<c-h>", "<c-w>h")
 map("n", "<c-j>", "<c-w>j")
 map("n", "<c-k>", "<c-w>k")
 map("n", "<c-l>", "<c-w>l")
+local pumvisible = function()
+	return tonumber(vim.fn.pumvisible()) == 1
+end
+map("i", "<Tab>", function()
+	return (pumvisible() and "<c-n>") or "<Tab>"
+end, { expr = true })
+map("i", "<S-Tab>", function()
+	return (pumvisible() and "<c-p>") or "<S-Tab>"
+end, { expr = true })
+map("i", "<Enter>", function()
+	return (pumvisible() and "<c-y>") or "<Enter>"
+end, { expr = true })
 local group = vim.api.nvim_create_augroup("config_group", {})
 local au = function(event, pattern, callback, desc)
 	vim.api.nvim_create_autocmd(event, { group = group, pattern = pattern, callback = callback, desc = desc })
