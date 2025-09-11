@@ -33,11 +33,16 @@ vim.cmd("filetype plugin indent on")
 vim.pack.add({
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/MeanderingProgrammer/render-markdown.nvim",
+	"https://github.com/Mofiqul/vscode.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-mini/mini.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
+	"https://github.com/nyoom-engineering/oxocarbon.nvim",
+	"https://github.com/projekt0n/github-nvim-theme",
+	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
+	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
 })
 require("mini.icons").setup()
 require("mini.tabline").setup()
@@ -67,10 +72,14 @@ require("nvim-treesitter.configs").setup({
 })
 require("mini.pairs").setup()
 require("mini.completion").setup()
+require("tiny-inline-diagnostic").setup({
+	preset = "classic",
+	options = { show_source = { enabled = true, if_many = true } },
+})
 local servers = { "cssls", "html", "lua_ls", "ts_ls" }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
-vim.diagnostic.config({ severity_sort = true, virtual_lines = false, virtual_text = true })
+vim.diagnostic.config({ severity_sort = true, virtual_lines = false, virtual_text = false })
 vim.lsp.config("*", { capabilities = capabilities })
 vim.lsp.enable(servers)
 local prettier_or_biome = function(bufnr)
@@ -150,3 +159,7 @@ end
 au("TextYankPost", "*", function()
 	vim.hl.on_yank()
 end)
+require("catppuccin").setup({ flavour = "mocha", term_colors = true, no_italic = true, auto_integrations = true })
+require("github-theme").setup({})
+require("vscode").setup({ italic_comments = false })
+vim.cmd.colorscheme("vscode") -- catppuccin, github_dark_default, oxocarbon, vscode
