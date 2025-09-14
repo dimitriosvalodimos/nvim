@@ -171,6 +171,6 @@ au("TextYankPost", "*", function()
 	vim.hl.on_yank()
 end)
 -- require("catppuccin").setup({ flavour = "mocha", term_colors = true, no_italic = true, auto_integrations = true })
-require("github-theme").setup({})
 -- require("vscode").setup({ italic_comments = false })
+require("github-theme").setup({})
 vim.cmd.colorscheme("github_dark_default") -- catppuccin, github_dark_default, oxocarbon, vscode
