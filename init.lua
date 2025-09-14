@@ -92,7 +92,7 @@ blink.setup({
 	keymap = { preset = "enter" },
 	signature = { enabled = true, window = { border = "single" } },
 })
-local servers = { "biome", "cssls", "eslint", "html", "lua_ls", "ts_ls" }
+local servers = { "cssls", "eslint", "html", "lua_ls", "ts_ls" }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities = blink.get_lsp_capabilities(capabilities)
