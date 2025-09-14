@@ -92,18 +92,16 @@ blink.setup({
 	keymap = { preset = "enter" },
 	signature = { enabled = true, window = { border = "single" } },
 })
-local servers = { "cssls", "html", "lua_ls", "ts_ls" }
+local servers = { "biome", "cssls", "eslint", "html", "lua_ls", "ts_ls" }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities = blink.get_lsp_capabilities(capabilities)
 vim.diagnostic.config({ severity_sort = true, virtual_text = false })
-local function on_attach(client, bufnr)
-	require("tiny-inline-diagnostic").setup({
-		preset = "classic",
-		options = { show_source = { enabled = true, if_many = true } },
-	})
-end
-vim.lsp.config("*", { capabilities = capabilities, on_attach = on_attach })
+require("tiny-inline-diagnostic").setup({
+	preset = "classic",
+	options = { show_source = { enabled = true, if_many = true } },
+})
+vim.lsp.config("*", { capabilities = capabilities })
 vim.lsp.enable(servers)
 local prettier_or_biome = function(bufnr)
 	local biome = require("conform").get_formatter_info("biome", bufnr)
