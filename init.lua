@@ -34,7 +34,6 @@ vim.pack.add({
 	"https://github.com/folke/which-key.nvim",
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/lewis6991/gitsigns.nvim",
-	"https://github.com/MeanderingProgrammer/render-markdown.nvim",
 	"https://github.com/Mofiqul/vscode.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-lualine/lualine.nvim",
@@ -48,13 +47,20 @@ vim.pack.add({
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
 	"https://github.com/windwp/nvim-ts-autotag",
-	{ src = "https://github.com/akinsho/bufferline.nvim", version = "v4.9.1" },
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.6.0" },
 	{ src = "https://github.com/Saghen/blink.pairs", version = "v0.3.0" },
 })
 require("lualine").setup({ options = { section_separators = "", component_separators = "" } })
-require("bufferline").setup({})
-require("gitsigns").setup({ current_line_blame = true })
+require("gitsigns").setup({
+	current_line_blame = true,
+	signs = {
+		add = { text = "+" },
+		change = { text = "~" },
+		delete = { text = "_" },
+		topdelete = { text = "‾" },
+		changedelete = { text = "~" },
+	},
+})
 require("nvim-treesitter.configs").setup({
 	auto_install = true,
 	highlight = { enable = true, additional_vim_regex_highlighting = false, use_languagetree = true },
@@ -81,26 +87,23 @@ require("nvim-ts-autotag").setup({})
 require("blink.pairs").setup({})
 local blink = require("blink.cmp")
 blink.setup({
-	completion = {
-		menu = {
-			border = "single",
-			documentation = { auto_show = true, window = { border = "single" } },
-		},
-	},
+	completion = { documentation = { auto_show = true, window = { border = "single" } }, menu = { border = "single" } },
 	fuzzy = { implementation = "lua" },
 	keymap = { preset = "enter" },
-	signature = { window = { border = "single" } },
-})
-require("tiny-inline-diagnostic").setup({
-	preset = "classic",
-	options = { show_source = { enabled = true, if_many = true } },
+	signature = { enabled = true, window = { border = "single" } },
 })
 local servers = { "cssls", "html", "lua_ls", "ts_ls" }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities = blink.get_lsp_capabilities(capabilities)
 vim.diagnostic.config({ severity_sort = true, virtual_text = false })
-vim.lsp.config("*", { capabilities = capabilities })
+local function on_attach(client, bufnr)
+	require("tiny-inline-diagnostic").setup({
+		preset = "classic",
+		options = { show_source = { enabled = true, if_many = true } },
+	})
+end
+vim.lsp.config("*", { capabilities = capabilities, on_attach = on_attach })
 vim.lsp.enable(servers)
 local prettier_or_biome = function(bufnr)
 	local biome = require("conform").get_formatter_info("biome", bufnr)
@@ -124,12 +127,11 @@ require("conform").setup({
 	},
 })
 require("oil").setup({ view_options = { show_hidden = true }, columns = { "permissions", "size", "mtime" } })
-require("render-markdown").setup()
 local fzf = require("fzf-lua")
 fzf.setup({ "border-fused", "fzf-native", "hide" })
 fzf.register_ui_select()
 local wk = require("which-key")
-wk.setup({ preset = "helix" })
+wk.setup({ delay = 0, preset = "helix" })
 wk.add({
 	{ "-", ":Oil<cr>" },
 	{ "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>", desc = "[u]uid" },
@@ -138,11 +140,11 @@ wk.add({
 	{ "<c-k>", "<c-w>k" },
 	{ "<c-l>", "<c-w>l" },
 	{ "<Esc>", "<cmd>noh<CR>" },
+	{ "<leader>/", ":FzfLua grep_curbuf<cr>", desc = "grep in buffer" },
 	{ "<leader>d", group = "[d]iagnostic" },
 	{ "<leader>dd", ":FzfLua diagnostics_document<cr>", desc = "[d]ocument" },
 	{ "<leader>dw", ":FzfLua diagnostics_workspace<cr>", desc = "[w]orkspace" },
 	{ "<leader>f", group = "[f]ind" },
-	{ "<leader>f/", ":FzfLua grep_curbuf<cr>", desc = "grep in buffer" },
 	{ "<leader>fb", ":FzfLua buffers<cr>", desc = "[b]uffer" },
 	{ "<leader>ff", ":FzfLua files<cr>", desc = "[f]ile" },
 	{ "<leader>fg", ":FzfLua live_grep_native<cr>", desc = "[g]rep" },
@@ -151,13 +153,13 @@ wk.add({
 	{ "<leader>fo", ":FzfLua oldfiles<cr>", desc = "[o]ldfiles" },
 	{ "<leader>fR", ":FzfLua registers<cr>", desc = "[R]egister" },
 	{ "<leader>fr", ":FzfLua resume<cr>", desc = "[r]esume" },
-	{ "gl", group = "[g]lobal [l]sp" },
-	{ "glc", ":FzfLua lsp_code_actions<cr>", desc = "[c]ode action" },
-	{ "gld", ":FzfLua lsp_definitions<cr>", desc = "[d]efinition" },
-	{ "gli", ":FzfLua lsp_implementations<cr>", desc = "[i]mplementation" },
-	{ "glr", ":FzfLua lsp_references<cr>", desc = "[r]eference" },
-	{ "gls", ":FzfLua lsp_document_symbols<cr>", desc = "[s]ymbol" },
-	{ "glt", ":FzfLua lsp_typedefs<cr>", desc = "[t]ype definition" },
+	{ "gr", group = "[g]oto" },
+	{ "grc", ":FzfLua lsp_code_actions<cr>", desc = "[c]ode action" },
+	{ "grd", ":FzfLua lsp_definitions<cr>", desc = "[d]efinition" },
+	{ "gri", ":FzfLua lsp_implementations<cr>", desc = "[i]mplementation" },
+	{ "grn", vim.lsp.buf.rename, desc = "re[n]ame" },
+	{ "grr", ":FzfLua lsp_references<cr>", desc = "[r]eference" },
+	{ "grt", ":FzfLua lsp_typedefs<cr>", desc = "[t]ype definition" },
 	{ mode = "i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>", desc = "[u]uid" },
 	{ mode = "i", "<c-b>", "<ESC>^i" },
 	{ mode = "i", "<c-e>", "<End>" },
