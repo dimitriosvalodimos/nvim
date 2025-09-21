@@ -33,24 +33,16 @@ opt.writebackup = false
 vim.cmd("filetype plugin indent on")
 vim.pack.add({
 	"https://github.com/ibhagwan/fzf-lua",
-	"https://github.com/lewis6991/gitsigns.nvim",
 	"https://github.com/Mofiqul/vscode.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
-	"https://github.com/nvim-tree/nvim-web-devicons",
+	"https://github.com/nvim-mini/mini.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
 })
-require("gitsigns").setup({
-	current_line_blame = true,
-	signs = {
-		add = { text = "+" },
-		change = { text = "~" },
-		delete = { text = "_" },
-		topdelete = { text = "‾" },
-		changedelete = { text = "~" },
-	},
-})
+require("mini.icons").setup()
+require("mini.statusline").setup()
+require("mini.tabline").setup()
 require("nvim-treesitter.configs").setup({
 	auto_install = true,
 	highlight = { enable = true, additional_vim_regex_highlighting = false, use_languagetree = true },
@@ -74,21 +66,20 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 local map = vim.keymap.set
+require("mini.git").setup()
+require("mini.diff").setup({ view = { style = "sign", signs = { add = "+", change = "~", delete = "_" } } })
+require("mini.pairs").setup()
+require("mini.completion").setup()
 local servers = { "cssls", "eslint", "html", "lua_ls", "ts_ls" }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+vim.diagnostic.config({ severity_sort = true, virtual_text = true })
 vim.lsp.config("*", { capabilities = capabilities })
 vim.lsp.enable(servers)
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ev)
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		if client:supports_method("textDocument/completion") then
-			local chars = {}
-			for i = 32, 126 do
-				table.insert(chars, string.char(i))
-			end
-			client.server_capabilities.completionProvider.triggerCharacters = chars
-			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
 			map("n", "<leader>XX", ":FzfLua diagnostics_document<cr>")
 			map("n", "<leader>xx", ":FzfLua diagnostics_workspace<cr>")
 			map("n", "grc", ":FzfLua lsp_code_actions<cr>")
@@ -97,37 +88,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			map("n", "grr", ":FzfLua lsp_references<cr>")
 			map("n", "grt", ":FzfLua lsp_typedefs<cr>")
 			map("n", "grn", vim.lsp.buf.rename)
-			local pumvisible = function()
-				return tonumber(vim.fn.pumvisible()) == 1
-			end
-			map("i", "<cr>", function()
-				return pumvisible() and "<C-y>" or "<cr>"
-			end, { expr = true })
-			map("i", "<Esc>", function()
-				return pumvisible() and "<C-e>" or "<Esc>"
-			end, { expr = true })
-			map({ "i", "s" }, "<Tab>", function()
-				if pumvisible() then
-					return "<C-n>"
-				elseif vim.snippet.active({ direction = 1 }) then
-					vim.snippet.jump(1)
-				else
-					return "<Tab>"
-				end
-			end, { expr = true })
-			map({ "i", "s" }, "<S-Tab>", function()
-				if pumvisible() then
-					return "<C-p>"
-				elseif vim.snippet.active({ direction = -1 }) then
-					vim.snippet.jump(-1)
-				else
-					return "<S-Tab>"
-				end
-			end, { expr = true })
 		end
 	end,
 })
-vim.diagnostic.config({ severity_sort = true, virtual_text = false })
+vim.diagnostic.config({ severity_sort = true })
 local prettier_or_biome = function(bufnr)
 	local biome = require("conform").get_formatter_info("biome", bufnr)
 	if biome.available then
@@ -180,5 +144,15 @@ end
 au("TextYankPost", "*", function()
 	vim.hl.on_yank()
 end)
+local hipatterns = require("mini.hipatterns")
+hipatterns.setup({
+	highlighters = {
+		fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
+		hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
+		todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
+		note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
+		hex_color = hipatterns.gen_highlighter.hex_color(),
+	},
+})
 require("vscode").setup({ italic_comments = false })
 vim.cmd.colorscheme("vscode") -- vscode
