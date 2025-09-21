@@ -80,6 +80,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ev)
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		if client:supports_method("textDocument/completion") then
+			local pumvisible = function()
+				return tonumber(vim.fn.pumvisible()) == 1
+			end
+			map("i", "<Tab>", function()
+				return pumvisible() and "<c-n>" or "<Tab>"
+			end, { expr = true })
+			map("i", "<S-Tab>", function()
+				return pumvisible() and "<c-p>" or "<S-Tab>"
+			end, { expr = true })
 			map("n", "<leader>XX", ":FzfLua diagnostics_document<cr>")
 			map("n", "<leader>xx", ":FzfLua diagnostics_workspace<cr>")
 			map("n", "grc", ":FzfLua lsp_code_actions<cr>")
