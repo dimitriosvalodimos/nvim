@@ -78,17 +78,25 @@ local servers = { "cssls", "eslint", "html", "lua_ls", "ts_ls" }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 vim.diagnostic.config({ severity_sort = true, virtual_text = false })
-local pumvisible = function()
-	return tonumber(vim.fn.pumvisible()) == 1
-end
 local on_attach = function(client, bufnr)
-	local chars = {}
-	for i = 32, 126 do
-		table.insert(chars, string.char(i))
-	end
 	client.server_capabilities.completionProvider.triggerCharacters = chars
 	if client:supports_method("textDocument/completion") then
+		local chars = {}
+		for i = 32, 126 do
+			table.insert(chars, string.char(i))
+		end
 		vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
+		map("n", "<leader>XX", ":FzfLua diagnostics_document<cr>")
+		map("n", "<leader>xx", ":FzfLua diagnostics_workspace<cr>")
+		map("n", "grc", ":FzfLua lsp_code_actions<cr>")
+		map("n", "gd", ":FzfLua lsp_definitions<cr>")
+		map("n", "gri", ":FzfLua lsp_implementations<cr>")
+		map("n", "grr", ":FzfLua lsp_references<cr>")
+		map("n", "grt", ":FzfLua lsp_typedefs<cr>")
+		map("n", "grn", vim.lsp.buf.rename)
+		local pumvisible = function()
+			return tonumber(vim.fn.pumvisible()) == 1
+		end
 		map("i", "<cr>", function()
 			return pumvisible() and "<C-y>" or "<cr>"
 		end, { expr = true })
@@ -150,8 +158,6 @@ map("n", "<c-k>", "<c-w>k")
 map("n", "<c-l>", "<c-w>l")
 map("n", "<Esc>", "<cmd>noh<CR>")
 map("n", "<leader>/", ":FzfLua grep_curbuf<cr>")
-map("n", "<leader>XX", ":FzfLua diagnostics_document<cr>")
-map("n", "<leader>xx", ":FzfLua diagnostics_workspace<cr>")
 map("n", "<leader>fb", ":FzfLua buffers<cr>")
 map("n", "<leader>ff", ":FzfLua files<cr>")
 map("n", "<leader>fg", ":FzfLua live_grep_native<cr>")
@@ -160,12 +166,6 @@ map("n", "<leader>fk", ":FzfLua keymaps<cr>")
 map("n", "<leader>fo", ":FzfLua oldfiles<cr>")
 map("n", "<leader>fR", ":FzfLua registers<cr>")
 map("n", "<leader>fr", ":FzfLua resume<cr>")
-map("n", "grc", ":FzfLua lsp_code_actions<cr>")
-map("n", "gd", ":FzfLua lsp_definitions<cr>")
-map("n", "gri", ":FzfLua lsp_implementations<cr>")
-map("n", "grn", vim.lsp.buf.rename)
-map("n", "grr", ":FzfLua lsp_references<cr>")
-map("n", "grt", ":FzfLua lsp_typedefs<cr>")
 map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>")
 map("i", "<c-b>", "<ESC>^i")
 map("i", "<c-e>", "<End>")
