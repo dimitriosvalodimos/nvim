@@ -40,6 +40,7 @@ vim.pack.add({
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
 	"https://github.com/WTFox/jellybeans.nvim",
+	{ src = "https://github.com/saghen/blink.cmp", version = "v1.6.0" },
 })
 require("mini.icons").setup()
 require("mini.statusline").setup()
@@ -70,10 +71,17 @@ local map = vim.keymap.set
 require("mini.git").setup()
 require("mini.diff").setup({ view = { style = "sign", signs = { add = "+", change = "~", delete = "_" } } })
 require("mini.pairs").setup()
-require("mini.completion").setup()
+local blink = require("blink.cmp")
+blink.setup({
+	completion = { documentation = { auto_show = true } },
+	fuzzy = { implementation = "lua" },
+	keymap = { preset = "enter" },
+	sources = { default = { "lsp", "path", "snippets", "buffer" } },
+})
 local servers = { "cssls", "eslint", "html", "lua_ls", "ts_ls" }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities = blink.get_lsp_capabilities(capabilities)
 vim.diagnostic.config({ severity_sort = true, virtual_text = true })
 vim.lsp.config("*", { capabilities = capabilities })
 vim.lsp.enable(servers)
