@@ -39,7 +39,6 @@ vim.pack.add({
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
-	"https://github.com/WTFox/jellybeans.nvim",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.6.0" },
 })
 require("mini.icons").setup()
@@ -172,6 +171,5 @@ hipatterns.setup({
 		hex_color = hipatterns.gen_highlighter.hex_color(),
 	},
 })
--- require("vscode").setup({ italic_comments = false })
-require("jellybeans").setup({ italics = false, plugins = { all = true } })
-vim.cmd.colorscheme("jellybeans") -- vscode, jellybeans, jellybeans-muted, jellybeans-mono
+require("vscode").setup({ italic_comments = false })
+vim.cmd.colorscheme("vscode") -- vscode
