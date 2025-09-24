@@ -3,7 +3,7 @@ local opt = vim.opt
 g.mapleader = " "
 opt.backup = false
 opt.clipboard = "unnamedplus"
-opt.completeopt = { "menu", "menuone", "noinsert" }
+opt.completeopt = { "menu", "menuone", "noinsert", "fuzzy" }
 opt.cursorline = true
 opt.cursorlineopt = "number"
 opt.expandtab = true
@@ -39,7 +39,6 @@ vim.pack.add({
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
-	"https://github.com/mcauley-penney/techbase.nvim",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.6.0" },
 })
 require("mini.icons").setup()
@@ -172,6 +171,5 @@ hipatterns.setup({
 		hex_color = hipatterns.gen_highlighter.hex_color(),
 	},
 })
--- require("vscode").setup({ italic_comments = false })
-require("techbase").setup({ italic_comments = false })
-vim.cmd.colorscheme("techbase") -- vscode, techbase
+require("vscode").setup({ italic_comments = false })
+vim.cmd.colorscheme("vscode") -- vscode
