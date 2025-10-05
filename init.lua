@@ -33,7 +33,6 @@ opt.writebackup = false
 vim.cmd("filetype plugin indent on")
 vim.pack.add({
 	"https://github.com/ibhagwan/fzf-lua",
-	"https://github.com/Mofiqul/vscode.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-mini/mini.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
@@ -41,7 +40,6 @@ vim.pack.add({
 	"https://github.com/stevearc/oil.nvim",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.6.0" },
 })
-require("mini.icons").setup()
 require("mini.statusline").setup()
 require("mini.tabline").setup()
 require("nvim-treesitter.configs").setup({
@@ -161,15 +159,3 @@ end
 au("TextYankPost", "*", function()
 	vim.hl.on_yank()
 end)
-local hipatterns = require("mini.hipatterns")
-hipatterns.setup({
-	highlighters = {
-		fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
-		hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
-		todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
-		note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
-		hex_color = hipatterns.gen_highlighter.hex_color(),
-	},
-})
-require("vscode").setup({ italic_comments = false })
-vim.cmd.colorscheme("vscode") -- vscode
