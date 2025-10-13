@@ -5,7 +5,6 @@ opt.backup = false
 opt.clipboard = "unnamedplus"
 opt.completeopt = { "menu", "menuone", "noinsert", "fuzzy" }
 opt.cursorline = true
-opt.cursorlineopt = "number"
 opt.expandtab = true
 opt.ignorecase = true
 opt.incsearch = true
