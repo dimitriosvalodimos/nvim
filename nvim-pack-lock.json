@@ -1,24 +1,32 @@
 {
   "plugins": {
     "blink.cmp": {
-      "rev": "bae4bae",
+      "rev": "b19413d",
       "src": "https://github.com/saghen/blink.cmp",
-      "version": "'v1.6.0'"
+      "version": "'v1.8.0'"
+    },
+    "catppuccin": {
+      "rev": "da33755",
+      "src": "https://github.com/catppuccin/nvim"
     },
     "conform.nvim": {
-      "rev": "9d859cb",
+      "rev": "afce105",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "fzf-lua": {
-      "rev": "4333179",
+      "rev": "3b4a5d1",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
-    "mini.nvim": {
-      "rev": "79654ef",
-      "src": "https://github.com/nvim-mini/mini.nvim"
+    "gitsigns.nvim": {
+      "rev": "cdafc32",
+      "src": "https://github.com/lewis6991/gitsigns.nvim"
+    },
+    "lualine.nvim": {
+      "rev": "47f91c4",
+      "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "nvim-lspconfig": {
-      "rev": "e688b48",
+      "rev": "a2a2771",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-treesitter": {
@@ -26,7 +34,7 @@
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "oil.nvim": {
-      "rev": "919e155",
+      "rev": "01cb3a8",
       "src": "https://github.com/stevearc/oil.nvim"
     }
   }

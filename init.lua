@@ -32,15 +32,27 @@ opt.writebackup = false
 vim.cmd("filetype plugin indent on")
 vim.pack.add({
 	"https://github.com/ibhagwan/fzf-lua",
+	"https://github.com/lewis6991/gitsigns.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
-	"https://github.com/nvim-mini/mini.nvim",
+	"https://github.com/nvim-lualine/lualine.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
-	{ src = "https://github.com/saghen/blink.cmp", version = "v1.6.0" },
+	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
+	{ src = "https://github.com/saghen/blink.cmp", version = "v1.8.0" },
 })
-require("mini.statusline").setup()
-require("mini.tabline").setup()
+require("catppuccin").setup({
+	float = { transparent = false, solid = false },
+	term_colors = true,
+	no_italic = true,
+	styles = { comments = {}, conditionals = {} },
+	default_integrations = true,
+	auto_integrations = true,
+})
+require("lualine").setup({
+	sections = { lualine_z = { { "datetime", style = "%d.%m.%Y %H:%M" } } },
+	options = { section_separators = "", component_separators = "" },
+})
 require("nvim-treesitter.configs").setup({
 	auto_install = true,
 	highlight = { enable = true, additional_vim_regex_highlighting = false, use_languagetree = true },
@@ -64,9 +76,6 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 local map = vim.keymap.set
-require("mini.git").setup()
-require("mini.diff").setup({ view = { style = "sign", signs = { add = "+", change = "~", delete = "_" } } })
-require("mini.pairs").setup()
 local blink = require("blink.cmp")
 blink.setup({
 	completion = { documentation = { auto_show = true } },
@@ -78,7 +87,32 @@ local servers = { "cssls", "eslint", "html", "lua_ls", "ts_ls" }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities = blink.get_lsp_capabilities(capabilities)
-vim.diagnostic.config({ severity_sort = true, virtual_text = true })
+vim.diagnostic.config({
+	severity_sort = true,
+	float = { border = "rounded", source = "if_many" },
+	underline = { severity = vim.diagnostic.severity.ERROR },
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "󰅚 ",
+			[vim.diagnostic.severity.WARN] = "󰀪 ",
+			[vim.diagnostic.severity.INFO] = "󰋽 ",
+			[vim.diagnostic.severity.HINT] = "󰌶 ",
+		},
+	},
+	virtual_text = {
+		source = "if_many",
+		spacing = 2,
+		format = function(diagnostic)
+			local diagnostic_message = {
+				[vim.diagnostic.severity.ERROR] = diagnostic.message,
+				[vim.diagnostic.severity.WARN] = diagnostic.message,
+				[vim.diagnostic.severity.INFO] = diagnostic.message,
+				[vim.diagnostic.severity.HINT] = diagnostic.message,
+			}
+			return diagnostic_message[diagnostic.severity]
+		end,
+	},
+})
 vim.lsp.config("*", { capabilities = capabilities })
 vim.lsp.enable(servers)
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -128,6 +162,15 @@ require("conform").setup({
 	},
 })
 require("oil").setup({ view_options = { show_hidden = true }, columns = { "permissions", "size", "mtime" } })
+require("gitsigns").setup({
+	signs = {
+		add = { text = "+" },
+		change = { text = "~" },
+		delete = { text = "_" },
+		topdelete = { text = "‾" },
+		changedelete = { text = "~" },
+	},
+})
 local fzf = require("fzf-lua")
 fzf.setup({ "border-fused", "fzf-native", "hide" })
 fzf.register_ui_select()
@@ -158,3 +201,4 @@ end
 au("TextYankPost", "*", function()
 	vim.hl.on_yank()
 end)
+vim.cmd.colorscheme("catppuccin")
