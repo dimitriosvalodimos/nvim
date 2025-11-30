@@ -5,6 +5,19 @@
       "src": "https://github.com/saghen/blink.cmp",
       "version": "'v1.8.0'"
     },
+    "blink.download": {
+      "rev": "86361b9",
+      "src": "https://github.com/saghen/blink.download"
+    },
+    "blink.pairs": {
+      "rev": "5a34bf6",
+      "src": "https://github.com/Saghen/blink.pairs",
+      "version": "'v0.4.1'"
+    },
+    "bufferline.nvim": {
+      "rev": "655133c",
+      "src": "https://github.com/akinsho/bufferline.nvim"
+    },
     "catppuccin": {
       "rev": "da33755",
       "src": "https://github.com/catppuccin/nvim"
@@ -36,6 +49,14 @@
     "oil.nvim": {
       "rev": "01cb3a8",
       "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "oxocarbon.nvim": {
+      "rev": "9f85f60",
+      "src": "https://github.com/nyoom-engineering/oxocarbon.nvim"
+    },
+    "tiny-inline-diagnostic.nvim": {
+      "rev": "38b0643",
+      "src": "https://github.com/rachartier/tiny-inline-diagnostic.nvim"
     }
   }
 }

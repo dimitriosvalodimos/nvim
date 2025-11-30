@@ -31,6 +31,8 @@ opt.wrap = false
 opt.writebackup = false
 vim.cmd("filetype plugin indent on")
 vim.pack.add({
+	"https://github.com/nyoom-engineering/oxocarbon.nvim",
+	"https://github.com/akinsho/bufferline.nvim",
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/lewis6991/gitsigns.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
@@ -38,20 +40,27 @@ vim.pack.add({
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
-	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
+	"https://github.com/saghen/blink.download",
+	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
+	"https://github.com/lewis6991/gitsigns.nvim",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.8.0" },
+	{ src = "https://github.com/Saghen/blink.pairs", version = "v0.4.1" },
 })
-require("catppuccin").setup({
-	float = { transparent = false, solid = false },
-	term_colors = true,
-	no_italic = true,
-	styles = { comments = {}, conditionals = {} },
-	default_integrations = true,
-	auto_integrations = true,
-})
+require("bufferline").setup({})
 require("lualine").setup({
 	sections = { lualine_z = { { "datetime", style = "%d.%m.%Y %H:%M" } } },
 	options = { section_separators = "", component_separators = "" },
+})
+require("gitsigns").setup({
+	current_line_blame = true,
+	current_line_blame_opts = { virt_text_pos = "right_align" },
+	signs = {
+		add = { text = "+" },
+		change = { text = "~" },
+		delete = { text = "_" },
+		topdelete = { text = "‾" },
+		changedelete = { text = "~" },
+	},
 })
 require("nvim-treesitter.configs").setup({
 	auto_install = true,
@@ -76,6 +85,7 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 local map = vim.keymap.set
+require("blink.pairs").setup({})
 local blink = require("blink.cmp")
 blink.setup({
 	completion = { documentation = { auto_show = true } },
@@ -99,19 +109,20 @@ vim.diagnostic.config({
 			[vim.diagnostic.severity.HINT] = "󰌶 ",
 		},
 	},
-	virtual_text = {
-		source = "if_many",
-		spacing = 2,
-		format = function(diagnostic)
-			local diagnostic_message = {
-				[vim.diagnostic.severity.ERROR] = diagnostic.message,
-				[vim.diagnostic.severity.WARN] = diagnostic.message,
-				[vim.diagnostic.severity.INFO] = diagnostic.message,
-				[vim.diagnostic.severity.HINT] = diagnostic.message,
-			}
-			return diagnostic_message[diagnostic.severity]
-		end,
-	},
+	virtual_text = false,
+	--  {
+	-- 	source = "if_many",
+	-- 	spacing = 2,
+	-- 	format = function(diagnostic)
+	-- 		local diagnostic_message = {
+	-- 			[vim.diagnostic.severity.ERROR] = diagnostic.message,
+	-- 			[vim.diagnostic.severity.WARN] = diagnostic.message,
+	-- 			[vim.diagnostic.severity.INFO] = diagnostic.message,
+	-- 			[vim.diagnostic.severity.HINT] = diagnostic.message,
+	-- 		}
+	-- 		return diagnostic_message[diagnostic.severity]
+	-- 	end,
+	-- },
 })
 vim.lsp.config("*", { capabilities = capabilities })
 vim.lsp.enable(servers)
@@ -201,4 +212,13 @@ end
 au("TextYankPost", "*", function()
 	vim.hl.on_yank()
 end)
-vim.cmd.colorscheme("catppuccin")
+require("tiny-inline-diagnostic").setup({
+	options = {
+		multilines = { enabled = true },
+		show_source = { enabled = true },
+		add_messages = {
+			display_count = true,
+		},
+	},
+})
+vim.cmd("colorscheme oxocarbon")
