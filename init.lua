@@ -13,7 +13,7 @@ opt.mouse = "a"
 opt.number = true
 opt.pumheight = 10
 opt.ruler = false
-opt.shiftwidth = 2
+opt.shiftwidth = 4
 opt.shortmess:append("WcC")
 opt.showmode = false
 opt.signcolumn = "yes"
@@ -23,7 +23,7 @@ opt.softtabstop = 2
 opt.splitbelow = true
 opt.splitkeep = "screen"
 opt.splitright = true
-opt.tabstop = 2
+opt.tabstop = 4
 opt.termguicolors = true
 opt.undofile = true
 opt.virtualedit = "block"
@@ -31,26 +31,28 @@ opt.wrap = false
 opt.writebackup = false
 vim.cmd("filetype plugin indent on")
 vim.pack.add({
-	"https://github.com/nyoom-engineering/oxocarbon.nvim",
 	"https://github.com/akinsho/bufferline.nvim",
+	"https://github.com/Bekaboo/dropbar.nvim",
+	"https://github.com/folke/todo-comments.nvim",
+	"https://github.com/folke/which-key.nvim",
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/lewis6991/gitsigns.nvim",
+	"https://github.com/MeanderingProgrammer/render-markdown.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
+	"https://github.com/nvim-lua/plenary.nvim",
 	"https://github.com/nvim-lualine/lualine.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
+	"https://github.com/nyoom-engineering/oxocarbon.nvim",
+	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
+	"https://github.com/saghen/blink.download",
+	"https://github.com/scottmckendry/cyberdream.nvim",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
-	"https://github.com/saghen/blink.download",
-	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
-	"https://github.com/lewis6991/gitsigns.nvim",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.8.0" },
 	{ src = "https://github.com/Saghen/blink.pairs", version = "v0.4.1" },
 })
 require("bufferline").setup({})
-require("lualine").setup({
-	sections = { lualine_z = { { "datetime", style = "%d.%m.%Y %H:%M" } } },
-	options = { section_separators = "", component_separators = "" },
-})
+require("lualine").setup({})
 require("gitsigns").setup({
 	current_line_blame = true,
 	current_line_blame_opts = { virt_text_pos = "right_align" },
@@ -84,6 +86,7 @@ require("nvim-treesitter.configs").setup({
 		"vimdoc",
 	},
 })
+local wk = require("which-key")
 local map = vim.keymap.set
 require("blink.pairs").setup({})
 local blink = require("blink.cmp")
@@ -93,7 +96,14 @@ blink.setup({
 	keymap = { preset = "enter" },
 	sources = { default = { "lsp", "path", "snippets", "buffer" } },
 })
-local servers = { "cssls", "eslint", "html", "lua_ls", "ts_ls" }
+local servers = {
+	"cssls",
+	"eslint",
+	"html",
+	"lua_ls",
+	"tsgo", -- npm i -g @typescript/native-preview
+	--"ts_ls"
+}
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities = blink.get_lsp_capabilities(capabilities)
@@ -110,19 +120,6 @@ vim.diagnostic.config({
 		},
 	},
 	virtual_text = false,
-	--  {
-	-- 	source = "if_many",
-	-- 	spacing = 2,
-	-- 	format = function(diagnostic)
-	-- 		local diagnostic_message = {
-	-- 			[vim.diagnostic.severity.ERROR] = diagnostic.message,
-	-- 			[vim.diagnostic.severity.WARN] = diagnostic.message,
-	-- 			[vim.diagnostic.severity.INFO] = diagnostic.message,
-	-- 			[vim.diagnostic.severity.HINT] = diagnostic.message,
-	-- 		}
-	-- 		return diagnostic_message[diagnostic.severity]
-	-- 	end,
-	-- },
 })
 vim.lsp.config("*", { capabilities = capabilities })
 vim.lsp.enable(servers)
@@ -139,14 +136,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			map("i", "<S-Tab>", function()
 				return pumvisible() and "<c-p>" or "<S-Tab>"
 			end, { expr = true })
-			map("n", "<leader>XX", ":FzfLua diagnostics_document<cr>")
-			map("n", "<leader>xx", ":FzfLua diagnostics_workspace<cr>")
-			map("n", "grc", ":FzfLua lsp_code_actions<cr>")
-			map("n", "gd", ":FzfLua lsp_definitions<cr>")
-			map("n", "gri", ":FzfLua lsp_implementations<cr>")
-			map("n", "grr", ":FzfLua lsp_references<cr>")
-			map("n", "grt", ":FzfLua lsp_typedefs<cr>")
-			map("n", "grn", vim.lsp.buf.rename)
+			wk.add({
+				{ "<leader>XX", ":FzfLua diagnostics_document<cr>" },
+				{ "<leader>xx", ":FzfLua diagnostics_workspace<cr>" },
+				{ "grc", ":FzfLua lsp_code_actions<cr>", desc = "code action" },
+				{ "gd", ":FzfLua lsp_definitions<cr>", desc = "definition" },
+				{ "gri", ":FzfLua lsp_implementations<cr>", desc = "implementation" },
+				{ "grr", ":FzfLua lsp_references<cr>", desc = "reference" },
+				{ "grt", ":FzfLua lsp_typedefs<cr>", desc = "type definition" },
+				{ "grn", vim.lsp.buf.rename, desc = "rename" },
+			})
 		end
 	end,
 })
@@ -185,33 +184,28 @@ require("gitsigns").setup({
 local fzf = require("fzf-lua")
 fzf.setup({ "border-fused", "fzf-native", "hide" })
 fzf.register_ui_select()
+wk.add({
+	{ "<leader>/", ":FzfLua grep_curbuf<cr>", desc = "current buffer" },
+	{ "<leader>fb", ":FzfLua buffers<cr>", desc = "buffers" },
+	{ "<leader>ff", ":FzfLua files<cr>", desc = "files" },
+	{ "<leader>fg", ":FzfLua live_grep_native<cr>", desc = "live grep" },
+	{ "<leader>fh", ":FzfLua helptags<cr>", desc = "helptags" },
+	{ "<leader>fk", ":FzfLua keymaps<cr>", desc = "keymaps" },
+	{ "<leader>fo", ":FzfLua oldfiles<cr>", desc = "oldfiles" },
+	{ "<leader>fR", ":FzfLua registers<cr>", desc = "registers" },
+	{ "<leader>fr", ":FzfLua resume<cr>", desc = "resume" },
+})
 map("n", "-", ":Oil<cr>")
-map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>")
 map("n", "<c-h>", "<c-w>h")
 map("n", "<c-j>", "<c-w>j")
 map("n", "<c-k>", "<c-w>k")
 map("n", "<c-l>", "<c-w>l")
 map("n", "<Esc>", "<cmd>noh<CR>")
-map("n", "<leader>/", ":FzfLua grep_curbuf<cr>")
-map("n", "<leader>fb", ":FzfLua buffers<cr>")
-map("n", "<leader>ff", ":FzfLua files<cr>")
-map("n", "<leader>fg", ":FzfLua live_grep_native<cr>")
-map("n", "<leader>fh", ":FzfLua helptags<cr>")
-map("n", "<leader>fk", ":FzfLua keymaps<cr>")
-map("n", "<leader>fo", ":FzfLua oldfiles<cr>")
-map("n", "<leader>fR", ":FzfLua registers<cr>")
-map("n", "<leader>fr", ":FzfLua resume<cr>")
+map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>")
 map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>")
 map("i", "<c-b>", "<ESC>^i")
 map("i", "<c-e>", "<End>")
 map({ "i", "x", "n", "s" }, "<c-s>", "<cmd>w<cr><esc>")
-local group = vim.api.nvim_create_augroup("config_group", {})
-local au = function(event, pattern, callback, desc)
-	vim.api.nvim_create_autocmd(event, { group = group, pattern = pattern, callback = callback, desc = desc })
-end
-au("TextYankPost", "*", function()
-	vim.hl.on_yank()
-end)
 require("tiny-inline-diagnostic").setup({
 	options = {
 		multilines = { enabled = true },
@@ -221,4 +215,13 @@ require("tiny-inline-diagnostic").setup({
 		},
 	},
 })
-vim.cmd("colorscheme oxocarbon")
+require("render-markdown").setup({ completions = { lsp = { enabled = true } } })
+require("todo-comments").setup({})
+local group = vim.api.nvim_create_augroup("config_group", {})
+local au = function(event, pattern, callback, desc)
+	vim.api.nvim_create_autocmd(event, { group = group, pattern = pattern, callback = callback, desc = desc })
+end
+au("TextYankPost", "*", function()
+	vim.hl.on_yank()
+end)
+vim.cmd("colorscheme oxocarbon") -- oxocarbon

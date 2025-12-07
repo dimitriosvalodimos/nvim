@@ -26,9 +26,18 @@
       "rev": "afce105",
       "src": "https://github.com/stevearc/conform.nvim"
     },
+    "cyberdream.nvim": [],
+    "dropbar.nvim": {
+      "rev": "ce20224",
+      "src": "https://github.com/Bekaboo/dropbar.nvim"
+    },
     "fzf-lua": {
       "rev": "3b4a5d1",
       "src": "https://github.com/ibhagwan/fzf-lua"
+    },
+    "github-nvim-theme": {
+      "rev": "c106c94",
+      "src": "https://github.com/projekt0n/github-nvim-theme"
     },
     "gitsigns.nvim": {
       "rev": "cdafc32",
@@ -54,9 +63,25 @@
       "rev": "9f85f60",
       "src": "https://github.com/nyoom-engineering/oxocarbon.nvim"
     },
+    "plenary.nvim": {
+      "rev": "b9fd522",
+      "src": "https://github.com/nvim-lua/plenary.nvim"
+    },
+    "render-markdown.nvim": {
+      "rev": "b2b1353",
+      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
+    },
     "tiny-inline-diagnostic.nvim": {
       "rev": "38b0643",
       "src": "https://github.com/rachartier/tiny-inline-diagnostic.nvim"
+    },
+    "todo-comments.nvim": {
+      "rev": "31e3c38",
+      "src": "https://github.com/folke/todo-comments.nvim"
+    },
+    "which-key.nvim": {
+      "rev": "3aab214",
+      "src": "https://github.com/folke/which-key.nvim"
     }
   }
 }
