@@ -31,27 +31,19 @@ opt.wrap = false
 opt.writebackup = false
 vim.cmd("filetype plugin indent on")
 vim.pack.add({
-	"https://github.com/akinsho/bufferline.nvim",
-	"https://github.com/Bekaboo/dropbar.nvim",
-	"https://github.com/folke/todo-comments.nvim",
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/lewis6991/gitsigns.nvim",
 	"https://github.com/MeanderingProgrammer/render-markdown.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
-	"https://github.com/nvim-lua/plenary.nvim",
-	"https://github.com/nvim-lualine/lualine.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
-	"https://github.com/nyoom-engineering/oxocarbon.nvim",
-	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
 	"https://github.com/saghen/blink.download",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
+	"https://github.com/mfussenegger/nvim-lint",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.8.0" },
 	{ src = "https://github.com/Saghen/blink.pairs", version = "v0.4.1" },
 })
 local map = vim.keymap.set
-require("bufferline").setup({})
-require("lualine").setup({})
 require("gitsigns").setup({
 	current_line_blame = true,
 	current_line_blame_opts = { virt_text_pos = "right_align" },
@@ -63,27 +55,22 @@ require("gitsigns").setup({
 		changedelete = { text = "~" },
 	},
 })
-require("nvim-treesitter.configs").setup({
-	auto_install = true,
-	highlight = { enable = true, additional_vim_regex_highlighting = false, use_languagetree = true },
-	incremental_selection = { enable = true, keymaps = { node_incremental = "v", node_decremental = "V" } },
-	ensure_installed = {
-		"comment",
-		"css",
-		"diff",
-		"html",
-		"lua",
-		"luadoc",
-		"javascript",
-		"jsdoc",
-		"json",
-		"json5",
-		"markdown",
-		"markdown_inline",
-		"sql",
-		"typescript",
-		"vimdoc",
-	},
+require("nvim-treesitter").install({
+	"comment",
+	"css",
+	"diff",
+	"html",
+	"lua",
+	"luadoc",
+	"javascript",
+	"jsdoc",
+	"json",
+	"json5",
+	"markdown",
+	"markdown_inline",
+	"sql",
+	"typescript",
+	"vimdoc",
 })
 local map = vim.keymap.set
 require("blink.pairs").setup({})
@@ -96,7 +83,6 @@ blink.setup({
 })
 local servers = {
 	"cssls",
-	"eslint",
 	"html",
 	"lua_ls",
 	-- "tsgo", -- npm i -g @typescript/native-preview
@@ -117,7 +103,7 @@ vim.diagnostic.config({
 			[vim.diagnostic.severity.HINT] = "󰌶 ",
 		},
 	},
-	virtual_text = false,
+	virtual_text = true,
 })
 vim.lsp.config("*", { capabilities = capabilities })
 vim.lsp.enable(servers)
@@ -167,6 +153,16 @@ require("conform").setup({
 		typescriptreact = prettier_or_biome,
 	},
 })
+local lint = require("lint")
+lint.linters_by_ft = {
+	css = { "eslint" },
+	html = { "eslint" },
+	javascript = { "eslint", "biomejs" },
+	javascriptreact = { "eslint", "biomejs" },
+	json = { "eslint" },
+	typescript = { "eslint", "biomejs" },
+	typescriptreact = { "eslint", "biomejs" },
+}
 require("oil").setup({ view_options = { show_hidden = true }, columns = { "permissions", "size", "mtime" } })
 require("gitsigns").setup({
 	signs = {
@@ -200,17 +196,7 @@ map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>")
 map("i", "<c-b>", "<ESC>^i")
 map("i", "<c-e>", "<End>")
 map({ "i", "x", "n", "s" }, "<c-s>", "<cmd>w<cr><esc>")
-require("tiny-inline-diagnostic").setup({
-	options = {
-		multilines = { enabled = true },
-		show_source = { enabled = true },
-		add_messages = {
-			display_count = true,
-		},
-	},
-})
 require("render-markdown").setup({ completions = { lsp = { enabled = true } } })
-require("todo-comments").setup({})
 local group = vim.api.nvim_create_augroup("config_group", {})
 local au = function(event, pattern, callback, desc)
 	vim.api.nvim_create_autocmd(event, { group = group, pattern = pattern, callback = callback, desc = desc })
@@ -224,4 +210,10 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.treesitter.start()
 	end,
 })
-vim.cmd("colorscheme oxocarbon") -- oxocarbon
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+	group = vim.api.nvim_create_augroup("lint", { clear = true }),
+	callback = function()
+		lint.try_lint()
+	end,
+})
+vim.cmd.colorscheme("wildcharm") -- wildcharm, koehler, industry, torte
