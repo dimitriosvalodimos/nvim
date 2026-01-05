@@ -43,7 +43,6 @@ vim.pack.add({
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.8.0" },
 	{ src = "https://github.com/Saghen/blink.pairs", version = "v0.4.1" },
 })
-local map = vim.keymap.set
 require("gitsigns").setup({
 	current_line_blame = true,
 	current_line_blame_opts = { virt_text_pos = "right_align" },
@@ -157,22 +156,13 @@ local lint = require("lint")
 lint.linters_by_ft = {
 	css = { "eslint" },
 	html = { "eslint" },
-	javascript = { "eslint", "biomejs" },
-	javascriptreact = { "eslint", "biomejs" },
+	javascript = { "eslint" },
+	javascriptreact = { "eslint" },
 	json = { "eslint" },
-	typescript = { "eslint", "biomejs" },
-	typescriptreact = { "eslint", "biomejs" },
+	typescript = { "eslint" },
+	typescriptreact = { "eslint" },
 }
 require("oil").setup({ view_options = { show_hidden = true }, columns = { "permissions", "size", "mtime" } })
-require("gitsigns").setup({
-	signs = {
-		add = { text = "+" },
-		change = { text = "~" },
-		delete = { text = "_" },
-		topdelete = { text = "‾" },
-		changedelete = { text = "~" },
-	},
-})
 local fzf = require("fzf-lua")
 fzf.setup({ "border-fused", "fzf-native", "hide" })
 fzf.register_ui_select()
@@ -204,16 +194,17 @@ end
 au("TextYankPost", "*", function()
 	vim.hl.on_yank()
 end)
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "<filetype>" },
-	callback = function()
-		vim.treesitter.start()
-	end,
-})
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
-	group = vim.api.nvim_create_augroup("lint", { clear = true }),
-	callback = function()
-		lint.try_lint()
-	end,
-})
+au({ "BufEnter", "BufWritePost", "InsertLeave" }, { "*" }, function()
+	lint.try_lint()
+end)
+au("FileType", { "<filetype>" }, function(args)
+	local buf = args.buf
+	local filetype = args.match
+	local language = vim.treesitter.language.get_lang(filetype) or filetype
+	if not vim.treesitter.language.add(language) then
+		return
+	end
+	vim.treesitter.start(buf, language)
+	vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+end)
 vim.cmd.colorscheme("wildcharm") -- wildcharm, koehler, industry, torte
