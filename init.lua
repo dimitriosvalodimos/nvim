@@ -33,16 +33,15 @@ vim.cmd("filetype plugin indent on")
 vim.pack.add({
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/lewis6991/gitsigns.nvim",
-	"https://github.com/MeanderingProgrammer/render-markdown.nvim",
+	"https://github.com/mfussenegger/nvim-lint",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
-	"https://github.com/saghen/blink.download",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
-	"https://github.com/mfussenegger/nvim-lint",
+	"https://github.com/nvim-lualine/lualine.nvim",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.8.0" },
-	{ src = "https://github.com/Saghen/blink.pairs", version = "v0.4.1" },
 })
+require("lualine").setup({})
 require("gitsigns").setup({
 	current_line_blame = true,
 	current_line_blame_opts = { virt_text_pos = "right_align" },
@@ -72,7 +71,6 @@ require("nvim-treesitter").install({
 	"vimdoc",
 })
 local map = vim.keymap.set
-require("blink.pairs").setup({})
 local blink = require("blink.cmp")
 blink.setup({
 	completion = { documentation = { auto_show = true } },
@@ -110,15 +108,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ev)
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		if client:supports_method("textDocument/completion") then
-			local pumvisible = function()
-				return tonumber(vim.fn.pumvisible()) == 1
-			end
-			map("i", "<Tab>", function()
-				return pumvisible() and "<c-n>" or "<Tab>"
-			end, { expr = true })
-			map("i", "<S-Tab>", function()
-				return pumvisible() and "<c-p>" or "<S-Tab>"
-			end, { expr = true })
 			map("n", "<leader>XX", ":FzfLua diagnostics_document<cr>")
 			map("n", "<leader>xx", ":FzfLua diagnostics_workspace<cr>")
 			map("n", "grc", ":FzfLua lsp_code_actions<cr>")
@@ -130,37 +119,30 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 	end,
 })
-vim.diagnostic.config({ severity_sort = true })
-local prettier_or_biome = function(bufnr)
-	local biome = require("conform").get_formatter_info("biome", bufnr)
-	if biome.available then
-		return { "biome-check", "biome-organize-imports", stop_after_first = false }
-	else
-		return { "prettier" }
-	end
-end
+local prettier = { "prettier" }
+local eslint = { "eslint" }
 require("conform").setup({
 	format_on_save = { lsp_format = true, async = false, stop_after_first = true },
 	formatters_by_ft = {
-		css = prettier_or_biome,
-		html = prettier_or_biome,
-		javascript = prettier_or_biome,
-		javascriptreact = prettier_or_biome,
-		json = prettier_or_biome,
+		css = prettier,
+		html = prettier,
+		javascript = prettier,
+		javascriptreact = prettier,
+		json = prettier,
 		lua = { "stylua" },
-		typescript = prettier_or_biome,
-		typescriptreact = prettier_or_biome,
+		typescript = prettier,
+		typescriptreact = prettier,
 	},
 })
 local lint = require("lint")
 lint.linters_by_ft = {
-	css = { "eslint" },
-	html = { "eslint" },
-	javascript = { "eslint" },
-	javascriptreact = { "eslint" },
-	json = { "eslint" },
-	typescript = { "eslint" },
-	typescriptreact = { "eslint" },
+	css = eslint,
+	html = eslint,
+	javascript = eslint,
+	javascriptreact = eslint,
+	json = eslint,
+	typescript = eslint,
+	typescriptreact = eslint,
 }
 require("oil").setup({ view_options = { show_hidden = true }, columns = { "permissions", "size", "mtime" } })
 local fzf = require("fzf-lua")
@@ -186,7 +168,6 @@ map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>")
 map("i", "<c-b>", "<ESC>^i")
 map("i", "<c-e>", "<End>")
 map({ "i", "x", "n", "s" }, "<c-s>", "<cmd>w<cr><esc>")
-require("render-markdown").setup({ completions = { lsp = { enabled = true } } })
 local group = vim.api.nvim_create_augroup("config_group", {})
 local au = function(event, pattern, callback, desc)
 	vim.api.nvim_create_autocmd(event, { group = group, pattern = pattern, callback = callback, desc = desc })
@@ -195,7 +176,7 @@ au("TextYankPost", "*", function()
 	vim.hl.on_yank()
 end)
 au({ "BufEnter", "BufWritePost", "InsertLeave" }, { "*" }, function()
-	lint.try_lint()
+	lint.try_lint(nil, { ignore_errors = true })
 end)
 au("FileType", { "<filetype>" }, function(args)
 	local buf = args.buf
@@ -207,4 +188,4 @@ au("FileType", { "<filetype>" }, function(args)
 	vim.treesitter.start(buf, language)
 	vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 end)
-vim.cmd.colorscheme("wildcharm") -- wildcharm, koehler, industry, torte
+-- vim.cmd.colorscheme("torte") -- wildcharm, koehler, industry, torte

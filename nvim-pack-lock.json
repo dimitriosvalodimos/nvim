@@ -5,15 +5,6 @@
       "src": "https://github.com/saghen/blink.cmp",
       "version": "'v1.8.0'"
     },
-    "blink.download": {
-      "rev": "86361b98f3c8317904a08e3bd12cf3cdcbe3e925",
-      "src": "https://github.com/saghen/blink.download"
-    },
-    "blink.pairs": {
-      "rev": "5a34bf6ea72340a70083548e186d745ac4882899",
-      "src": "https://github.com/Saghen/blink.pairs",
-      "version": "'v0.4.1'"
-    },
     "conform.nvim": {
       "rev": "8314f4c9e205e7f30b62147069729f9a1227d8bf",
       "src": "https://github.com/stevearc/conform.nvim"
@@ -23,8 +14,12 @@
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "gitsigns.nvim": {
-      "rev": "6bd29494e3f79ff08be1d35bc1926ed23c22ed9a",
+      "rev": "dfac404ac94b0eb1461bd7da32279e16950dfd67",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
+    },
+    "lualine.nvim": {
+      "rev": "47f91c416daef12db467145e16bed5bbfe00add8",
+      "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "nvim-lint": {
       "rev": "1e6b2ac034d1a7588d11b0b8e862a7ad89368376",
@@ -41,10 +36,6 @@
     "oil.nvim": {
       "rev": "81b8a91735ad5cd24a6b3137f14a89f19176364f",
       "src": "https://github.com/stevearc/oil.nvim"
-    },
-    "render-markdown.nvim": {
-      "rev": "da6a7b25471ab23824f3429225973186eb0b62d2",
-      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     }
   }
 }
