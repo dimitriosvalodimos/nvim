@@ -32,20 +32,16 @@ opt.writebackup = false
 vim.cmd("filetype plugin indent on")
 vim.pack.add({
 	"https://github.com/ibhagwan/fzf-lua",
-	"https://github.com/kylechui/nvim-surround",
 	"https://github.com/lewis6991/gitsigns.nvim",
 	"https://github.com/mfussenegger/nvim-lint",
 	"https://github.com/neovim/nvim-lspconfig",
-	"https://github.com/nvim-lualine/lualine.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
-	"https://github.com/windwp/nvim-autopairs",
-	"https://github.com/akinsho/toggleterm.nvim",
+	"https://github.com/nvim-lualine/lualine.nvim",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.8.0" },
 })
 require("lualine").setup({ options = { section_separators = "", component_separators = "" } })
-require("nvim-autopairs").setup({ disable_filetype = { "TelescopePrompt", "vim" } })
 require("gitsigns").setup({
 	current_line_blame = true,
 	current_line_blame_opts = { virt_text_pos = "right_align" },
@@ -152,8 +148,6 @@ require("oil").setup({ view_options = { show_hidden = true }, columns = { "permi
 local fzf = require("fzf-lua")
 fzf.setup({ "skim", "border-fused", "fzf-native", "hide" })
 fzf.register_ui_select()
-require("nvim-surround").setup({})
-require("toggleterm").setup({ open_mapping = [[<c-t>]], shell = "fish" })
 map("n", "<leader>/", ":FzfLua grep_curbuf<cr>")
 map("n", "<leader>fr", ":FzfLua resume<cr>")
 map("n", "<leader>fb", ":FzfLua buffers<cr>")
@@ -198,4 +192,4 @@ au("FileType", { "<filetype>" }, function(args)
 	vim.treesitter.start(buf, language)
 	vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 end)
--- vim.cmd.colorscheme("torte") -- wildcharm, koehler, industry, torte
+vim.cmd.colorscheme("torte") -- wildcharm, koehler, industry, torte
