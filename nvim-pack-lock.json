@@ -13,9 +13,17 @@
       "rev": "a03d68e40eea835a1cdbd9f93049708dab3621e6",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "github-nvim-theme": {
+      "rev": "c106c9472154d6b2c74b74565616b877ae8ed31d",
+      "src": "https://github.com/projekt0n/github-nvim-theme"
+    },
     "gitsigns.nvim": {
       "rev": "dfac404ac94b0eb1461bd7da32279e16950dfd67",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
+    },
+    "gruber-darker.nvim": {
+      "rev": "aba065c3a79b58cc3863d5c9db319255abd1258a",
+      "src": "https://github.com/blazkowolf/gruber-darker.nvim"
     },
     "koda.nvim": {
       "rev": "e4b4cebbafe0d0e500c5c55188f4388c0a352e08",
@@ -48,6 +56,14 @@
     "oil.nvim": {
       "rev": "81b8a91735ad5cd24a6b3137f14a89f19176364f",
       "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "oxocarbon.nvim": {
+      "rev": "9f85f6090322f39b11ae04a343d4eb9d12a86897",
+      "src": "https://github.com/nyoom-engineering/oxocarbon.nvim"
+    },
+    "poimandres.nvim": {
+      "rev": "a488957d803943a4201ac3b774913fcafa9e6b3a",
+      "src": "https://github.com/olivercederborg/poimandres.nvim"
     },
     "toggleterm.nvim": {
       "rev": "9a88eae817ef395952e08650b3283726786fb5fb",

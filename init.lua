@@ -31,6 +31,8 @@ opt.wrap = false
 opt.writebackup = false
 vim.cmd("filetype plugin indent on")
 vim.pack.add({
+	"https://github.com/akinsho/toggleterm.nvim",
+	"https://github.com/blazkowolf/gruber-darker.nvim",
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/kylechui/nvim-surround",
 	"https://github.com/lewis6991/gitsigns.nvim",
@@ -38,12 +40,15 @@ vim.pack.add({
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-lualine/lualine.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
+	"https://github.com/projekt0n/github-nvim-theme",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
 	"https://github.com/windwp/nvim-autopairs",
-	"https://github.com/akinsho/toggleterm.nvim",
+	"https://github.com/olivercederborg/poimandres.nvim",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.8.0" },
 })
+require("gruber-darker").setup({ italic = { strings = false, comments = false, operators = false, folds = false } })
+require("poimandres").setup({ disable_italics = true })
 require("lualine").setup({ options = { section_separators = "", component_separators = "" } })
 require("nvim-autopairs").setup({ disable_filetype = { "TelescopePrompt", "vim" } })
 require("gitsigns").setup({
@@ -175,8 +180,15 @@ map("i", "<c-b>", "<ESC>^i")
 map("i", "<c-e>", "<End>")
 map({ "i", "x", "n", "s" }, "<c-s>", function()
 	local bufnr = vim.api.nvim_get_current_buf()
+	if vim.fn.mode() == "i" then
+		vim.cmd("stopinsert")
+	end
+
 	conform.format({ bufnr = bufnr, lsp_format = true, async = false, stop_after_first = true })
-	vim.api.nvim_exec2(":w", {})
+
+	if vim.bo.modified then
+		vim.cmd("write")
+	end
 end)
 local group = vim.api.nvim_create_augroup("config_group", {})
 local au = function(event, pattern, callback, desc)
@@ -198,4 +210,4 @@ au("FileType", { "<filetype>" }, function(args)
 	vim.treesitter.start(buf, language)
 	vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 end)
--- vim.cmd.colorscheme("torte") -- wildcharm, koehler, industry, torte
+vim.cmd.colorscheme("poimandres") -- wildcharm, koehler, industry, torte, github_dark_default, gruber-darker, poimandres
