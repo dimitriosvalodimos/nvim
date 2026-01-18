@@ -43,6 +43,8 @@ vim.pack.add({
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
 	"https://github.com/windwp/nvim-autopairs",
+	"https://codeberg.org/juanmilkah/anticuus.nvim",
+	"https://github.com/dgox16/oldworld.nvim",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.8.0" },
 })
 require("gruber-darker").setup({ italic = { strings = false, comments = false, operators = false, folds = false } })
@@ -180,9 +182,7 @@ map({ "i", "x", "n", "s" }, "<c-s>", function()
 	if vim.fn.mode() == "i" then
 		vim.cmd("stopinsert")
 	end
-
 	conform.format({ bufnr = bufnr, lsp_format = true, async = false, stop_after_first = true })
-
 	if vim.bo.modified then
 		vim.cmd("write")
 	end
@@ -207,4 +207,4 @@ au("FileType", { "<filetype>" }, function(args)
 	vim.treesitter.start(buf, language)
 	vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 end)
-vim.cmd.colorscheme("gruber-darker") -- wildcharm, koehler, industry, torte, gruber-darker
+vim.cmd.colorscheme("anticuus") -- gruber-darker, anticuus, oldworld

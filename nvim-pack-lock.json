@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "anticuus.nvim": {
+      "rev": "242b0655a424fa315050f5d6795ae8fe29f98be6",
+      "src": "https://codeberg.org/juanmilkah/anticuus.nvim"
+    },
     "blink.cmp": {
       "rev": "b19413d214068f316c78978b08264ed1c41830ec",
       "src": "https://github.com/saghen/blink.cmp",
@@ -48,6 +52,10 @@
     "oil.nvim": {
       "rev": "f55b25e493a7df76371cfadd0ded5004cb9cd48a",
       "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "oldworld.nvim": {
+      "rev": "db072a0bd2c90035fc3a57a73014cb54d3902f1f",
+      "src": "https://github.com/dgox16/oldworld.nvim"
     },
     "toggleterm.nvim": {
       "rev": "9a88eae817ef395952e08650b3283726786fb5fb",
