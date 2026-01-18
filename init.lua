@@ -40,15 +40,12 @@ vim.pack.add({
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-lualine/lualine.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
-	"https://github.com/projekt0n/github-nvim-theme",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
 	"https://github.com/windwp/nvim-autopairs",
-	"https://github.com/olivercederborg/poimandres.nvim",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.8.0" },
 })
 require("gruber-darker").setup({ italic = { strings = false, comments = false, operators = false, folds = false } })
-require("poimandres").setup({ disable_italics = true })
 require("lualine").setup({ options = { section_separators = "", component_separators = "" } })
 require("nvim-autopairs").setup({ disable_filetype = { "TelescopePrompt", "vim" } })
 require("gitsigns").setup({
@@ -210,4 +207,4 @@ au("FileType", { "<filetype>" }, function(args)
 	vim.treesitter.start(buf, language)
 	vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 end)
-vim.cmd.colorscheme("poimandres") -- wildcharm, koehler, industry, torte, github_dark_default, gruber-darker, poimandres
+vim.cmd.colorscheme("gruber-darker") -- wildcharm, koehler, industry, torte, gruber-darker
