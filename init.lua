@@ -31,23 +31,31 @@ opt.wrap = false
 opt.writebackup = false
 vim.cmd("filetype plugin indent on")
 vim.pack.add({
-	"https://github.com/akinsho/toggleterm.nvim",
+	"https://codeberg.org/juanmilkah/anticuus.nvim",
+	"https://github.com/akinsho/bufferline.nvim",
 	"https://github.com/blazkowolf/gruber-darker.nvim",
+	"https://github.com/folke/trouble.nvim",
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/kylechui/nvim-surround",
 	"https://github.com/lewis6991/gitsigns.nvim",
-	"https://github.com/mfussenegger/nvim-lint",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-lualine/lualine.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
 	"https://github.com/windwp/nvim-autopairs",
-	"https://codeberg.org/juanmilkah/anticuus.nvim",
-	"https://github.com/dgox16/oldworld.nvim",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.8.0" },
 })
 require("gruber-darker").setup({ italic = { strings = false, comments = false, operators = false, folds = false } })
+require("bufferline").setup({
+	options = {
+		diagnostics = "nvim_lsp",
+		diagnostics_indicator = function(count, level)
+			local icon = level:match("error") and " " or " "
+			return " " .. icon .. count
+		end,
+	},
+})
 require("lualine").setup({ options = { section_separators = "", component_separators = "" } })
 require("nvim-autopairs").setup({ disable_filetype = { "TelescopePrompt", "vim" } })
 require("gitsigns").setup({
@@ -88,11 +96,13 @@ blink.setup({
 })
 local servers = {
 	"cssls",
+	"eslint",
 	"html",
 	"lua_ls",
 	"tsgo", -- npm i -g @typescript/native-preview
 	-- "ts_ls",
 }
+require("trouble").setup()
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities = blink.get_lsp_capabilities(capabilities)
@@ -116,8 +126,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ev)
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		if client:supports_method("textDocument/completion") then
-			map("n", "<leader>XX", ":FzfLua diagnostics_document<cr>")
-			map("n", "<leader>xx", ":FzfLua diagnostics_workspace<cr>")
+			map("n", "<leader>XX", "cmd>Trouble diagnostics toggle<cr>")
+			map("n", "<leader>xx", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>")
 			map("n", "grc", ":FzfLua lsp_code_actions<cr>")
 			map("n", "gd", ":FzfLua lsp_definitions<cr>")
 			map("n", "gri", ":FzfLua lsp_implementations<cr>")
@@ -128,7 +138,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 local prettier = { "prettier" }
-local eslint = { "eslint" }
 local conform = require("conform")
 conform.setup({
 	formatters_by_ft = {
@@ -142,22 +151,11 @@ conform.setup({
 		typescriptreact = prettier,
 	},
 })
-local lint = require("lint")
-lint.linters_by_ft = {
-	css = eslint,
-	html = eslint,
-	javascript = eslint,
-	javascriptreact = eslint,
-	json = eslint,
-	typescript = eslint,
-	typescriptreact = eslint,
-}
 require("oil").setup({ view_options = { show_hidden = true }, columns = { "permissions", "size", "mtime" } })
 local fzf = require("fzf-lua")
 fzf.setup({ "skim", "border-fused", "fzf-native", "hide" })
 fzf.register_ui_select()
 require("nvim-surround").setup({})
-require("toggleterm").setup({ open_mapping = [[<c-t>]], shell = "fish" })
 map("n", "<leader>/", ":FzfLua grep_curbuf<cr>")
 map("n", "<leader>fr", ":FzfLua resume<cr>")
 map("n", "<leader>fb", ":FzfLua buffers<cr>")
@@ -194,9 +192,6 @@ end
 au("TextYankPost", "*", function()
 	vim.hl.on_yank()
 end)
-au({ "BufEnter", "BufWritePost", "InsertLeave" }, { "*" }, function()
-	lint.try_lint(nil, { ignore_errors = true })
-end)
 au("FileType", { "<filetype>" }, function(args)
 	local buf = args.buf
 	local filetype = args.match
@@ -207,4 +202,4 @@ au("FileType", { "<filetype>" }, function(args)
 	vim.treesitter.start(buf, language)
 	vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 end)
-vim.cmd.colorscheme("anticuus") -- gruber-darker, anticuus, oldworld
+vim.cmd.colorscheme("anticuus") -- gruber-darker, anticuus
