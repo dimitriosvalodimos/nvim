@@ -31,22 +31,27 @@ opt.wrap = false
 opt.writebackup = false
 vim.cmd("filetype plugin indent on")
 vim.pack.add({
-	"https://codeberg.org/juanmilkah/anticuus.nvim",
+	"https://github.com/MunifTanjim/nui.nvim",
 	"https://github.com/akinsho/bufferline.nvim",
 	"https://github.com/blazkowolf/gruber-darker.nvim",
+	"https://github.com/esmuellert/codediff.nvim",
 	"https://github.com/folke/trouble.nvim",
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/kylechui/nvim-surround",
 	"https://github.com/lewis6991/gitsigns.nvim",
+	"https://github.com/MeanderingProgrammer/render-markdown.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-lualine/lualine.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
+	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
 	"https://github.com/windwp/nvim-autopairs",
+	"https://github.com/Mofiqul/vscode.nvim",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.8.0" },
 })
 require("gruber-darker").setup({ italic = { strings = false, comments = false, operators = false, folds = false } })
+require("vscode").setup({ italic_comments = false, italic_inlayhints = false })
 require("bufferline").setup({
 	options = {
 		diagnostics = "nvim_lsp",
@@ -57,18 +62,6 @@ require("bufferline").setup({
 	},
 })
 require("lualine").setup({ options = { section_separators = "", component_separators = "" } })
-require("nvim-autopairs").setup({ disable_filetype = { "TelescopePrompt", "vim" } })
-require("gitsigns").setup({
-	current_line_blame = true,
-	current_line_blame_opts = { virt_text_pos = "right_align" },
-	signs = {
-		add = { text = "+" },
-		change = { text = "~" },
-		delete = { text = "_" },
-		topdelete = { text = "‾" },
-		changedelete = { text = "~" },
-	},
-})
 require("nvim-treesitter").install({
 	"comment",
 	"css",
@@ -87,6 +80,8 @@ require("nvim-treesitter").install({
 	"vimdoc",
 })
 local map = vim.keymap.set
+require("nvim-autopairs").setup({ disable_filetype = { "TelescopePrompt", "vim" } })
+require("nvim-surround").setup({})
 local blink = require("blink.cmp")
 blink.setup({
 	completion = { documentation = { auto_show = true } },
@@ -102,32 +97,28 @@ local servers = {
 	"tsgo", -- npm i -g @typescript/native-preview
 	-- "ts_ls",
 }
-require("trouble").setup()
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities = blink.get_lsp_capabilities(capabilities)
-vim.diagnostic.config({
-	severity_sort = true,
-	float = { border = "rounded", source = "if_many" },
-	underline = { severity = vim.diagnostic.severity.ERROR },
-	signs = {
-		text = {
-			[vim.diagnostic.severity.ERROR] = "󰅚 ",
-			[vim.diagnostic.severity.WARN] = "󰀪 ",
-			[vim.diagnostic.severity.INFO] = "󰋽 ",
-			[vim.diagnostic.severity.HINT] = "󰌶 ",
-		},
+require("tiny-inline-diagnostic").setup({
+	preset = "classic",
+	options = {
+		add_messages = { display_count = true },
+		multilines = { enabled = true },
+		show_source = { if_many = true },
+		show_all_diags_on_cursorline = false,
 	},
-	virtual_text = true,
 })
+vim.diagnostic.config({ virtual_text = false })
 vim.lsp.config("*", { capabilities = capabilities })
 vim.lsp.enable(servers)
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ev)
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		if client:supports_method("textDocument/completion") then
-			map("n", "<leader>XX", "cmd>Trouble diagnostics toggle<cr>")
-			map("n", "<leader>xx", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>")
+			require("trouble").setup()
+			map("n", "<leader>XX", "cmd>Trouble diagnostics toggle focus=true<cr>")
+			map("n", "<leader>xx", "<cmd>Trouble diagnostics toggle focus=true filter.buf=0<cr>")
 			map("n", "grc", ":FzfLua lsp_code_actions<cr>")
 			map("n", "gd", ":FzfLua lsp_definitions<cr>")
 			map("n", "gri", ":FzfLua lsp_implementations<cr>")
@@ -155,7 +146,18 @@ require("oil").setup({ view_options = { show_hidden = true }, columns = { "permi
 local fzf = require("fzf-lua")
 fzf.setup({ "skim", "border-fused", "fzf-native", "hide" })
 fzf.register_ui_select()
-require("nvim-surround").setup({})
+require("gitsigns").setup({
+	current_line_blame = true,
+	current_line_blame_opts = { virt_text_pos = "right_align" },
+	signs = {
+		add = { text = "+" },
+		change = { text = "~" },
+		delete = { text = "_" },
+		topdelete = { text = "‾" },
+		changedelete = { text = "~" },
+	},
+})
+require("codediff").setup()
 map("n", "<leader>/", ":FzfLua grep_curbuf<cr>")
 map("n", "<leader>fr", ":FzfLua resume<cr>")
 map("n", "<leader>fb", ":FzfLua buffers<cr>")
@@ -202,4 +204,5 @@ au("FileType", { "<filetype>" }, function(args)
 	vim.treesitter.start(buf, language)
 	vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 end)
-vim.cmd.colorscheme("anticuus") -- gruber-darker, anticuus
+require("render-markdown").setup({})
+vim.cmd.colorscheme("vscode") -- gruber-darker, vscode
