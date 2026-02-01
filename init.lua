@@ -47,11 +47,9 @@ vim.pack.add({
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
 	"https://github.com/windwp/nvim-autopairs",
-	"https://github.com/Mofiqul/vscode.nvim",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.8.0" },
 })
 require("gruber-darker").setup({ italic = { strings = false, comments = false, operators = false, folds = false } })
-require("vscode").setup({ italic_comments = false, italic_inlayhints = false })
 require("bufferline").setup({
 	options = {
 		diagnostics = "nvim_lsp",
@@ -205,4 +203,4 @@ au("FileType", { "<filetype>" }, function(args)
 	vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 end)
 require("render-markdown").setup({})
-vim.cmd.colorscheme("vscode") -- gruber-darker, vscode
+vim.cmd.colorscheme("gruber-darker") -- gruber-darker
