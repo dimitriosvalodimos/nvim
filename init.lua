@@ -31,15 +31,9 @@ opt.wrap = false
 opt.writebackup = false
 vim.cmd("filetype plugin indent on")
 vim.pack.add({
-	"https://github.com/MunifTanjim/nui.nvim",
-	"https://github.com/akinsho/bufferline.nvim",
-	"https://github.com/blazkowolf/gruber-darker.nvim",
-	"https://github.com/esmuellert/codediff.nvim",
-	"https://github.com/folke/trouble.nvim",
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/kylechui/nvim-surround",
 	"https://github.com/lewis6991/gitsigns.nvim",
-	"https://github.com/MeanderingProgrammer/render-markdown.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-lualine/lualine.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
@@ -48,16 +42,6 @@ vim.pack.add({
 	"https://github.com/stevearc/oil.nvim",
 	"https://github.com/windwp/nvim-autopairs",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.8.0" },
-})
-require("gruber-darker").setup({ italic = { strings = false, comments = false, operators = false, folds = false } })
-require("bufferline").setup({
-	options = {
-		diagnostics = "nvim_lsp",
-		diagnostics_indicator = function(count, level)
-			local icon = level:match("error") and " " or " "
-			return " " .. icon .. count
-		end,
-	},
 })
 require("lualine").setup({ options = { section_separators = "", component_separators = "" } })
 require("nvim-treesitter").install({
@@ -92,8 +76,8 @@ local servers = {
 	"eslint",
 	"html",
 	"lua_ls",
-	"tsgo", -- npm i -g @typescript/native-preview
-	-- "ts_ls",
+	-- "tsgo", -- npm i -g @typescript/native-preview
+	"ts_ls",
 }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -114,12 +98,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ev)
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		if client:supports_method("textDocument/completion") then
-			require("trouble").setup()
-			map("n", "<leader>XX", "cmd>Trouble diagnostics toggle focus=true<cr>")
-			map("n", "<leader>xx", "<cmd>Trouble diagnostics toggle focus=true filter.buf=0<cr>")
+			map("n", "<leader>XX", ":FzfLua diagnostics_workspace<cr>")
+			map("n", "<leader>xx", ":FzfLua diagnostics_document<cr>")
 			map("n", "grc", ":FzfLua lsp_code_actions<cr>")
 			map("n", "gd", ":FzfLua lsp_definitions<cr>")
 			map("n", "gri", ":FzfLua lsp_implementations<cr>")
+			map("n", "grI", ":FzfLua lsp_incoming_calls<cr>")
+			map("n", "gro", ":FzfLua lsp_outgoing_calls<cr>")
 			map("n", "grr", ":FzfLua lsp_references<cr>")
 			map("n", "grt", ":FzfLua lsp_typedefs<cr>")
 			map("n", "grn", vim.lsp.buf.rename)
@@ -142,7 +127,7 @@ conform.setup({
 })
 require("oil").setup({ view_options = { show_hidden = true }, columns = { "permissions", "size", "mtime" } })
 local fzf = require("fzf-lua")
-fzf.setup({ "skim", "border-fused", "fzf-native", "hide" })
+fzf.setup({ "border-fused", "fzf-native", "hide" })
 fzf.register_ui_select()
 require("gitsigns").setup({
 	current_line_blame = true,
@@ -155,7 +140,6 @@ require("gitsigns").setup({
 		changedelete = { text = "~" },
 	},
 })
-require("codediff").setup()
 map("n", "<leader>/", ":FzfLua grep_curbuf<cr>")
 map("n", "<leader>fr", ":FzfLua resume<cr>")
 map("n", "<leader>fb", ":FzfLua buffers<cr>")
@@ -202,5 +186,4 @@ au("FileType", { "<filetype>" }, function(args)
 	vim.treesitter.start(buf, language)
 	vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 end)
-require("render-markdown").setup({})
-vim.cmd.colorscheme("gruber-darker") -- gruber-darker
+vim.cmd.colorscheme("catppuccin") -- catppuccin
