@@ -41,10 +41,11 @@ vim.pack.add({
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
 	"https://github.com/windwp/nvim-autopairs",
-	{ src = "https://github.com/saghen/blink.cmp", version = "v1.8.0" },
+	"https://github.com/nyoom-engineering/oxocarbon.nvim",
+	{ src = "https://github.com/saghen/blink.cmp", version = "v1.9.1" },
 })
-require("lualine").setup({ options = { section_separators = "", component_separators = "" } })
-require("nvim-treesitter").install({
+require("lualine").setup({})
+local filetypes = {
 	"comment",
 	"css",
 	"diff",
@@ -60,6 +61,13 @@ require("nvim-treesitter").install({
 	"sql",
 	"typescript",
 	"vimdoc",
+}
+require("nvim-treesitter").install(filetypes)
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = filetypes,
+	callback = function()
+		vim.treesitter.start()
+	end,
 })
 local map = vim.keymap.set
 require("nvim-autopairs").setup({ disable_filetype = { "TelescopePrompt", "vim" } })
@@ -97,6 +105,9 @@ vim.lsp.enable(servers)
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ev)
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
+		if not client then
+			return
+		end
 		if client:supports_method("textDocument/completion") then
 			map("n", "<leader>XX", ":FzfLua diagnostics_workspace<cr>")
 			map("n", "<leader>xx", ":FzfLua diagnostics_document<cr>")
@@ -127,7 +138,7 @@ conform.setup({
 })
 require("oil").setup({ view_options = { show_hidden = true }, columns = { "permissions", "size", "mtime" } })
 local fzf = require("fzf-lua")
-fzf.setup({ "border-fused", "fzf-native", "hide" })
+fzf.setup({ "ivy", "skim", "hide" })
 fzf.register_ui_select()
 require("gitsigns").setup({
 	current_line_blame = true,
@@ -176,14 +187,4 @@ end
 au("TextYankPost", "*", function()
 	vim.hl.on_yank()
 end)
-au("FileType", { "<filetype>" }, function(args)
-	local buf = args.buf
-	local filetype = args.match
-	local language = vim.treesitter.language.get_lang(filetype) or filetype
-	if not vim.treesitter.language.add(language) then
-		return
-	end
-	vim.treesitter.start(buf, language)
-	vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-end)
-vim.cmd.colorscheme("catppuccin") -- catppuccin
+vim.cmd.colorscheme("oxocarbon") -- catppuccin, oxocarbon
