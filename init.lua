@@ -41,7 +41,6 @@ vim.pack.add({
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
 	"https://github.com/windwp/nvim-autopairs",
-	"https://github.com/nyoom-engineering/oxocarbon.nvim",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.9.1" },
 })
 require("lualine").setup({})
@@ -65,8 +64,15 @@ local filetypes = {
 require("nvim-treesitter").install(filetypes)
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = filetypes,
-	callback = function()
-		vim.treesitter.start()
+	callback = function(args)
+        local buf = args.buf
+        local filetype = args.match
+        local language = vim.treesitter.language.get_lang(filetype) or filetype
+        if not vim.treesitter.language.add(language) then
+            return
+        end
+		vim.treesitter.start(buf, language)
+        vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 	end,
 })
 local map = vim.keymap.set
@@ -170,6 +176,7 @@ map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>")
 map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>")
 map("i", "<c-b>", "<ESC>^i")
 map("i", "<c-e>", "<End>")
+map("n", "<leader>bd", "<cmd>enew<bar>bd #<cr>")
 map({ "i", "x", "n", "s" }, "<c-s>", function()
 	local bufnr = vim.api.nvim_get_current_buf()
 	if vim.fn.mode() == "i" then
@@ -187,4 +194,4 @@ end
 au("TextYankPost", "*", function()
 	vim.hl.on_yank()
 end)
-vim.cmd.colorscheme("oxocarbon") -- catppuccin, oxocarbon
+vim.cmd.colorscheme("catppuccin") -- catppuccin
