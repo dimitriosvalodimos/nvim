@@ -41,8 +41,10 @@ vim.pack.add({
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
 	"https://github.com/windwp/nvim-autopairs",
+	"https://github.com/silentium-theme/silentium.nvim",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.9.1" },
 })
+require("silentium").setup({}) -- accent = "#00e676"
 require("lualine").setup({})
 local filetypes = {
 	"comment",
@@ -65,14 +67,14 @@ require("nvim-treesitter").install(filetypes)
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = filetypes,
 	callback = function(args)
-        local buf = args.buf
-        local filetype = args.match
-        local language = vim.treesitter.language.get_lang(filetype) or filetype
-        if not vim.treesitter.language.add(language) then
-            return
-        end
+		local buf = args.buf
+		local filetype = args.match
+		local language = vim.treesitter.language.get_lang(filetype) or filetype
+		if not vim.treesitter.language.add(language) then
+			return
+		end
 		vim.treesitter.start(buf, language)
-        vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+		vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 	end,
 })
 local map = vim.keymap.set
@@ -194,4 +196,4 @@ end
 au("TextYankPost", "*", function()
 	vim.hl.on_yank()
 end)
-vim.cmd.colorscheme("catppuccin") -- catppuccin
+vim.cmd.colorscheme("catppuccin") -- catppuccin, silentium
