@@ -3,7 +3,7 @@ local opt = vim.opt
 g.mapleader = " "
 opt.backup = false
 opt.clipboard = "unnamedplus"
-opt.completeopt = { "menu", "menuone", "noinsert", "fuzzy" }
+opt.completeopt = { "menu", "menuone", "noinsert", "nearest" } --, "fuzzy" }
 opt.cursorline = true
 opt.expandtab = true
 opt.ignorecase = true
@@ -30,6 +30,9 @@ opt.virtualedit = "block"
 opt.wrap = false
 opt.writebackup = false
 vim.cmd("filetype plugin indent on")
+vim.cmd("packadd nvim.undotree")
+vim.cmd("packadd nvim.difftool")
+vim.cmd("packadd nohlsearch")
 vim.pack.add({
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/kylechui/nvim-surround",
@@ -37,14 +40,11 @@ vim.pack.add({
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-lualine/lualine.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
-	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
 	"https://github.com/windwp/nvim-autopairs",
-	"https://github.com/silentium-theme/silentium.nvim",
 	{ src = "https://github.com/saghen/blink.cmp", version = "v1.9.1" },
 })
-require("silentium").setup({}) -- accent = "#00e676"
 require("lualine").setup({})
 local filetypes = {
 	"comment",
@@ -63,7 +63,13 @@ local filetypes = {
 	"typescript",
 	"vimdoc",
 }
-require("nvim-treesitter").install(filetypes)
+local already_installed = require("nvim-treesitter.config").get_installed()
+local to_install = vim.iter(filetypes)
+	:filter(function(p)
+		return not vim.tbl_contains(already_installed, p)
+	end)
+	:totable()
+require("nvim-treesitter").install(to_install)
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = filetypes,
 	callback = function(args)
@@ -88,26 +94,17 @@ blink.setup({
 	sources = { default = { "lsp", "path", "snippets", "buffer" } },
 })
 local servers = {
+	"biome",
 	"cssls",
 	"eslint",
 	"html",
 	"lua_ls",
-	-- "tsgo", -- npm i -g @typescript/native-preview
-	"ts_ls",
+	"tsgo", -- npm i -g @typescript/native-preview
+	-- "ts_ls",
 }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities = blink.get_lsp_capabilities(capabilities)
-require("tiny-inline-diagnostic").setup({
-	preset = "classic",
-	options = {
-		add_messages = { display_count = true },
-		multilines = { enabled = true },
-		show_source = { if_many = true },
-		show_all_diags_on_cursorline = false,
-	},
-})
-vim.diagnostic.config({ virtual_text = false })
 vim.lsp.config("*", { capabilities = capabilities })
 vim.lsp.enable(servers)
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -119,29 +116,40 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		if client:supports_method("textDocument/completion") then
 			map("n", "<leader>XX", ":FzfLua diagnostics_workspace<cr>")
 			map("n", "<leader>xx", ":FzfLua diagnostics_document<cr>")
-			map("n", "grc", ":FzfLua lsp_code_actions<cr>")
+			map("n", "gra", ":FzfLua lsp_code_actions<cr>")
 			map("n", "gd", ":FzfLua lsp_definitions<cr>")
 			map("n", "gri", ":FzfLua lsp_implementations<cr>")
 			map("n", "grI", ":FzfLua lsp_incoming_calls<cr>")
 			map("n", "gro", ":FzfLua lsp_outgoing_calls<cr>")
 			map("n", "grr", ":FzfLua lsp_references<cr>")
 			map("n", "grt", ":FzfLua lsp_typedefs<cr>")
-			map("n", "grn", vim.lsp.buf.rename)
+			map("n", "<leader>co", function()
+				vim.lsp.buf.code_action({
+					apply = true,
+					context = { only = { "source.organizeImports" }, diagnostics = {} },
+				})
+			end)
+			map("n", "<leader>cU", function()
+				vim.lsp.buf.code_action({
+					apply = true,
+					context = { only = { "source.removeUnused" }, diagnostics = {} },
+				})
+			end)
 		end
 	end,
 })
-local prettier = { "prettier" }
+local webFormatters = { "biome-check", "prettier", stop_at_first = true }
 local conform = require("conform")
 conform.setup({
 	formatters_by_ft = {
-		css = prettier,
-		html = prettier,
-		javascript = prettier,
-		javascriptreact = prettier,
-		json = prettier,
+		css = webFormatters,
+		html = webFormatters,
+		javascript = webFormatters,
+		javascriptreact = webFormatters,
+		json = webFormatters,
 		lua = { "stylua" },
-		typescript = prettier,
-		typescriptreact = prettier,
+		typescript = webFormatters,
+		typescriptreact = webFormatters,
 	},
 })
 require("oil").setup({ view_options = { show_hidden = true }, columns = { "permissions", "size", "mtime" } })
@@ -179,6 +187,7 @@ map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>")
 map("i", "<c-b>", "<ESC>^i")
 map("i", "<c-e>", "<End>")
 map("n", "<leader>bd", "<cmd>enew<bar>bd #<cr>")
+map("n", "<leader>u", require("undotree").open)
 map({ "i", "x", "n", "s" }, "<c-s>", function()
 	local bufnr = vim.api.nvim_get_current_buf()
 	if vim.fn.mode() == "i" then
@@ -189,6 +198,20 @@ map({ "i", "x", "n", "s" }, "<c-s>", function()
 		vim.cmd("write")
 	end
 end)
+map({ "x", "o" }, "v", function()
+	if vim.treesitter.get_parser(nil, nil, { error = false }) then
+		require("vim.treesitter._select").select_parent(vim.v.count1)
+	else
+		vim.lsp.buf.selection_range(vim.v.count1)
+	end
+end)
+map({ "x", "o" }, "V", function()
+	if vim.treesitter.get_parser(nil, nil, { error = false }) then
+		require("vim.treesitter._select").select_child(vim.v.count1)
+	else
+		vim.lsp.buf.selection_range(-vim.v.count1)
+	end
+end)
 local group = vim.api.nvim_create_augroup("config_group", {})
 local au = function(event, pattern, callback, desc)
 	vim.api.nvim_create_autocmd(event, { group = group, pattern = pattern, callback = callback, desc = desc })
@@ -196,4 +219,3 @@ end
 au("TextYankPost", "*", function()
 	vim.hl.on_yank()
 end)
-vim.cmd.colorscheme("catppuccin") -- catppuccin, silentium

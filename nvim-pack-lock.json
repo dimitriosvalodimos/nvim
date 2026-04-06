@@ -1,28 +1,24 @@
 {
   "plugins": {
     "blink.cmp": {
-      "rev": "b19413d214068f316c78978b08264ed1c41830ec",
+      "rev": "4b18c32adef2898f95cdef6192cbd5796c1a332d",
       "src": "https://github.com/saghen/blink.cmp",
       "version": "'v1.9.1'"
     },
     "conform.nvim": {
-      "rev": "c2526f1cde528a66e086ab1668e996d162c75f4f",
+      "rev": "086a40dc7ed8242c03be9f47fbcee68699cc2395",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "fzf-lua": {
-      "rev": "9004cbb4c065a32b690e909c49903967b45301eb",
+      "rev": "9f0432fdd7825ab163520045831a40b6df82ea28",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "gitsigns.nvim": {
-      "rev": "9f3c6dd7868bcc116e9c1c1929ce063b978fa519",
+      "rev": "db486b42299b2e3f5831809617af21becf268a39",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
-    "koda.nvim": {
-      "rev": "44a60a25e8f2a65ef929f814850efbf0db7735d4",
-      "src": "https://github.com/oskarnurm/koda.nvim"
-    },
     "lualine.nvim": {
-      "rev": "47f91c416daef12db467145e16bed5bbfe00add8",
+      "rev": "8811f3f3f4dc09d740c67e9ce399e7a541e2e5b2",
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "nvim-autopairs": {
@@ -30,36 +26,20 @@
       "src": "https://github.com/windwp/nvim-autopairs"
     },
     "nvim-lspconfig": {
-      "rev": "5a855bcfec7973767a1a472335684bbd71d2fa2b",
+      "rev": "a776085e04f7b15d0b59fae2244df07d98360ab4",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-surround": {
-      "rev": "1098d7b3c34adcfa7feb3289ee434529abd4afd1",
+      "rev": "9291040de8cd8a4439eb64c441e8d5d2bf884a5a",
       "src": "https://github.com/kylechui/nvim-surround"
     },
     "nvim-treesitter": {
-      "rev": "dc42c209f3820bdfaae0956f15de29689aa6b451",
+      "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "oil.nvim": {
-      "rev": "f55b25e493a7df76371cfadd0ded5004cb9cd48a",
+      "rev": "0fcc83805ad11cf714a949c98c605ed717e0b83e",
       "src": "https://github.com/stevearc/oil.nvim"
-    },
-    "oxocarbon.nvim": {
-      "rev": "9f85f6090322f39b11ae04a343d4eb9d12a86897",
-      "src": "https://github.com/nyoom-engineering/oxocarbon.nvim"
-    },
-    "silentium.nvim": {
-      "rev": "61f2aeb860fea4e012fa47837f370eef7be638b3",
-      "src": "https://github.com/silentium-theme/silentium.nvim"
-    },
-    "teide.nvim": {
-      "rev": "95041d1d78e786bd88be64bca3e1771f7b6236df",
-      "src": "https://github.com/serhez/teide.nvim"
-    },
-    "tiny-inline-diagnostic.nvim": {
-      "rev": "ecce93ff7db4461e942c03e0fcc64bd785df4057",
-      "src": "https://github.com/rachartier/tiny-inline-diagnostic.nvim"
     }
   }
 }
