@@ -3,7 +3,8 @@ local opt = vim.opt
 g.mapleader = " "
 opt.backup = false
 opt.clipboard = "unnamedplus"
-opt.completeopt = { "menu", "menuone", "noinsert", "nearest" } --, "fuzzy" }
+opt.cmdheight = 1
+opt.completeopt = { "menu", "menuone", "noselect", "popup" } -- "noinsert", "nearest", "fuzzy" }
 opt.cursorline = true
 opt.expandtab = true
 opt.ignorecase = true
@@ -12,6 +13,7 @@ opt.infercase = true
 opt.mouse = "a"
 opt.number = true
 opt.pumheight = 10
+opt.relativenumber = true
 opt.ruler = false
 opt.shiftwidth = 4
 opt.shortmess:append("WcC")
@@ -19,13 +21,16 @@ opt.showmode = false
 opt.signcolumn = "yes"
 opt.smartcase = true
 opt.smartindent = true
-opt.softtabstop = 2
+opt.smarttab = true
+opt.softtabstop = 4
 opt.splitbelow = true
 opt.splitkeep = "screen"
 opt.splitright = true
 opt.tabstop = 4
 opt.termguicolors = true
+opt.timeoutlen = 500
 opt.undofile = true
+opt.updatetime = 4000
 opt.virtualedit = "block"
 opt.wrap = false
 opt.writebackup = false
@@ -33,17 +38,21 @@ vim.cmd("filetype plugin indent on")
 vim.cmd("packadd nvim.undotree")
 vim.cmd("packadd nvim.difftool")
 vim.cmd("packadd nohlsearch")
+require("vim._core.ui2").enable({})
+local gh = function(pkg)
+	return "https://github.com/" .. pkg
+end
 vim.pack.add({
-	"https://github.com/ibhagwan/fzf-lua",
-	"https://github.com/kylechui/nvim-surround",
-	"https://github.com/lewis6991/gitsigns.nvim",
-	"https://github.com/neovim/nvim-lspconfig",
-	"https://github.com/nvim-lualine/lualine.nvim",
-	"https://github.com/nvim-treesitter/nvim-treesitter",
-	"https://github.com/stevearc/conform.nvim",
-	"https://github.com/stevearc/oil.nvim",
-	"https://github.com/windwp/nvim-autopairs",
-	{ src = "https://github.com/saghen/blink.cmp", version = "v1.9.1" },
+	gh("ibhagwan/fzf-lua"),
+	gh("kylechui/nvim-surround"),
+	gh("lewis6991/gitsigns.nvim"),
+	gh("neovim/nvim-lspconfig"),
+	gh("nvim-lualine/lualine.nvim"),
+	gh("stevearc/conform.nvim"),
+	gh("stevearc/oil.nvim"),
+	gh("windwp/nvim-autopairs"),
+	gh("nvim-treesitter/nvim-treesitter"),
+	{ src = gh("saghen/blink.cmp"), version = "v1.9.1" },
 })
 require("lualine").setup({})
 local filetypes = {
