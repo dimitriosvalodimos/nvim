@@ -48,11 +48,12 @@ vim.pack.add({
 	gh("lewis6991/gitsigns.nvim"),
 	gh("neovim/nvim-lspconfig"),
 	gh("nvim-lualine/lualine.nvim"),
+	gh("nvim-treesitter/nvim-treesitter"),
 	gh("stevearc/conform.nvim"),
 	gh("stevearc/oil.nvim"),
 	gh("windwp/nvim-autopairs"),
-	gh("nvim-treesitter/nvim-treesitter"),
-	{ src = gh("saghen/blink.cmp"), version = "v1.9.1" },
+	gh("rachartier/tiny-inline-diagnostic.nvim"),
+	{ src = gh("saghen/blink.cmp"), version = "v1.10.2" },
 })
 require("lualine").setup({})
 local filetypes = {
@@ -138,7 +139,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 	end,
 })
-
+require("tiny-inline-diagnostic").setup({
+	options = { add_messages = { display_count = true }, multilines = { enabled = true } },
+})
+vim.diagnostic.config({ virtual_text = false })
 local webFormatters = { "biome-check", "prettier", stop_at_first = true }
 local conform = require("conform")
 conform.setup({
