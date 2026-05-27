@@ -49,10 +49,10 @@ vim.pack.add({
 	gh("neovim/nvim-lspconfig"),
 	gh("nvim-lualine/lualine.nvim"),
 	gh("nvim-treesitter/nvim-treesitter"),
+	gh("rachartier/tiny-inline-diagnostic.nvim"),
 	gh("stevearc/conform.nvim"),
 	gh("stevearc/oil.nvim"),
 	gh("windwp/nvim-autopairs"),
-	gh("rachartier/tiny-inline-diagnostic.nvim"),
 	{ src = gh("saghen/blink.cmp"), version = "v1.10.2" },
 })
 require("lualine").setup({})
