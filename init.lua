@@ -128,28 +128,29 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			map("n", "gra", ":FzfLua lsp_code_actions<cr>")
 			map("n", "gd", ":FzfLua lsp_definitions<cr>")
 			map("n", "gri", ":FzfLua lsp_implementations<cr>")
-			map("n", "grI", ":FzfLua lsp_incoming_calls<cr>")
-			map("n", "gro", ":FzfLua lsp_outgoing_calls<cr>")
 			map("n", "grr", ":FzfLua lsp_references<cr>")
-			map("n", "grt", ":FzfLua lsp_typedefs<cr>")
 			map("n", "<leader>co", function()
 				vim.lsp.buf.code_action({
 					apply = true,
 					context = { only = { "source.organizeImports" }, diagnostics = {} },
 				})
 			end)
-			map("n", "<leader>cU", function()
-				vim.lsp.buf.code_action({
-					apply = true,
-					context = { only = { "source.removeUnused" }, diagnostics = {} },
-				})
-			end)
 		end
 	end,
 })
+
 local webFormatters = { "biome-check", "prettier", stop_at_first = true }
 local conform = require("conform")
 conform.setup({
+	format_on_save = function(bufnr)
+		if vim.b[bufnr].disable_format_on_save then
+			return
+		end
+		return {
+			timeout_ms = 500,
+			lsp_fallback = true,
+		}
+	end,
 	formatters_by_ft = {
 		css = webFormatters,
 		html = webFormatters,
@@ -161,6 +162,12 @@ conform.setup({
 		typescriptreact = webFormatters,
 	},
 })
+vim.api.nvim_create_user_command("W", function()
+	local bufnr = vim.api.nvim_get_current_buf()
+	vim.b[bufnr].disable_format_on_save = true
+	vim.cmd("write")
+	vim.b[bufnr].disable_format_on_save = false
+end, {})
 require("oil").setup({ view_options = { show_hidden = true }, columns = { "permissions", "size", "mtime" } })
 local fzf = require("fzf-lua")
 fzf.setup({ "ivy", "skim", "hide" })
@@ -186,10 +193,6 @@ map("n", "<leader>fk", ":FzfLua keymaps<cr>")
 map("n", "<leader>fo", ":FzfLua oldfiles<cr>")
 map("n", "<leader>fR", ":FzfLua registers<cr>")
 map("n", "-", ":Oil<cr>")
-map("n", "<c-h>", "<c-w>h")
-map("n", "<c-j>", "<c-w>j")
-map("n", "<c-k>", "<c-w>k")
-map("n", "<c-l>", "<c-w>l")
 map("n", "<Esc>", "<cmd>noh<CR>")
 map("n", "<A-u>", "i<c-r>=trim(system('uuidgen'))<cr><esc>")
 map("i", "<A-u>", "<c-r>=trim(system('uuidgen'))<cr>")
@@ -197,16 +200,6 @@ map("i", "<c-b>", "<ESC>^i")
 map("i", "<c-e>", "<End>")
 map("n", "<leader>bd", "<cmd>enew<bar>bd #<cr>")
 map("n", "<leader>u", require("undotree").open)
-map({ "i", "x", "n", "s" }, "<c-s>", function()
-	local bufnr = vim.api.nvim_get_current_buf()
-	if vim.fn.mode() == "i" then
-		vim.cmd("stopinsert")
-	end
-	conform.format({ bufnr = bufnr, lsp_format = true, async = false, stop_after_first = true })
-	if vim.bo.modified then
-		vim.cmd("write")
-	end
-end)
 map({ "x", "o" }, "v", function()
 	if vim.treesitter.get_parser(nil, nil, { error = false }) then
 		require("vim.treesitter._select").select_parent(vim.v.count1)
@@ -222,9 +215,10 @@ map({ "x", "o" }, "V", function()
 	end
 end)
 local group = vim.api.nvim_create_augroup("config_group", {})
-local au = function(event, pattern, callback, desc)
-	vim.api.nvim_create_autocmd(event, { group = group, pattern = pattern, callback = callback, desc = desc })
-end
-au("TextYankPost", "*", function()
-	vim.hl.on_yank()
-end)
+vim.api.nvim_create_autocmd("TextYankPost", {
+	pattern = "*",
+	group = group,
+	callback = function()
+		vim.hl.on_yank()
+	end,
+})
