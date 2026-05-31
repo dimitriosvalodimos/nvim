@@ -177,15 +177,9 @@ local fzf = require("fzf-lua")
 fzf.setup({ "ivy", "skim", "hide" })
 fzf.register_ui_select()
 require("gitsigns").setup({
+	numhl = true,
 	current_line_blame = true,
-	current_line_blame_opts = { virt_text_pos = "right_align" },
-	signs = {
-		add = { text = "+" },
-		change = { text = "~" },
-		delete = { text = "_" },
-		topdelete = { text = "‾" },
-		changedelete = { text = "~" },
-	},
+	current_line_blame_opts = { virt_text_pos = "right_align" }, -- signs = { add = { text = "+" }, change = { text = "~" }, delete = { text = "_" }, topdelete = { text = "‾" }, changedelete = { text = "~" } },
 })
 map("n", "<leader>/", ":FzfLua grep_curbuf<cr>")
 map("n", "<leader>fr", ":FzfLua resume<cr>")
