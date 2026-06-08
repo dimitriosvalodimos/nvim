@@ -99,7 +99,7 @@ require("nvim-surround").setup({})
 local blink = require("blink.cmp")
 blink.setup({
 	completion = { documentation = { auto_show = true } },
-	fuzzy = { implementation = "lua" },
+	fuzzy = { implementation = "prefer_rust_with_warning" },
 	keymap = { preset = "enter" },
 	sources = { default = { "lsp", "path", "snippets", "buffer" } },
 })
@@ -216,6 +216,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	pattern = "*",
 	group = group,
 	callback = function()
-		vim.hl.on_yank()
+		vim.hl.hl_op()
 	end,
 })
