@@ -6,19 +6,21 @@
       "version": "'v1.10.2'"
     },
     "conform.nvim": {
-      "rev": "619363c30309d29ffa631e67c8183f2a72caa373",
-      "src": "https://github.com/stevearc/conform.nvim"
+      "rev": "3543d000dafbc41cc7761d860cfdb24e82154f75",
+      "src": "https://github.com/stevearc/conform.nvim",
+      "version": "'v9.1.0'"
     },
     "fzf-lua": {
-      "rev": "fea9eedc6894c44d44cbb772a5cd11c93b82d7a1",
+      "rev": "267f5db2aa2202b9f6cc7a50783f0ccd2121766c",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "gitsigns.nvim": {
-      "rev": "dd3f588bacbeb041be6facf1742e42097f62165d",
-      "src": "https://github.com/lewis6991/gitsigns.nvim"
+      "rev": "a462f416e2ce4744531c6256252dee99a7d34a83",
+      "src": "https://github.com/lewis6991/gitsigns.nvim",
+      "version": "'v2.1.0'"
     },
     "lualine.nvim": {
-      "rev": "131a558e13f9f28b15cd235557150ccb23f89286",
+      "rev": "221ce6b2d999187044529f49da6554a92f740a96",
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "nvim-autopairs": {
@@ -26,24 +28,40 @@
       "src": "https://github.com/windwp/nvim-autopairs"
     },
     "nvim-lspconfig": {
-      "rev": "6f76a3eeadc2ee235d74cd7d5319e95a261084af",
-      "src": "https://github.com/neovim/nvim-lspconfig"
+      "rev": "229b79051b380377664edc4cbd534930154921a1",
+      "src": "https://github.com/neovim/nvim-lspconfig",
+      "version": "'v2.10.0'"
     },
     "nvim-surround": {
       "rev": "2e93e154de9ff326def6480a4358bfc149d5da2c",
-      "src": "https://github.com/kylechui/nvim-surround"
+      "src": "https://github.com/kylechui/nvim-surround",
+      "version": "'v4.0.5'"
     },
     "nvim-treesitter": {
       "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "oil.nvim": {
-      "rev": "b91ee5a77a6a9605d9c1aaf4fda74b66082c8297",
-      "src": "https://github.com/stevearc/oil.nvim"
+      "rev": "17c0a8faaf48298a0c0cfb0d757c0eaee4ff7a32",
+      "src": "https://github.com/stevearc/oil.nvim",
+      "version": "'v2.16.0'"
+    },
+    "oxocarbon.nvim": {
+      "rev": "cf49e389c22dab56224e43ae16422ddcd5b61b28",
+      "src": "https://github.com/nyoom-engineering/oxocarbon.nvim"
+    },
+    "render-markdown.nvim": {
+      "rev": "f422cb5c6855f150e2ddcfaf44e7157b98b34f6a",
+      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim",
+      "version": "'v8.13.0'"
     },
     "tiny-inline-diagnostic.nvim": {
-      "rev": "6bdbc9a2f5a846ff5fc55a998ff97c0e2968b7e5",
+      "rev": "e930d0a46031645040d5492595b46cdf6ab3514f",
       "src": "https://github.com/rachartier/tiny-inline-diagnostic.nvim"
+    },
+    "vim-matchup": {
+      "rev": "a2d618496223386844acb5a6763cfc3cc1357af1",
+      "src": "https://github.com/andymass/vim-matchup"
     }
   }
 }

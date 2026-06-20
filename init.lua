@@ -4,7 +4,6 @@ g.mapleader = " "
 opt.backup = false
 opt.clipboard = "unnamedplus"
 opt.cmdheight = 1
-opt.completeopt = { "menu", "menuone", "noselect", "popup" } -- "noinsert", "nearest", "fuzzy" }
 opt.cursorline = true
 opt.expandtab = true
 opt.ignorecase = true
@@ -42,20 +41,33 @@ require("vim._core.ui2").enable({})
 local gh = function(pkg)
 	return "https://github.com/" .. pkg
 end
-vim.pack.add({
-	gh("ibhagwan/fzf-lua"),
-	gh("kylechui/nvim-surround"),
-	gh("lewis6991/gitsigns.nvim"),
-	gh("neovim/nvim-lspconfig"),
-	gh("nvim-lualine/lualine.nvim"),
-	gh("nvim-treesitter/nvim-treesitter"),
-	gh("rachartier/tiny-inline-diagnostic.nvim"),
-	gh("stevearc/conform.nvim"),
-	gh("stevearc/oil.nvim"),
-	gh("windwp/nvim-autopairs"),
-	{ src = gh("saghen/blink.cmp"), version = "v1.10.2" },
+vim.api.nvim_create_autocmd("PackChanged", {
+	callback = function(ev)
+		local name, kind = ev.data.spec.name, ev.data.kind
+		if name == "nvim-treesitter" and kind == "update" then
+			if not ev.data.active then
+				vim.cmd.packadd("nvim-treesitter")
+			end
+			vim.cmd("TSUpdate")
+		end
+	end,
 })
-require("lualine").setup({})
+vim.pack.add({
+	{ src = gh("andymass/vim-matchup"), commit = "a2d618496223386844acb5a6763cfc3cc1357af1" },
+	{ src = gh("ibhagwan/fzf-lua"), commit = "267f5db2aa2202b9f6cc7a50783f0ccd2121766c" },
+	{ src = gh("kylechui/nvim-surround"), version = "v4.0.5" },
+	{ src = gh("lewis6991/gitsigns.nvim"), version = "v2.1.0" },
+	{ src = gh("MeanderingProgrammer/render-markdown.nvim"), version = "v8.13.0" },
+	{ src = gh("neovim/nvim-lspconfig"), version = "v2.10.0" },
+	{ src = gh("nvim-lualine/lualine.nvim"), commit = "221ce6b2d999187044529f49da6554a92f740a96" },
+	{ src = gh("nvim-treesitter/nvim-treesitter"), commit = "4916d6592ede8c07973490d9322f187e07dfefac" },
+	{ src = gh("nyoom-engineering/oxocarbon.nvim"), commit = "cf49e389c22dab56224e43ae16422ddcd5b61b28" },
+	{ src = gh("rachartier/tiny-inline-diagnostic.nvim"), commit = "e930d0a46031645040d5492595b46cdf6ab3514f" },
+	{ src = gh("saghen/blink.cmp"), version = "v1.10.2" },
+	{ src = gh("stevearc/conform.nvim"), version = "v9.1.0" },
+	{ src = gh("stevearc/oil.nvim"), version = "v2.16.0" },
+	{ src = gh("windwp/nvim-autopairs"), commit = "7b9923abad60b903ece7c52940e1321d39eccc79" },
+})
 local filetypes = {
 	"comment",
 	"css",
@@ -73,6 +85,8 @@ local filetypes = {
 	"typescript",
 	"vimdoc",
 }
+vim.cmd.colorscheme("oxocarbon")
+require("lualine").setup({})
 local already_installed = require("nvim-treesitter.config").get_installed()
 local to_install = vim.iter(filetypes)
 	:filter(function(p)
@@ -80,6 +94,8 @@ local to_install = vim.iter(filetypes)
 	end)
 	:totable()
 require("nvim-treesitter").install(to_install)
+require("match-up").setup({ treesitter = { stopline = 1000 } })
+require("nvim-treesitter").setup({ matchup = { enable = true } })
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = filetypes,
 	callback = function(args)
@@ -98,7 +114,7 @@ require("nvim-autopairs").setup({ disable_filetype = { "TelescopePrompt", "vim" 
 require("nvim-surround").setup({})
 local blink = require("blink.cmp")
 blink.setup({
-	completion = { documentation = { auto_show = true } },
+	completion = { documentation = { auto_show = true, window = { border = "single" } }, menu = { border = "single" } },
 	fuzzy = { implementation = "prefer_rust_with_warning" },
 	keymap = { preset = "enter" },
 	sources = { default = { "lsp", "path", "snippets", "buffer" } },
@@ -124,12 +140,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			return
 		end
 		if client:supports_method("textDocument/completion") then
-			map("n", "<leader>XX", ":FzfLua diagnostics_workspace<cr>")
-			map("n", "<leader>xx", ":FzfLua diagnostics_document<cr>")
-			map("n", "gra", ":FzfLua lsp_code_actions<cr>")
-			map("n", "gd", ":FzfLua lsp_definitions<cr>")
-			map("n", "gri", ":FzfLua lsp_implementations<cr>")
-			map("n", "grr", ":FzfLua lsp_references<cr>")
+			-- map("n", "<leader>XX", ":FzfLua diagnostics_workspace<cr>")
+			-- map("n", "<leader>xx", ":FzfLua diagnostics_document<cr>")
+			-- map("n", "gra", ":FzfLua lsp_code_actions<cr>")
+			-- map("n", "gd", ":FzfLua lsp_definitions<cr>")
+			-- map("n", "gri", ":FzfLua lsp_implementations<cr>")
+			-- map("n", "grr", ":FzfLua lsp_references<cr>")
 			map("n", "<leader>co", function()
 				vim.lsp.buf.code_action({
 					apply = true,
@@ -175,12 +191,20 @@ end, {})
 require("oil").setup({ view_options = { show_hidden = true }, columns = { "permissions", "size", "mtime" } })
 local fzf = require("fzf-lua")
 fzf.setup({ "ivy", "skim", "hide" })
-fzf.register_ui_select()
+-- fzf.register_ui_select()
 require("gitsigns").setup({
 	numhl = true,
 	current_line_blame = true,
-	current_line_blame_opts = { virt_text_pos = "right_align" }, -- signs = { add = { text = "+" }, change = { text = "~" }, delete = { text = "_" }, topdelete = { text = "‾" }, changedelete = { text = "~" } },
+	signs = {
+		add = { text = "+" },
+		change = { text = "~" },
+		delete = { text = "_" },
+		topdelete = { text = "‾" },
+		changedelete = { text = "~" },
+	},
+	current_line_blame_opts = { virt_text_pos = "right_align" },
 })
+require("render-markdown").setup({ completions = { lsp = { enabled = true } } })
 map("n", "<leader>/", ":FzfLua grep_curbuf<cr>")
 map("n", "<leader>fr", ":FzfLua resume<cr>")
 map("n", "<leader>fb", ":FzfLua buffers<cr>")
