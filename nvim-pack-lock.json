@@ -1,18 +1,9 @@
 {
   "plugins": {
-    "blink.cmp": {
-      "rev": "78336bc89ee5365633bcf754d93df01678b5c08f",
-      "src": "https://github.com/saghen/blink.cmp",
-      "version": "'v1.10.2'"
-    },
     "conform.nvim": {
       "rev": "3543d000dafbc41cc7761d860cfdb24e82154f75",
       "src": "https://github.com/stevearc/conform.nvim",
       "version": "'v9.1.0'"
-    },
-    "fzf-lua": {
-      "rev": "267f5db2aa2202b9f6cc7a50783f0ccd2121766c",
-      "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "gitsigns.nvim": {
       "rev": "a462f416e2ce4744531c6256252dee99a7d34a83",
@@ -45,23 +36,6 @@
       "rev": "17c0a8faaf48298a0c0cfb0d757c0eaee4ff7a32",
       "src": "https://github.com/stevearc/oil.nvim",
       "version": "'v2.16.0'"
-    },
-    "oxocarbon.nvim": {
-      "rev": "cf49e389c22dab56224e43ae16422ddcd5b61b28",
-      "src": "https://github.com/nyoom-engineering/oxocarbon.nvim"
-    },
-    "render-markdown.nvim": {
-      "rev": "f422cb5c6855f150e2ddcfaf44e7157b98b34f6a",
-      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim",
-      "version": "'v8.13.0'"
-    },
-    "tiny-inline-diagnostic.nvim": {
-      "rev": "e930d0a46031645040d5492595b46cdf6ab3514f",
-      "src": "https://github.com/rachartier/tiny-inline-diagnostic.nvim"
-    },
-    "vim-matchup": {
-      "rev": "a2d618496223386844acb5a6763cfc3cc1357af1",
-      "src": "https://github.com/andymass/vim-matchup"
     }
   }
 }
