@@ -1,9 +1,18 @@
 {
   "plugins": {
+    "blink.cmp": {
+      "rev": "78336bc89ee5365633bcf754d93df01678b5c08f",
+      "src": "https://github.com/saghen/blink.cmp",
+      "version": "'v1.10.2'"
+    },
     "conform.nvim": {
       "rev": "3543d000dafbc41cc7761d860cfdb24e82154f75",
       "src": "https://github.com/stevearc/conform.nvim",
       "version": "'v9.1.0'"
+    },
+    "fzf-lua": {
+      "rev": "39da6060d53659acf3ec118200bc48721b29b8fd",
+      "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "gitsigns.nvim": {
       "rev": "a462f416e2ce4744531c6256252dee99a7d34a83",
@@ -36,6 +45,10 @@
       "rev": "17c0a8faaf48298a0c0cfb0d757c0eaee4ff7a32",
       "src": "https://github.com/stevearc/oil.nvim",
       "version": "'v2.16.0'"
+    },
+    "tiny-inline-diagnostic.nvim": {
+      "rev": "e930d0a46031645040d5492595b46cdf6ab3514f",
+      "src": "https://github.com/rachartier/tiny-inline-diagnostic.nvim"
     }
   }
 }
