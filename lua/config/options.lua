@@ -3,3 +3,4 @@
 -- Add any additional options here
 vim.g.lazyvim_ts_lsp = "tsc"
 vim.opt.list = false
+vim.opt.cmdheight = 1
