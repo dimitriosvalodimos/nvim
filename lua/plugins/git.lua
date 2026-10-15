@@ -2,13 +2,8 @@ return {
   {
     "NeogitOrg/neogit",
     cmd = "Neogit",
-    dependencies = {
-      "folke/snacks.nvim",
-      "sindrets/diffview.nvim",
-    },
-    opts = {
-      integrations = { snacks = true, diffview = true },
-    },
+    dependencies = { "ibhagwan/fzf-lua", "sindrets/diffview.nvim" },
+    opts = { integrations = { fzf_lua = true, snacks = false, diffview = true } },
     keys = {
       {
         "<leader>gn",
