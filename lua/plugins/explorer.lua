@@ -1,31 +1,3 @@
--- return {
---   {
---     "stevearc/oil.nvim",
---     lazy = false,
---     dependencies = { "nvim-mini/mini.icons" },
---     opts = {
---       default_file_explorer = true,
---       view_options = { show_hidden = true },
---       columns = { "icon", "permissions", "size", "mtime" },
---     },
---     keys = { { "-", "<cmd>Oil<cr>", desc = "Open parent directory" } },
---   },
---   {
---     "refractalize/oil-git-status.nvim",
---     dependencies = { "stevearc/oil.nvim" },
---     opts = {
---       show_ignored = false,
---     },
---   },
---   {
---     "JezerM/oil-lsp-diagnostics.nvim",
---     dependencies = { "stevearc/oil.nvim" },
---     opts = {
---       count = true,
---       parent_dirs = true,
---     },
---   },
--- }
 return {
   {
     "stevearc/oil.nvim",
